@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @operation.value %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @operation.type %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @operation.description %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @operation.account_id %>
+</p>
+
+<%= link_to 'Edit', edit_operation_path(@operation) %> |
+<%= link_to 'Back', operations_path %>

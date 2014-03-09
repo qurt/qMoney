@@ -1,4 +1,6 @@
 QMoney::Application.routes.draw do
+  resources :operations
+
   resources :accounts
 
   get "home/index"
