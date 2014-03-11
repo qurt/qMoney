@@ -1,5 +1,5 @@
 class CategoryController < ApplicationController
-  def add
+  def new
     @category = Category.new
   end
 
@@ -19,12 +19,16 @@ class CategoryController < ApplicationController
     @category.update(title)
   end
 
-  def delete
+  def destroy
     @category = Category.find(params[:id])
     @category.destroy
   end
 
-  def show
+  def index
     @category = Category.all
+  end
+
+  def show
+
   end
 end

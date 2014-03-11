@@ -1,8 +1,6 @@
 QMoney::Application.routes.draw do
-  get "category/add"
-  get "category/edit"
-  get "category/delete"
-  get "category/show"
+  resource :category
+
   resources :operations
 
   resources :accounts
