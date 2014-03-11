@@ -2,7 +2,7 @@
 
 <div class="col-md-3">
   <div class="list-group">
-    <a href="/?a=all" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @sum %></span>Все</a>
+    <a href="/?a=all" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @accounts.sum(value) %></span>Все</a>
     <% @accounts.each do |item| %>
     <a href="/?a=<%= item.id %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
     <% end %>
