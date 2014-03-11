@@ -16,7 +16,7 @@
     </tr>
     <% @operations.each do |item| %>
     <tr>
-      <td><%= item.description %></td>
+      <td><%= item.description %> <span class="label label-primary"><%= item.category.title %></span></td>
       <td><%= item.value %></td>
     </tr>
     <% end %>
