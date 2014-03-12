@@ -7,6 +7,16 @@ class CategoriesController < ApplicationController
     @category = Category.new
     @category.title = params[:title]
     @category.save
+
+    respond_to do |format|
+      if @category.save
+        format.html { redirect_to @category, notice: 'Account was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @category }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @category.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def edit
