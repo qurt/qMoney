@@ -1,5 +1,5 @@
 QMoney::Application.routes.draw do
-  resource :category
+  resources :categories
 
   resources :operations
 
