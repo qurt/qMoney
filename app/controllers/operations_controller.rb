@@ -28,7 +28,7 @@ class OperationsController < ApplicationController
 
     respond_to do |format|
       if @operation.save
-        format.html { render action: 'index', notice: 'Operation was successfully created.' }
+        format.html { redirect_to @operation, notice: 'Operation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @operation }
       else
         format.html { render action: 'new' }
@@ -56,7 +56,7 @@ class OperationsController < ApplicationController
   def destroy
     @operation.destroy
     respond_to do |format|
-      format.html { render action: 'index', notice: 'Категория удалена.' }
+      format.html { redirect_to operations_url }
       format.json { head :no_content }
     end
   end
