@@ -1,13 +1,15 @@
-<h1>Listing operations</h1>
-
-<table>
+<div class="breadcumps">
+<ol>
+<li class="active">Операции</li>
+</ol>
+</div>
+<table class="table">
   <thead>
     <tr>
       <th>Value</th>
       <th>Type</th>
       <th>Description</th>
       <th>Account</th>
-      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -19,8 +21,7 @@
         <td><%= operation.value %></td>
         <td><%= operation.type %></td>
         <td><%= operation.description %></td>
-        <td><%= operation.account_id %></td>
-        <td><%= link_to 'Show', operation %></td>
+        <td><%= operation.account.name %></td>
         <td><%= link_to 'Edit', edit_operation_path(operation) %></td>
         <td><%= link_to 'Destroy', operation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

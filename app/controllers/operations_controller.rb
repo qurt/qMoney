@@ -32,6 +32,8 @@ class OperationsController < ApplicationController
         account.value -= @operation.value
       when '1'
         account.value += @operation.value
+      else
+        account.value -= 0
     end
     account.save
 
