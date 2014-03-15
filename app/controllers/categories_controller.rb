@@ -4,8 +4,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Category.new
-    @category.title = params[:category][:title]
+    @category = Category.new(category_params)
     respond_to do |format|
       if @category.save
         format.html { redirect_to categories_url, notice: 'Категория успешно создана' }
@@ -22,7 +21,8 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @category.updated(category_params)
+    @category = Category.find(params[:id])
+    @category.update(category_params)
     redirect_to categories_url, notice: 'Категория успешно изменена'
   end
 
@@ -42,6 +42,6 @@ class CategoriesController < ApplicationController
 
   private
     def category_params
-      params.require(:category).permit(:name, :value)
+      params.require(:category).permit(:title)
     end
 end
