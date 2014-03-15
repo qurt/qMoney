@@ -26,6 +26,15 @@ class OperationsController < ApplicationController
   def create
     @operation = Operation.new(operation_params)
 
+    account = Account.find(params[:operation][:account_id])
+    case params[:operation][:type]
+      when '0'
+        account.value -= @operation.value
+      when '1'
+        account.value += @operation.value
+    end
+    account.save
+
     respond_to do |format|
       if @operation.save
         format.html { redirect_to @operation, notice: 'Operation was successfully created.' }

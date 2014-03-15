@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :type %><br>
-    <%= f.number_field :type %>
+    <%= select(:operation, :type, [['Расход', 0], ['Доход', 1]]) %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
@@ -25,11 +25,11 @@
   </div>
   <div class="field">
     <%= f.label :account_id %><br>
-    <%= collection_select(:account, :account_id, Account.all, :id, :name) %>
+    <%= collection_select(:operation, :account_id, Account.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :category_id %><br>
-    <%= collection_select(:category, :category_id, Category.all, :id, :title) %>
+    <%= collection_select(:operation, :category_id, Category.all, :id, :title) %>
   </div>
   <div class="actions">
     <%= f.submit %>
