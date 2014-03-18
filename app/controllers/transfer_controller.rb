@@ -33,7 +33,15 @@ class TransferController < ApplicationController
 
   # DELETE /transfer/1
   def destroy
-    @transfer.delete
+    account = @transfer.account
+    account.value += @transfer.value
+    account_transfer = Account.find(@transfer.transfer)
+    account_transfer -= @transfer.value
+
+    if @transfer.delete
+      account.save
+      account_transfer.save
+    end
     redirect_to home_index_url
   end
 
