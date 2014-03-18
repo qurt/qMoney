@@ -67,7 +67,7 @@ class OperationsController < ApplicationController
   # DELETE /operations/1
   # DELETE /operations/1.json
   def destroy
-    account = Account.find(params[:id])
+    account = Account.find(params[:operation][:account_id])
     case params[:operation][:type]
       when '0'
         account.value += @operation.value
