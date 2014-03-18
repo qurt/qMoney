@@ -51,6 +51,8 @@ class OperationsController < ApplicationController
   # PATCH/PUT /operations/1
   # PATCH/PUT /operations/1.json
   def update
+    account = Account.find(params[:id])
+    # TODO редактирование записи
     respond_to do |format|
       if @operation.update(operation_params)
         format.html { redirect_to @operation, notice: 'Operation was successfully updated.' }
@@ -65,7 +67,19 @@ class OperationsController < ApplicationController
   # DELETE /operations/1
   # DELETE /operations/1.json
   def destroy
-    @operation.destroy
+    account = Account.find(params[:id])
+    case params[:operation][:type]
+      when '0'
+        account.value += @operation.value
+      when '1'
+        account.value -= @operation.value
+      else
+        account.value -= 0
+    end
+    if account.save
+      @operation.destroy
+    end
+
     respond_to do |format|
       format.html { redirect_to operations_url }
       format.json { head :no_content }
