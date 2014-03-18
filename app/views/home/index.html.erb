@@ -15,7 +15,17 @@
       <th>Сумма</th>
     </tr>
     <% @operations.each do |item| %>
-    <tr>
+      <%
+      case item.type
+        when 0
+          style = 'danger'
+        when 1
+          style = 'success'
+        else
+          style = 'warning'
+      end
+      %>
+    <tr class="<%= style %>">
       <td><%= item.description %> <span class="label label-primary"><%= item.category.title %></span></td>
       <td><%= item.value %></td>
     </tr>
