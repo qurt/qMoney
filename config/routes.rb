@@ -1,11 +1,6 @@
 QMoney::Application.routes.draw do
-  # Transfer
-  # TODO Сделать ресурс
-  #get "transfer/new"
-  #post 'transfer' => 'transfer#create'
-  #post 'transfer/:id' => 'transfer#update'
-  #get "transfer/edit/:id" => 'transfer#edit'
-  #delete "transfer/destroy/:id"
+
+  resource :transfer
 
   resources :categories
 

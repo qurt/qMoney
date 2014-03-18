@@ -6,6 +6,7 @@ class TransferController < ApplicationController
   end
 
   # POST /transfer
+  # POST /transfer.json
   def create
     @transfer = Operation.new(transfer_params)
     respond_to do |format|
@@ -19,18 +20,18 @@ class TransferController < ApplicationController
     end
   end
 
-  # GET /transfer/edit/:id
+  # GET /transfer/1/edit/
   def edit
 
   end
 
-  # POST /transfer/:id
+  # PUT /transfer/1
   def update
     @transfer.update(transfer_params)
     redirect_to home_index_url
   end
 
-  # DELETE /transfer/destroy/:id
+  # DELETE /transfer/1
   def destroy
     @transfer.delete
     redirect_to home_index_url
