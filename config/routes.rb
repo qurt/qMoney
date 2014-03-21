@@ -1,6 +1,6 @@
 QMoney::Application.routes.draw do
 
-  resource :transfer
+  resource :transfers
 
   resources :categories
 

@@ -1,12 +1,13 @@
-class TransferController < ApplicationController
+class TransfersController < ApplicationController
   before_action :set_transfer, only: [:edit, :update, :destroy]
 
-  # GET /transfer/new
+  # GET /transfers/new
   def new
+    @transfer = Operation.new
   end
 
-  # POST /transfer
-  # POST /transfer.json
+  # POST /transfers
+  # POST /transfers.json
   def create
     @transfer = Operation.new(transfer_params)
     respond_to do |format|
@@ -20,18 +21,18 @@ class TransferController < ApplicationController
     end
   end
 
-  # GET /transfer/1/edit/
+  # GET /transfers/1/edit/
   def edit
 
   end
 
-  # PUT /transfer/1
+  # PUT /transfers/1
   def update
     @transfer.update(transfer_params)
     redirect_to home_index_url
   end
 
-  # DELETE /transfer/1
+  # DELETE /transfers/1
   def destroy
     account = @transfer.account
     account.value += @transfer.value
@@ -50,6 +51,6 @@ class TransferController < ApplicationController
     @transfer = Operation.find(params[:id]);
   end
   def transfer_params
-    params.require(:transfer).permit(:value, :type, :description, :account_id, :transfer)
+    params.require(:transfers).permit(:value, :type, :description, :account_id, :transfers)
   end
 end

@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20140318132233) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id"
-    t.integer  "transfer"
+    t.integer  "transfers"
   end
 
 end

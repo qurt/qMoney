@@ -1,16 +1,16 @@
 <%= form_for @transfer, :html => {:class => 'form-horizontal'} do |f| %>
-  <% if @category.errors.any? %>
+  <% if @transfer.errors.any? %>
     <div class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <ul>
-        <% @category.errors.full_messages.each do |msg| %>
+        <% @transfer.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
   <div class="form-group">
-    <%= collection_select(:transfer, :account_id, Account.all, :id, :name) %> > <%= collection_select(:transfer, :transfer, Account.all, :id, :name) %>
+    <div class="col-sm-6"><%= collection_select(:transfers, :account_id, Account.all, :id, :name, {}, {:class => 'form-control'}) %> </div><div class="col-sm-6"><%= collection_select(:transfers, :transfers, Account.all, :id, :name, {}, {:class => 'form-control'}) %></div>
   </div>
   <div class="form-group">
     <%= f.label 'Сумма', :class => 'col-sm-2 control-label' %>
