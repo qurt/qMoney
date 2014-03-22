@@ -9,6 +9,7 @@ class TransfersController < ApplicationController
   # POST /transfers
   # POST /transfers.json
   def create
+    test = transfer_params
     @transfer = Operation.new(transfer_params)
     respond_to do |format|
       if @transfer.save
@@ -51,6 +52,6 @@ class TransfersController < ApplicationController
     @transfer = Operation.find(params[:id]);
   end
   def transfer_params
-    params.require(:transfers).permit(:value, :type, :description, :account_id, :transfers)
+    params.require(:operation).permit(:account_id, :transfers, :value)
   end
 end
