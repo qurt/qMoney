@@ -52,6 +52,6 @@ class TransfersController < ApplicationController
     @transfer = Operation.find(params[:id]);
   end
   def transfer_params
-    params.require(:operation).permit(:account_id, :transfers, :value)
+    params.require(:operation).permit(:account_id, :transfer, :value, :category_id)
   end
 end
