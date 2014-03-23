@@ -39,7 +39,7 @@ class OperationsController < ApplicationController
 
     respond_to do |format|
       if @operation.save
-        format.html { redirect_to @operation, notice: 'Operation was successfully created.' }
+        format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @operation }
       else
         format.html { render action: 'new' }
@@ -55,7 +55,7 @@ class OperationsController < ApplicationController
     # TODO редактирование записи
     respond_to do |format|
       if @operation.update(operation_params)
-        format.html { redirect_to @operation, notice: 'Operation was successfully updated.' }
+        format.html { redirect_to home_index_url, notice: 'Operation was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -81,7 +81,7 @@ class OperationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to operations_url }
+      format.html { redirect_to home_index_url }
       format.json { head :no_content }
     end
   end
