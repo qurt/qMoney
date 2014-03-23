@@ -9,10 +9,17 @@ class TransfersController < ApplicationController
   # POST /transfers
   # POST /transfers.json
   def create
-    test = transfer_params
     @transfer = Operation.new(transfer_params)
+    account_from = Account.find(transfer_params[:account_id])
+    account_to = Account.find(transfer_params[:transfer])
+    account_from.value -= transfer_params[:value].to_f
+    account_to.value += transfer_params[:value].to_f
+
     respond_to do |format|
       if @transfer.save
+        if account_from.save
+          account_to.save
+        end
         format.html {redirect_to home_index_url, notice: 'Transfer success'}
         format.json {}
       else
