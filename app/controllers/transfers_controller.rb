@@ -14,6 +14,7 @@ class TransfersController < ApplicationController
     account_to = Account.find(transfer_params[:transfer])
     account_from.value -= transfer_params[:value].to_f
     account_to.value += transfer_params[:value].to_f
+    @transfer.description = 'Перемещение из' + account_from.name + ' в ' + account_to.name
 
     respond_to do |format|
       if @transfer.save
