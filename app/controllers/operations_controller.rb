@@ -52,12 +52,17 @@ class OperationsController < ApplicationController
   # PATCH/PUT /operations/1.json
   def update
     old_sum = params[:old_value]
+    new_params = operation_params
     old_type = params[:old_type]
     old_account = params[:old_account]
-    account = @operation.account
     tmp = Account.find(old_account)
     del_account(tmp, old_type, old_sum)
-    add_account(account, @operation.type, @operation.value)
+    if params[:old_account] == new_params[:account_id]
+      account = tmp
+    else
+      account = Account.find(new_params[:account_id])
+    end
+    add_account(account, new_params[:type], new_params[:value])
 
 
     respond_to do |format|
@@ -110,20 +115,20 @@ class OperationsController < ApplicationController
 
     def del_account(account, type, value)
       case type
-        when 0
-          account.value += value
-        when 1
-          account.value -= @operation.value
+        when '0'
+          account.value += value.to_f
+        when '1'
+          account.value -= value.to_f
         else
           account.value -= 0
       end
     end
     def add_account(account, type, value)
       case type
-        when 0
-          account.value -= value
-        when 1
-          account.value += value
+        when '0'
+          account.value -= value.to_f
+        when '1'
+          account.value += value.to_f
         else
           account.value -= 0
       end
