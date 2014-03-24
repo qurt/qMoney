@@ -23,5 +23,8 @@
   </div>
   <div class="form-group">
     <%= hidden_field_tag('operation[category_id]', 0) %>
+    <%= hidden_field_tag(params[:account_from], @transfer.account_id) %>
+    <%= hidden_field_tag(params[:account_to], @transfer.transfer) %>
+    <%= hidden_field_tag(params[:old_sum], @transfer.value) %>
   </div>
 <% end %>

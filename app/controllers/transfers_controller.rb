@@ -14,7 +14,7 @@ class TransfersController < ApplicationController
     account_to = Account.find(transfer_params[:transfer])
     account_from.value -= transfer_params[:value].to_f
     account_to.value += transfer_params[:value].to_f
-    @transfer.description = 'Перемещение из' + account_from.name + ' в ' + account_to.name
+    @transfer.description = 'Перемещение из ' + account_from.name + ' в ' + account_to.name
 
     respond_to do |format|
       if @transfer.save
@@ -37,8 +37,24 @@ class TransfersController < ApplicationController
 
   # PUT /transfers/1
   def update
-    @transfer.update(transfer_params)
-    redirect_to home_index_url
+    account_from = Account.find(params[:account_from])
+    account_to = Account.find(params[:account_to])
+    old_sum = params[:old_sum]
+    account_from.value += old_sum
+    account_to.value -= old_sum
+    account_from_new = Account.find(transfer_params[:account_id])
+    account_to_new = Account.find(transfer_params[:transfer])
+    account_from_new -= transfer_params[:value]
+    account_to_new += transfer_params[:value]
+
+    if @transfer.update(transfer_params)
+      if account_from.save and account_to.save and account_from_new.save and account_to_new
+        redirect_to home_index_url
+      else
+        render action: 'edit'
+      end
+    end
+
   end
 
   # DELETE /transfers/1
