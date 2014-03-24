@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-test = Account.new
-test.name = 'Тестовый кошелек'
-test.value = 100
-test.save
+admin = User.new
+admin.name = 'admin'
+admin.password = 'admin'
+admin.save

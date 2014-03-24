@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :users
+
   resource :transfers
 
   resources :categories
