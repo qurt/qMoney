@@ -51,10 +51,21 @@ class OperationsController < ApplicationController
   # PATCH/PUT /operations/1
   # PATCH/PUT /operations/1.json
   def update
-    account = Account.find(params[:id])
-    # TODO редактирование записи
+    old_sum = params[:old_value]
+    old_type = params[:old_type]
+    old_account = params[:old_account]
+    account = @operation.account
+    tmp = Account.find(old_account)
+    del_account(tmp, old_type, old_sum)
+    add_account(account, @operation.type, @operation.value)
+
+
     respond_to do |format|
       if @operation.update(operation_params)
+        if tmp.save
+          account.save
+        end
+
         format.html { redirect_to home_index_url, notice: 'Operation was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,5 +106,26 @@ class OperationsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def operation_params
       params.require(:operation).permit(:value, :type, :description, :account_id, :category_id)
+    end
+
+    def del_account(account, type, value)
+      case type
+        when 0
+          account.value += value
+        when 1
+          account.value -= @operation.value
+        else
+          account.value -= 0
+      end
+    end
+    def add_account(account, type, value)
+      case type
+        when 0
+          account.value -= value
+        when 1
+          account.value += value
+        else
+          account.value -= 0
+      end
     end
 end
