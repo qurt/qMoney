@@ -11,6 +11,7 @@ QMoney::Application.routes.draw do
   resources :users
 
   resource :transfers
+  get "transfers/:id/edit", to: "transfers#edit"
 
   resources :categories
 
