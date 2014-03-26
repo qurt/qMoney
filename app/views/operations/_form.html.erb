@@ -43,6 +43,9 @@
   </div>
   <div class="form-group">
     <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
+    <% unless @operation.id.nil? %>
+    <%= link_to 'Удалить', @operation, method: :delete, data: {confirm: 'Вы уверены?'}, :class => 'btn btn-danger' %>
+    <% end %>
   </div>
 
   <%= hidden_field_tag 'old_value', @operation.value %>
