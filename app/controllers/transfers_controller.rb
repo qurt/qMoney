@@ -62,7 +62,7 @@ class TransfersController < ApplicationController
     account = @transfer.account
     account.value += @transfer.value
     account_transfer = Account.find(@transfer.transfer)
-    account_transfer -= @transfer.value
+    account_transfer.value -= @transfer.value
 
     if @transfer.delete
       account.save
