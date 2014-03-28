@@ -38,8 +38,7 @@
         <% if item.type != 2 %>
           <%= link_to item.description, edit_operation_path(item) %>
         <% else %>
-          <!-- TODO transfers url -->
-          <a href="/transfers/<%= item.id %>/edit"><%= item.description %></a>
+          <%= link_to item.description, edit_transfer_path(item) %>
         <% end %>
       </td>
       <td><%= item.value %></td>
