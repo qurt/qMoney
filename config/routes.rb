@@ -10,8 +10,7 @@ QMoney::Application.routes.draw do
   get "sessions/destroy"
   resources :users
 
-  resource :transfers
-  get "transfers/:id/edit", to: "transfers#edit"
+  resources :transfers
 
   resources :categories
 

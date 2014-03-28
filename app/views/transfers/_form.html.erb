@@ -20,6 +20,9 @@
   </div>
   <div class="form-group">
     <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
+    <% unless @transfer.id.nil? %>
+    <%= link_to 'Удалить', @transfer, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-danger' %>
+    <% end %>
   </div>
   <div class="form-group">
     <%= hidden_field_tag('operation[category_id]', 0) %>
