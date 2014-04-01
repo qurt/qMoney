@@ -40,8 +40,25 @@ class AccountsController < ApplicationController
   # PATCH/PUT /accounts/1
   # PATCH/PUT /accounts/1.json
   def update
+    value_old = params[:account][:value_old].to_f
+    value = account_params[:value].to_f
+    if value != value_old
+      if value_old < value 
+        type = 1
+      else
+        type = 0
+      end
+      tmp = value_old - value
+      operation = Operation.new
+      operation.value = tmp.abs
+      operation.type = type
+      operation.description = 'Корректировка баланса'
+      operation.account_id = params[:account][:id]
+      operation.category_id = 0
+    end
     respond_to do |format|
       if @account.update(account_params)
+        operation.save
         format.html { redirect_to @account, notice: 'Account was successfully updated.' }
         format.json { head :no_content }
       else
