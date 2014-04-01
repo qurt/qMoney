@@ -40,8 +40,8 @@ class AccountsController < ApplicationController
   # PATCH/PUT /accounts/1
   # PATCH/PUT /accounts/1.json
   def update
-    value_old = params[:account][:value_old].to_i
-    value = account_params[:value]
+    value_old = params[:account][:value_old].to_f
+    value = account_params[:value].to_f
     if value != value_old
       if value_old < value 
         type = 1
