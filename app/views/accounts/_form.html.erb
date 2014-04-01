@@ -22,5 +22,5 @@
   <div class="actions">
     <%= f.submit %>
   </div>
-  <%= hidden_field_tag params['value_old'], @account.value %>
+  <%= hidden_field_tag('account[value_old]', @account.value) %>
 <% end %>

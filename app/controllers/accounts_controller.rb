@@ -48,8 +48,9 @@ class AccountsController < ApplicationController
       else
         type = 0
       end
+      tmp = value_old - value
       operation = Operation.new
-      operation.value = (value_old - value).abs
+      operation.value = tmp.abs
       operation.type = type
       operation.description = 'Корректировка баланса'
       operation.account_id = params[:account][:id]
