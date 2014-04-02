@@ -32,6 +32,7 @@ class OperationsController < ApplicationController
         account.value -= @operation.value
       when '1'
         account.value += @operation.value
+        account.category_id = 0
       else
         account.value -= 0
     end
