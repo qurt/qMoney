@@ -12,3 +12,6 @@
  *= require bootstrap
  *= require_tree .
  */
+body, html {
+  overflow-x: hidden;
+}
