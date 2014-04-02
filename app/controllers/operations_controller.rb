@@ -35,10 +35,10 @@ class OperationsController < ApplicationController
       else
         account.value -= 0
     end
-    account.save
-
+    @operation.category_id = 0
     respond_to do |format|
       if @operation.save
+        account.save
         format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @operation }
       else
