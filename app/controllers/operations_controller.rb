@@ -36,6 +36,7 @@ class OperationsController < ApplicationController
         account.value -= 0
     end
     @operation.category_id = 0
+    session[:last_account] = @operation.account_id
     respond_to do |format|
       if @operation.save
         account.save
