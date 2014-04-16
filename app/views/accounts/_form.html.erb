@@ -1,26 +1,27 @@
-<%= form_for(@account) do |f| %>
+<%= form_for @account, :html => {:class => 'form-horizontal'} do |f| %>
   <% if @account.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h2>
-
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <ul>
-      <% @account.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @account.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :name, 'Название кошелька', :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.text_field :name, :class => 'form-control', :placeholder => 'Название' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :value %><br>
-    <%= f.text_field :value %>
+  <div class="form-group">
+    <%= f.label :value, 'Сумма', :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.text_field :value, :class => 'form-control', :placeholder => 'Сумма' %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="action">
+    <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
   </div>
-  <%= hidden_field_tag('account[value_old]', @account.value) %>
 <% end %>
