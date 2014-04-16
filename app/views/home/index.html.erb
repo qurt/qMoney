@@ -7,6 +7,11 @@
     <a href="/?a=<%= item.id %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
     <% end %>
   </div>
+  <ul class="list-group">
+    <% @categories.each do |item| %>
+      <li class="list-group-item"><%= item[0] %><span class="badge"><%= item[1] %></span></li>
+    <% end %>
+  </ul>
 </div>
 <div class="col-xs-12 col-md-9">
   <% if notice %>
