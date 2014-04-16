@@ -35,8 +35,10 @@ class OperationsController < ApplicationController
       else
         account.value -= 0
     end
-    @operation.category_id = 0
     session[:last_account] = @operation.account_id
+    if params[:operation][:type] == 2
+      @operation.category_id = 0
+    end
     respond_to do |format|
       if @operation.save
         account.save
