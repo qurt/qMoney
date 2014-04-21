@@ -39,6 +39,10 @@ class OperationsController < ApplicationController
     if params[:operation][:type] == 2
       @operation.category_id = 0
     end
+
+    custom_date = Time.parse(params[:operation][:custom_date])
+    @operation.operation_date = custom_date.beginning_of_day
+
     respond_to do |format|
       if @operation.save
         account.save
@@ -67,6 +71,8 @@ class OperationsController < ApplicationController
     end
     add_account(account, new_params[:type], new_params[:value])
 
+    custom_date = Time.parse(params[:operation][:custom_date])
+    @operation.operation_date = custom_date.beginning_of_day
 
     respond_to do |format|
       if @operation.update(operation_params)

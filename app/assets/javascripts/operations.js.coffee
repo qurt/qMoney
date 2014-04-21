@@ -8,6 +8,16 @@ ready = ->
       category.hide()
     else
       category.show()
+    return
+
+  $('[data-behaviour~=datepicker]').datepicker({
+    format: "yyyy-mm-dd",
+    weekStart: 1,
+    todayBtn: "linked",
+    language: "ru",
+    autoclose: true,
+    todayHighlight: true
+  })
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
