@@ -16,7 +16,7 @@ class TransfersController < ApplicationController
     account_to.value += transfer_params[:value].to_f
     @transfer.description = 'Перемещение из ' + account_from.name + ' в ' + account_to.name
 
-    custom_date = Time.parse(params[:transfer][:custom_date])
+    custom_date = Time.now
     @transfer.operation_date = custom_date.beginning_of_day
 
     respond_to do |format|
@@ -50,7 +50,7 @@ class TransfersController < ApplicationController
     account_from_new -= transfer_params[:value]
     account_to_new += transfer_params[:value]
 
-    custom_date = Time.parse(params[:transfer][:custom_date])
+    custom_date = Time.now
     @transfer.operation_date = custom_date.beginning_of_day
 
     if @transfer.update(transfer_params)
