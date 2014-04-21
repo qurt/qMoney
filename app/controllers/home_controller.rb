@@ -8,7 +8,7 @@ class HomeController < ApplicationController
     start_date = Time.mktime(now.year, now.month)
     @accounts = Account.order(:name)
     if account == 0
-      @operations = Operation.where('operations.created_at >= ?', start_date).order(created_at: :desc)
+      @operations = Operation.where('operations.updated_at >= ?', start_date).order(updated_at: :desc)
     else
       @operations = Account.find(account).operations
     end
