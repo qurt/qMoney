@@ -44,3 +44,4 @@ group :production do
 end
 
 gem 'bootstrap-datepicker-rails'
+gem 'dentaku'
