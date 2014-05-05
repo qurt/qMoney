@@ -24,4 +24,5 @@
   <div class="action">
     <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
   </div>
+  <%= hidden_field_tag 'account[value_old]', @account.value %>
 <% end %>
