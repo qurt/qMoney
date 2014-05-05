@@ -25,7 +25,7 @@ class OperationsController < ApplicationController
   # POST /operations.json
   def create
     @operation = Operation.new(operation_params)
-
+    @operation.value = calculate(params[:operation][:value])
     account = Account.find(params[:operation][:account_id])
     case params[:operation][:type]
       when '0'
@@ -119,7 +119,7 @@ class OperationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def operation_params
-      params.require(:operation).permit(:value, :type, :description, :account_id, :category_id)
+      params.require(:operation).permit(:type, :description, :account_id, :category_id)
     end
 
     def del_account(account, type, value)
@@ -141,5 +141,9 @@ class OperationsController < ApplicationController
         else
           account.value -= 0
       end
+    end
+    def calculate(str)
+      calc = Dentaku::Calculator.new
+      calc.evaluate(str)
     end
 end
