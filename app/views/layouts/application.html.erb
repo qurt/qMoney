@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
   <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
 <% unless session[:user_id].nil? %>
