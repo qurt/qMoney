@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     if account == 0
       @operations = Operation.where('operations.created_at >= ?', start_date).order(created_at: :desc)
     else
-      @operations = Account.find(account).operations
+      @operations = Account.find(account).operations.where('created_at >= ?', start_date).order(created_at: :desc)
     end
   end
 end
