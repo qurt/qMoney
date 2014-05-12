@@ -25,7 +25,7 @@ class OperationsController < ApplicationController
   # POST /operations.json
   def create
     @operation = Operation.new(operation_params)
-
+    @operation.value = calculate(params[:operation][:value])
     account = Account.find(params[:operation][:account_id])
     case params[:operation][:type]
       when '0'
@@ -39,6 +39,10 @@ class OperationsController < ApplicationController
     if params[:operation][:type] == 2
       @operation.category_id = 0
     end
+
+    custom_date = Time.parse(params[:operation][:custom_date])
+    @operation.operation_date = custom_date.beginning_of_day
+
     respond_to do |format|
       if @operation.save
         account.save
@@ -67,6 +71,8 @@ class OperationsController < ApplicationController
     end
     add_account(account, new_params[:type], new_params[:value])
 
+    custom_date = Time.parse(params[:operation][:custom_date])
+    @operation.operation_date = custom_date.beginning_of_day
 
     respond_to do |format|
       if @operation.update(operation_params)
@@ -113,7 +119,7 @@ class OperationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def operation_params
-      params.require(:operation).permit(:value, :type, :description, :account_id, :category_id)
+      params.require(:operation).permit(:type, :description, :account_id, :category_id)
     end
 
     def del_account(account, type, value)
@@ -135,5 +141,9 @@ class OperationsController < ApplicationController
         else
           account.value -= 0
       end
+    end
+    def calculate(str)
+      calc = Dentaku::Calculator.new
+      calc.evaluate(str)
     end
 end
