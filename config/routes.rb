@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :credits
+
   controller :sessions do
     get 'login' => :new
     post 'login' => :create
