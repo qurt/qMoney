@@ -119,7 +119,7 @@ class OperationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def operation_params
-      params.require(:operation).permit(:type, :description, :account_id, :category_id)
+      params.require(:operation).permit(:type, :description, :account_id, :category_id, :value)
     end
 
     def del_account(account, type, value)
