@@ -12,5 +12,18 @@ class HomeController < ApplicationController
     else
       @operations = Account.find(account).operations.where('created_at >= ?', start_date).order(created_at: :desc)
     end
+    @categories = {}
+    @categories['Разное'] = 0
+    @operations.each do |item|
+      if item.category.nil?
+        @categories['Разное'] += item.value.to_i
+      else
+        if @categories[item.category.title].nil?
+          @categories[item.category.title] = item.value.to_i
+        else
+          @categories[item.category.title] += item.value.to_i
+        end
+      end
+    end
   end
 end
