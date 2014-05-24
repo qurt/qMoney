@@ -13,11 +13,8 @@ class HomeController < ApplicationController
       @operations = Account.find(account).operations.where('created_at >= ?', start_date).order(created_at: :desc)
     end
     @categories = {}
-    @categories['Разное'] = 0
     @operations.each do |item|
-      if item.category.nil?
-        @categories['Разное'] += item.value.to_i
-      else
+      if item.category_id != 0 and item.type == 0
         if @categories[item.category.title].nil?
           @categories[item.category.title] = item.value.to_i
         else
