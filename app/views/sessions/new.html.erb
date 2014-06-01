@@ -1,18 +1,21 @@
 <%= form_tag do %>
-  <fieldset>
-    <legend>
-      Login
-    </legend>
-    <div>
-      <%= label_tag :name, 'Login' %>
-      <%= text_field_tag :name, params[:name] %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= label_tag :name, 'Имя пользователя', :class => 'col-sm-2 control-label' %>
+        <div class="col-md-10">
+          <%= text_field_tag :name, params[:name], :class => 'form-control' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= label_tag :password, 'Пароль', :class => 'col-sm-2 control-label' %>
+        <div class="col-md-10">
+          <%= text_field_tag :password, params[:password], :class => 'form-control' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= submit_tag 'Сохранить' %>
+      </div>
     </div>
-    <div>
-      <%= label_tag :password, 'Password' %>
-      <%= password_field_tag :password, params[:password] %>
-    </div>
-    <div>
-      <%= submit_tag 'Login' %>
-    </div>
-  </fieldset>
-<% end %>
+  </div>
+<%= end %>
