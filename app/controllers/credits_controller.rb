@@ -28,7 +28,7 @@ class CreditsController < ApplicationController
 
     respond_to do |format|
       if @credit.save
-        format.html { redirect_to @credit, notice: 'Credit was successfully created.' }
+        format.html { redirect_to credits_path, notice: 'Credit was successfully created.' }
         format.json { render action: 'show', status: :created, location: @credit }
       else
         format.html { render action: 'new' }
@@ -42,7 +42,7 @@ class CreditsController < ApplicationController
   def update
     respond_to do |format|
       if @credit.update(credit_params)
-        format.html { redirect_to @credit, notice: 'Credit was successfully updated.' }
+        format.html { redirect_to credits_url, notice: 'Credit was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
