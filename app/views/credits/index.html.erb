@@ -1,29 +1,25 @@
-<h1>Listing credits</h1>
-
-<table>
-  <thead>
+<div class="col-md-12">
+  <% if notice %>
+  <div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dissmiss="alert" aria-hidden="true">&times;</button>
+    <%= notice %>
+  </div>
+  <% end %>
+  <a href="<%= new_credit_path %>" class="btn btn-success">Новая запись</a>
+  <table class="table table-hover table-condensed">
+    <thead>
     <tr>
-      <th>Name</th>
-      <th>Value</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Название</th>
+      <th>Операции</th>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @credits.each do |credit| %>
-      <tr>
-        <td><%= credit.name %></td>
-        <td><%= credit.value %></td>
-        <td><%= link_to 'Show', credit %></td>
-        <td><%= link_to 'Edit', edit_credit_path(credit) %></td>
-        <td><%= link_to 'Destroy', credit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    </thead>
+    <tbody>
+    <% @credit.each do |item| %>
+    <tr>
+      <td><%= item.title %></td>
+      <td><%= link_to 'Редактировать', edit_credit_path(item) %> / <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+    </tr>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Credit', new_credit_path %>
+    </tbody>
+  </table>
+</div>
