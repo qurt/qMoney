@@ -61,6 +61,11 @@ class CreditsController < ApplicationController
     end
   end
 
+  # GET /credit/transfer
+  def transfer
+    
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_credit
