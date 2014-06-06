@@ -14,7 +14,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @credit.each do |item| %>
+    <% @credits.each do |item| %>
     <tr>
       <td><%= item.title %></td>
       <td><%= link_to 'Редактировать', edit_credit_path(item) %> / <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
