@@ -12,7 +12,11 @@ QMoney::Application.routes.draw do
   get "sessions/destroy"
   resources :users
 
-  resources :transfers
+  resources :transfers do
+    collection do
+      get 'transfer'
+    end
+  end
 
   resources :categories
 
