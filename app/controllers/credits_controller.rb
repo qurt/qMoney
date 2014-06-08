@@ -32,11 +32,6 @@ class CreditsController < ApplicationController
   def create
     @credit = Credit.new(credit_params)
 
-    type = params[:type]
-    if type == 1
-      @credit.value = @credit.value * -1
-    end
-
     respond_to do |format|
       if @credit.save
         format.html { redirect_to credits_path, notice: 'Credit was successfully created.' }
