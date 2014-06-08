@@ -1,6 +1,11 @@
 QMoney::Application.routes.draw do
 
-  resources :credits
+  resources :credits do
+    collection do
+      get 'transfer'
+      post 'transfer_process'
+    end
+  end
 
   controller :sessions do
     get 'login' => :new
@@ -12,12 +17,7 @@ QMoney::Application.routes.draw do
   get "sessions/destroy"
   resources :users
 
-  resources :transfers do
-    collection do
-      get 'transfer'
-      post 'transfer_process'
-    end
-  end
+  resources :transfers
 
   resources :categories
 
