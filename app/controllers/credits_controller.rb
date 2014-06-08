@@ -1,6 +1,12 @@
 class CreditsController < ApplicationController
   before_action :set_credit, only: [:show, :edit, :update, :destroy]
 
+  ###
+  # method type
+  # 0 - Взяли в долг
+  # 1 - Дали в долг
+  ###
+
   # GET /credits
   # GET /credits.json
   def index
@@ -25,6 +31,11 @@ class CreditsController < ApplicationController
   # POST /credits.json
   def create
     @credit = Credit.new(credit_params)
+
+    type = params[:type]
+    if type == 1
+      @credit.value = @credit.value * -1
+    end
 
     respond_to do |format|
       if @credit.save
@@ -63,7 +74,34 @@ class CreditsController < ApplicationController
 
   # GET /credit/transfer
   def transfer
-    
+
+  end
+  # POST /credit/1/transfer
+  def transfer_process
+    value = params[:value].to_f
+    type = params[:type].to_i
+    sum = params[:sum].to_f
+    account = params[:account].to_i
+
+    if sum > 0
+      operation = Operation.new
+      operation.account_id = account
+      operation.value = value
+      operation.category_id = 0
+      if type == 0
+        operation.type = 1
+        account.value += value
+      else
+        operation.type = 0
+        account.value -= value
+      end
+
+      if operation.save
+        if account.save
+          redirect_to credits_url
+        end
+      end
+    end
   end
 
   private
