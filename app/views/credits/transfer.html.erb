@@ -1,0 +1,24 @@
+<%= form_tag('/transfer_process', :class => 'from-horizontal') do %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= label_tag('Долг', :class => 'col-md-3 control-label') %>
+        <div class="col-md-9">
+          <%= text_field_tag(params[:credit], '', :class => 'form-control') %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= label_tag 'Кошелек', :class => 'col-md-3 control-label' %>
+        <div class="col-md-9">
+          <%= text_field_tag(params[:account], '', :class => 'form-control') %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= select_tag(params[:type], [[0, 'Взять'], [1, 'Дать']], :class => 'form-control') %>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success">Сохранить</button>
+      </div>
+    </div>
+  </div>
+<% end %>
