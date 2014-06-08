@@ -90,12 +90,16 @@ class CreditsController < ApplicationController
         operation.type = 0
         account.value -= value
       end
-
-      if operation.save
-        if account.save
-          redirect_to credits_url
+      respond_to do |format|
+        if operation.save
+          if account.save
+            format.html { redirect_to home_index_url, notice: 'Success' }
+          end
+        else
+          format.html { render action: 'transfer' }
         end
       end
+
     end
   end
 
