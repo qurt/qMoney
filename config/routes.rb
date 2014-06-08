@@ -15,6 +15,7 @@ QMoney::Application.routes.draw do
   resources :transfers do
     collection do
       get 'transfer'
+      post 'transfer_process'
     end
   end
 
