@@ -73,12 +73,15 @@ class CreditsController < ApplicationController
   end
   # POST /credit/1/transfer
   def transfer_process
-    value = params[:value].to_f
-    type = params[:type].to_i
-    sum = params[:sum].to_f
-    account = params[:account].to_i
+    value = params[:data][:value].to_f
+    type = params[:data][:type].to_i
+    credit_id = params[:data][:credit_id].to_i
+    account_id = params[:data][:account_id].to_i
 
-    if sum > 0
+    credit = Credit.find(credit_id)
+    account = Account.find(account_id)
+
+    if value > 0
       operation = Operation.new
       operation.account_id = account
       operation.value = value
@@ -86,20 +89,27 @@ class CreditsController < ApplicationController
       if type == 0
         operation.type = 1
         account.value += value
+        credit.value -= value
       else
         operation.type = 0
         account.value -= value
+        credit.value += value
       end
+      operation.category_id = 0
       respond_to do |format|
         if operation.save
           if account.save
+            credit.save
             format.html { redirect_to home_index_url, notice: 'Success' }
+          else
+            format.html { render action: 'transfer' }
           end
         else
           format.html { render action: 'transfer' }
         end
       end
-
+    else
+      format.html { redirect_to home_index_url, notice: 'Nothing to change' }
     end
   end
 
