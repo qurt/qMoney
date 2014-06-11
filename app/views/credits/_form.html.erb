@@ -1,0 +1,32 @@
+<%= form_for(@credit) do |f| %>
+  <% if @credit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@credit.errors.count, "error") %> prohibited this credit from being saved:</h2>
+
+      <ul>
+      <% @credit.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= f.label :name, 'Имя', :class => 'col-md-2 control-label' %>
+        <div class="col-md-10">
+          <%= f.text_field :name, :class => 'col-md-10', :placeholder => 'Имя' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :value, 'Сумма', :class => 'col-md-2 control-label' %>
+        <div class="col-md-10">
+          <%= f.text_field :value, :class => 'col-md-10', :placeholder => 'Сумма' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.submit 'Сохранить', :class => 'btn btn-success' %>
+      </div>
+    </div>
+  </div>
+<% end %>

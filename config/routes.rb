@@ -1,5 +1,12 @@
 QMoney::Application.routes.draw do
 
+  resources :credits do
+    collection do
+      get 'transfer'
+      post 'transfer_process'
+    end
+  end
+
   controller :sessions do
     get 'login' => :new
     post 'login' => :create
