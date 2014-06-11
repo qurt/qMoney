@@ -22,5 +22,6 @@ class HomeController < ApplicationController
         end
       end
     end
+    @credits = Credit.where.not(value:0)
   end
 end
