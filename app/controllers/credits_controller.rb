@@ -86,6 +86,7 @@ class CreditsController < ApplicationController
       operation.account_id = account
       operation.value = value
       operation.category_id = 0
+      operation.description = 'Долг ' + credit.name
       if type == 0
         operation.type = 1
         account.value += value
