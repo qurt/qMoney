@@ -82,7 +82,7 @@
     <tfoot>
     <tr class="info">
       <td class="pull-right"><strong>ИТОГО:</strong></td>
-      <td><%= @operations.sum(&:value) %></td>
+      <td><%= @operations.where(type: 0).sum(&:value) %></td>
     </tr>
     </tfoot>
     <% end %>
