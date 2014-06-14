@@ -1,13 +1,14 @@
 <% params.has_key?(:a)? account = params[:a].to_i : account = 0 %>
+<% params.has_key?(:c)? category = params[:c].to_i : category = 0 %>
 
 <div class="col-md-3">
   <div class="panel panel-default">
     <div class="panel-heading">Кошельки</div>
 
     <div class="list-group">
-      <a href="/?a=all" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @accounts.sum('value') %></span>Все</a>
+      <a href="/?a=0&c=<%= category %>" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @accounts.sum('value') %></span>Все</a>
       <% @accounts.each do |item| %>
-        <a href="/?a=<%= item.id %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
+        <a href="/?a=<%= item.id %>&c=<%= category %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
       <% end %>
     </div>
   </div>
@@ -16,8 +17,8 @@
     <div class="panel-heading">Категории</div>
 
     <div class="list-group">
-      <% @categories.each do |item| %>
-        <div class="list-group-item"><%= item[0] %> <span class="badge"><%= item[1] %></span></div>
+      <% @categories.each do |id, item| %>
+        <a class="list-group-item  <%= category == id ? 'active' : '' %>" href="?/a=<%= account %>&c=<%= id %>"><%= item[:title] %> <span class="badge"><%= item[:value] %></span></a>
       <% end %>
     </div>
   </div>
