@@ -41,10 +41,13 @@
     </div>
   <% end %>
   <table class="table table-striped">
+    <thead>
     <tr>
       <th>Описание</th>
       <th>Сумма</th>
     </tr>
+    </thead>
+    <tbody>
     <% @operations.each do |item| %>
       <%
       case item.type
@@ -69,5 +72,12 @@
       <td><%= item.value %></td>
     </tr>
     <% end %>
+    </tbody>
+    <tfoot>
+    <tr class="info">
+      <td class="pull-right"><strong>ИТОГО:</strong></td>
+      <td><%= @operations.sum('value') %></td>
+    </tr>
+    </tfoot>
   </table>
 </div>
