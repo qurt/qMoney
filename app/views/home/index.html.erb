@@ -1,23 +1,29 @@
 <% params.has_key?(:a)? account = params[:a].to_i : account = 0 %>
+<% params.has_key?(:c)? category = params[:c].to_i : category = 0 %>
 
 <div class="col-md-3">
   <div class="panel panel-default">
     <div class="panel-heading">Кошельки</div>
 
     <div class="list-group">
-      <a href="/?a=all" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @accounts.sum('value') %></span>Все</a>
+      <a href="/?a=0&c=<%= category %>" class="list-group-item <% account == 0 ? concat('active') : '' %>"><span class="badge"><%= @accounts.sum(&:value) %></span>Все</a>
       <% @accounts.each do |item| %>
-        <a href="/?a=<%= item.id %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
+        <a href="/?a=<%= item.id %>&c=<%= category %>" class="list-group-item <% account == item.id ? concat('active') : '' %>"><span class="badge"><%= item.value %></span><%= item.name %></a>
       <% end %>
     </div>
   </div>
 
   <div class="panel panel-default">
-    <div class="panel-heading">Категории</div>
+    <div class="panel-heading">
+      Категории
+      <% if category > 0 %>
+        <a class="pull-right" href="<%= account > 0 ? '/?a=' + account.to_s : '/' %>">Сбросить</a>
+      <% end %>
+    </div>
 
     <div class="list-group">
-      <% @categories.each do |item| %>
-        <div class="list-group-item"><%= item[0] %> <span class="badge"><%= item[1] %></span></div>
+      <% @categories.each do |id, item| %>
+        <a class="list-group-item  <%= category == id ? 'active' : '' %>" href="?/a=<%= account %>&c=<%= id %>"><%= item[:title] %> <span class="badge"><%= item[:value] %></span></a>
       <% end %>
     </div>
   </div>
@@ -40,10 +46,13 @@
     </div>
   <% end %>
   <table class="table table-striped">
+    <thead>
     <tr>
       <th>Описание</th>
       <th>Сумма</th>
     </tr>
+    </thead>
+    <tbody>
     <% @operations.each do |item| %>
       <%
       case item.type
@@ -67,6 +76,15 @@
       </td>
       <td><%= item.value %></td>
     </tr>
+    <% end %>
+    </tbody>
+    <% if @operations.sum(&:value) > 0 %>
+    <tfoot>
+    <tr class="info">
+      <td class="pull-right"><strong>ИТОГО:</strong></td>
+      <td><%= @operations.sum(&:value) %></td>
+    </tr>
+    </tfoot>
     <% end %>
   </table>
 </div>
