@@ -14,7 +14,12 @@
   </div>
 
   <div class="panel panel-default">
-    <div class="panel-heading">Категории</div>
+    <div class="panel-heading">
+      Категории
+      <% if category > 0 %>
+        <a class="pull-right" href="<%= account > 0 ? '/?a=' + account.to_s : '/' %>">Сбросить</a>
+      <% end %>
+    </div>
 
     <div class="list-group">
       <% @categories.each do |id, item| %>
