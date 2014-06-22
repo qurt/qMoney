@@ -1,8 +1,8 @@
 class StatisticController < ApplicationController
   def operations
     # Установка параметров из фильтров или параетров по умолчанию
-    date_s = 0
-    date_e = 0
+    date_s = Time.now - 30
+    date_e = Time.now
     if params.has_key?(:date_s)
       date_s = params[:date_s]
     end
@@ -18,9 +18,14 @@ class StatisticController < ApplicationController
     if params.has_key?(:a)
       @operations = @operations.where(:account_id => params[:a].to_i)
     end
-    @result_date = {
+    #Создаем данные для фильтра
+    account_list = Account.all
+    categories_list = Category.all
+    @filter = {
         :date_s => date_s,
-        :date_e => date_e
+        :date_e => date_e,
+        :accounts => account_list,
+        :categories => categories_list
     }
   end
 end

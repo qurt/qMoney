@@ -1,10 +1,18 @@
 <div class="row">
   <form method="get">
     <div class="col-md-3">
-      <%= date_field_tag 'date_s' %>
+      <div class="input-daterange input-group" id="datepicker-range" data-behaviour="datepicker_range">
+        <input type="text" class="form-control" name="date_s" />
+        <span class="input-group-addon">to</span>
+        <input type="text" class="form-control" name="date_e" />
+      </div>
     </div>
-    <div class="col-md-3"></div>
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <%= select_tag 'a', options_from_collection_for_select(@filter[:accounts], 'id', 'name'), :class => 'form-control' %>
+    </div>
+    <div class="col-md-3">
+      <%= select_tag 'c', options_from_collection_for_select(@filter[:categories], 'id', 'title'), :class => 'form-control' %>
+    </div>
     <div class="col-md-3">
       <button class="btn btn-primary">Сформировать</button>
     </div>
