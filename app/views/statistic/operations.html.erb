@@ -1,26 +1,26 @@
 <div class="row">
   <form method="get">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="input-daterange input-group" id="datepicker-range" data-behaviour="datepicker_range">
-        <input type="text" class="form-control" name="date_s" />
-        <span class="input-group-addon">to</span>
-        <input type="text" class="form-control" name="date_e" />
+        <input type="text" class="form-control" name="date_s" value="<%= @filter[:date_s].strftime('%d.%m.%Y') %>" />
+        <span class="input-group-addon">-</span>
+        <input type="text" class="form-control" name="date_e" value="<%= @filter[:date_e].strftime('%d.%m.%Y') %>" />
       </div>
     </div>
     <div class="col-md-3">
-      <%= select_tag 'a', options_from_collection_for_select(@filter[:accounts], 'id', 'name'), :class => 'form-control' %>
+      <%= select_tag 'a', options_from_collection_for_select(@filter[:accounts], 'id', 'name'), :prompt => 'Все кошельки', :class => 'form-control' %>
     </div>
     <div class="col-md-3">
-      <%= select_tag 'c', options_from_collection_for_select(@filter[:categories], 'id', 'title'), :class => 'form-control' %>
+      <%= select_tag 'c', options_from_collection_for_select(@filter[:categories], 'id', 'title'), :prompt => 'Все категории', :class => 'form-control' %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <button class="btn btn-primary">Сформировать</button>
     </div>
   </form>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table-condensed table-condensed">
+    <table class="table table-striped">
       <thead>
       <tr>
         <th>Описание</th>
