@@ -18,5 +18,9 @@ class StatisticController < ApplicationController
     if params.has_key?(:a)
       @operations = @operations.where(:account_id => params[:a].to_i)
     end
+    @result_date = {
+        :date_s => date_s,
+        :date_e => date_e
+    }
   end
 end
