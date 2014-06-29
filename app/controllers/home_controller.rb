@@ -120,8 +120,8 @@ class HomeController < ApplicationController
     result.each do |id, item|
       tmp = Array.new(day_in_month, 0)
       item.each do |x, y|
-        tmp_day = Time.parse(x).to_s
-        tmp_day = tmp_day.day.to_i
+        tmp_day = DateTime.strptime(x, "%Y-%m-%d")
+        tmp_day = tmp_day.day
         tmp[tmp_day + 1] = y
       end
       account = Account.find(id)
