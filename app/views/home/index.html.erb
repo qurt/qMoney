@@ -40,46 +40,49 @@
       </div>
     </div>
   </div>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>Описание</th>
-      <th>Сумма</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @operations.each do |item| %>
-      <%
-      case item.type
-        when 0
-          style = 'danger'
-        when 1
-          style = 'success'
-        when 2
-          style = 'warning'
-        else
-          style = 'notice'
-      end
-      %>
-    <tr class="<%= style %>">
-      <td>
-        <% if item.type != 2 %>
-          <%= link_to item.description, edit_operation_path(item) %>
-        <% else %>
-          <%= link_to item.description, edit_transfer_path(item) %>
-        <% end %>
-      </td>
-      <td><%= item.value %></td>
-    </tr>
-    <% end %>
-    </tbody>
-    <% if @operations.sum(&:value) > 0 %>
-    <tfoot>
-    <tr class="info">
-      <td class="pull-right"><strong>ИТОГО:</strong></td>
-      <td><%= @operations.where(type: 0).sum(&:value) %></td>
-    </tr>
-    </tfoot>
-    <% end %>
-  </table>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Журнал операций <div class="pull-right panel-title"><%= link_to 'Посмотреть все', statistic_operations_path, :class => 'small' %></div></div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Описание</th>
+        <th>Сумма</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @operations.each do |item| %>
+        <%
+        case item.type
+          when 0
+            style = 'danger'
+          when 1
+            style = 'success'
+          when 2
+            style = 'warning'
+          else
+            style = 'notice'
+        end
+        %>
+      <tr class="<%= style %>">
+        <td>
+          <% if item.type != 2 %>
+            <%= link_to item.description, edit_operation_path(item) %>
+          <% else %>
+            <%= link_to item.description, edit_transfer_path(item) %>
+          <% end %>
+        </td>
+        <td><%= item.value %></td>
+      </tr>
+      <% end %>
+      </tbody>
+      <% if @operations.sum(&:value) > 0 %>
+      <tfoot>
+      <tr class="info">
+        <td class="pull-right"><strong>ИТОГО:</strong></td>
+        <td><%= @operations.where(type: 0).sum(&:value) %></td>
+      </tr>
+      </tfoot>
+      <% end %>
+    </table>
+  </div>
 </div>

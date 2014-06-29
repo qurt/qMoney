@@ -31,6 +31,7 @@ class HomeController < ApplicationController
         :categories => get_categories_chart(@categories),
         :accounts => get_accounts_chart(@operations)
     }
+    @operations = @operations.limit(5)
   end
 
   private
