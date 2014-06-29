@@ -29,7 +29,7 @@ class HomeController < ApplicationController
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),
-        :accounts => get_accounts_chart(@operations, @accounts)
+        :accounts => get_accounts_chart(@operations)
     }
     @operations = @operations.order('created_at DESC').limit(5)
   end
@@ -95,13 +95,15 @@ class HomeController < ApplicationController
       )
     end
   end
-  def get_accounts_chart(operations, accounts)
+  def get_accounts_chart(operations)
     result = {}
     # Выбираем оперции и группируем их по дате и кошельку
     data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
+    # Получаем id кошельков, где есть операции
+    accounts = operations.group('account_id').count
     # Формируем хэш для аккаунтов
-    accounts.each do |account|
-      result[account.id] = {}
+    accounts.each do |id, account|
+      result[id] = {}
     end
     # Записываем в кошельки даты с суммами
     data.each do |item|
