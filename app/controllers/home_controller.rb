@@ -112,7 +112,7 @@ class HomeController < ApplicationController
     # Получаем количество дней в текущем месяце
     series = {}
     now = Time.now
-    day_in_month = Time.days_in_month(now.month)
+    day_in_month = Time.days_in_month(now.month).to_i
     i = 0
     # Формируем массив дат для каждого кошелька
     # Записываем суммы в нужную дату у каждого кошелька
