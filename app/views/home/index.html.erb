@@ -45,6 +45,13 @@
       <%= notice %>
     </div>
   <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-5">
+        <%= high_chart('category_chart', @chart[:categories]) %>
+      </div>
+    </div>
+  </div>
   <table class="table table-striped">
     <thead>
     <tr>

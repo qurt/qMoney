@@ -26,6 +26,10 @@ class HomeController < ApplicationController
     end
     # Get credits list
     @credits = Credit.where.not(value:0)
+    # Set charts objects
+    @chart = {
+        :categories => get_categories_chart(@categories)
+    }
   end
 
   private
@@ -48,5 +52,45 @@ class HomeController < ApplicationController
       operations = Operation.where(category_id: category, account_id: account).order(created_at: :desc)
     end
     operations
+  end
+
+  # @param [Object] categories
+  # @return [LazyHighCharts]
+  def get_categories_chart(categories)
+    data = []
+    categories.each do |id, item|
+      data.append [item[:title], item[:value]]
+    end
+    chart = LazyHighCharts::HighChart.new('pie') do |f|
+      f.chart({
+        :height => 300,
+        :margin => [0, 100, 0, 0]
+      })
+      f.title(
+        :text => 'Категории'
+      )
+      series = {
+          :type => 'pie',
+          :name => 'Сумма',
+          :data => data,
+          :inner_size => 40
+      }
+      f.series(series)
+      f.legend(
+        :align => 'right',
+        :layout => 'vertical',
+        :width => 100
+      )
+      f.plot_options(
+        :pie => {
+          :allowPointSelect=>true,
+          :cursor=>'pointer',
+          :dataLabels=>{
+            :enabled=>false
+          },
+          :showInLegend => true
+        }
+      )
+    end
   end
 end
