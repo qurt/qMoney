@@ -45,3 +45,6 @@ end
 
 gem 'bootstrap-datepicker-rails'
 gem 'dentaku'
+
+#High Charts
+gem 'lazy_high_charts'
