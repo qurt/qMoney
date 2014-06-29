@@ -29,6 +29,12 @@ class HomeController < ApplicationController
   end
 
   private
+  ###
+  # Получаем операции с начала месяца по текущий момент
+  # @param [Integer] account
+  # @param [Integer] category
+  # @return [Object]
+  ###
   def get_operations(account, category)
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
