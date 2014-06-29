@@ -28,7 +28,8 @@ class HomeController < ApplicationController
     @credits = Credit.where.not(value:0)
     # Set charts objects
     @chart = {
-        :categories => get_categories_chart(@categories)
+        :categories => get_categories_chart(@categories),
+        :accounts => get_accounts_chart(@operations)
     }
   end
 
@@ -90,6 +91,66 @@ class HomeController < ApplicationController
           },
           :showInLegend => true
         }
+      )
+    end
+  end
+  def get_accounts_chart(operations)
+    result = {}
+    # Выбираем оперции и группируем их по дате и кошельку
+    data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, date(created_at)')
+    # Получаем id кошельков, где есть операции
+    accounts = operations.group('account_id').count
+    # Формируем хэш для аккаунтов
+    accounts.each do |id, account|
+      result[id] = {}
+    end
+    # Записываем в кошельки даты с суммами
+    data.each do |item|
+      result[item.account_id][item.op_date] = item.op_sum
+    end
+    # Получаем количество дней в текущем месяце
+    series = {}
+    now = Time.now
+    day_in_month = Time.days_in_month(now.month)
+    i = 0
+    # Формируем массив дат для каждого кошелька
+    # Записываем суммы в нужную дату у каждого кошелька
+    # ФОрмируем итоговый массив для графика
+    result.each do |id, item|
+      tmp = Array.new(day_in_month, 0)
+      item.each do |x, y|
+        tmp_day = Time.parse(x)
+        tmp_day = tmp_day.day.to_i
+        tmp[tmp_day + 1] = y
+      end
+      account = Account.find(id)
+      series[i] = {
+          :name => account.name,
+          :data => tmp
+      }
+      i += 1
+    end
+
+    chart = LazyHighCharts::HighChart.new('area') do |f|
+      f.chart(
+        :type => 'area',
+        :height => 300
+      )
+      f.title(:text => 'Кошельки')
+      series.each do |id, item|
+        f.series(:name => item[:name], :data => item[:data])
+      end
+      f.plot_options(
+        :area => {
+          :point_start => 1,
+          :marker => {
+            :enabled => false
+          }
+        }
+      )
+      f.legend(
+        :align => 'center',
+        :layout => 'horizontal'
       )
     end
   end
