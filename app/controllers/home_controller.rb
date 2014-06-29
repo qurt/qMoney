@@ -31,7 +31,7 @@ class HomeController < ApplicationController
         :categories => get_categories_chart(@categories),
         :accounts => get_accounts_chart(@operations, @accounts)
     }
-    @operations = @operations.limit(5)
+    @operations = @operations.order('created_at DESC').limit(5)
   end
 
   private
@@ -45,13 +45,13 @@ class HomeController < ApplicationController
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
     if account == 0 && category == 0
-      operations = Operation.where('operations.created_at >= ?', start_date).order(created_at: :desc)
+      operations = Operation.where('operations.created_at >= ?', start_date)
     elsif account > 0 && category == 0
-      operations = Account.find(account).operations.where('created_at >= ?', start_date).order(created_at: :desc)
+      operations = Account.find(account).operations.where('created_at >= ?', start_date)
     elsif account == 0 && category > 0
-      operations = Category.find(category).operations.where('created_at >= ?', start_date).order(created_at: :desc)
+      operations = Category.find(category).operations.where('created_at >= ?', start_date)
     else
-      operations = Operation.where(category_id: category, account_id: account).order(created_at: :desc)
+      operations = Operation.where(category_id: category, account_id: account)
     end
     operations
   end
