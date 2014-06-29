@@ -125,9 +125,8 @@ class HomeController < ApplicationController
         tmp_day = tmp_day.day
         tmp[tmp_day + 1] = y
       end
-      account = Account.find(id)
       series[i] = {
-          :name => account.name,
+          :name => id,
           :data => tmp
       }
       i += 1
