@@ -98,7 +98,7 @@ class HomeController < ApplicationController
   def get_accounts_chart(operations)
     result = {}
     # Выбираем оперции и группируем их по дате и кошельку
-    data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, date(created_at)')
+    data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
     # Получаем id кошельков, где есть операции
     accounts = operations.group('account_id').count
     # Формируем хэш для аккаунтов
