@@ -100,7 +100,7 @@ class HomeController < ApplicationController
     # Выбираем оперции и группируем их по дате и кошельку
     data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
     # Получаем id кошельков, где есть операции
-    accounts = operations.group('account_id').count
+    accounts = operations.select('account_id, created_at').group('account_id').count
     # Формируем хэш для аккаунтов
     accounts.each do |id, account|
       result[id] = {}
