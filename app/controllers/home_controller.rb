@@ -29,7 +29,7 @@ class HomeController < ApplicationController
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),
-        :accounts => get_accounts_chart(@operations)
+        :accounts => get_accounts_chart
     }
     @operations = @operations.order('created_at DESC').limit(5)
   end
@@ -95,7 +95,10 @@ class HomeController < ApplicationController
       )
     end
   end
-  def get_accounts_chart(operations)
+  def get_accounts_chart
+    now = Time.now
+    start_date = Time.mktime(now.year, now.month)
+    operations = Operation.where('operations.created_at >= ?, type > ?', start_date, 0)
     result = {}
     # Выбираем оперции и группируем их по дате и кошельку
     data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
@@ -111,7 +114,6 @@ class HomeController < ApplicationController
     end
     # Получаем количество дней в текущем месяце
     series = {}
-    now = Time.now
     day_in_month = Time.days_in_month(now.month).to_i
     i = 0
     # Формируем массив дат для каждого кошелька
