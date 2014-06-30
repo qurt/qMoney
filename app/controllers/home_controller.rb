@@ -98,7 +98,7 @@ class HomeController < ApplicationController
   def get_accounts_chart
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
-    operations = Operation.where('operations.created_at >= ?, type > ?', start_date, 0)
+    operations = Operation.where('operations.created_at >= ? and type > ?', start_date, 0)
     result = {}
     # Выбираем оперции и группируем их по дате и кошельку
     data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
