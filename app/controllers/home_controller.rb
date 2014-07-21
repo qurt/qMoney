@@ -97,13 +97,18 @@ class HomeController < ApplicationController
   end
   def get_accounts_chart(operations)
     result = {}
+    now = Time.now
+    start_date = Time.mktime(now.year, now.month)
     # Выбираем оперции и группируем их по дате и кошельку
-    data = operations.select('operations.account_id, SUM(operations.value) as op_sum, date(created_at) as op_date').group('operations.account_id, op_date')
+    data = Operation.select('operations.type as op_type, operations.account_id, SUM(operations.value) as op_sum, date(operation_date) as op_date').where('operation_date >= ? and operations.type = ?', start_date, 0).group('operations.account_id, op_date, op_type')
     # Получаем id кошельков, где есть операции
-    accounts = operations.select('account_id, created_at').group('account_id').count
+
     # Формируем хэш для аккаунтов
-    accounts.each do |id, account|
-      result[id] = {}
+    accounts = Account.all
+    accounts.each do |acc|
+      if acc.operations.size > 0
+        result[acc.id] = {}
+      end
     end
     # Записываем в кошельки даты с суммами
     data.each do |item|
@@ -120,9 +125,8 @@ class HomeController < ApplicationController
     result.each do |id, item|
       tmp = Array.new(day_in_month, 0)
       item.each do |x, y|
-        tmp_day = Time.parse(x)
-        tmp_day = tmp_day.day.to_i
-        tmp[tmp_day + 1] = y
+        tmp_day = x.day.to_i
+        tmp[tmp_day + 1] = y.to_f
       end
       account = Account.find(id)
       series[i] = {
@@ -132,14 +136,15 @@ class HomeController < ApplicationController
       i += 1
     end
 
-    chart = LazyHighCharts::HighChart.new('area') do |f|
-      f.chart(
-        :type => 'area',
+    chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.chart({
+        :defaultSeriesType => 'area',
         :height => 300
-      )
+      })
       f.title(:text => 'Кошельки')
       series.each do |id, item|
-        f.series(:name => item[:name], :data => item[:data])
+        data = item[:data]
+        f.series(:name => item[:name], :yAxis => 0, :data => data)
       end
       f.plot_options(
         :area => {
