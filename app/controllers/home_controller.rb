@@ -103,17 +103,22 @@ class HomeController < ApplicationController
     start_date = Time.mktime(now.year, now.month)
     # Выбираем оперции и группируем их по дате и кошельку
     data = Operation.select('operations.type as op_type, operations.account_id, SUM(operations.value) as op_sum, date(operation_date) as op_date').where('operation_date >= ? and operations.type = ?', start_date, 0).group('operations.account_id, op_date, op_type')
-    # Получаем id кошельков, где есть операции
+    # TODO Получаем id кошельков, где есть операции
 
     # Формируем хэш для аккаунтов
-    accounts = Account.order(:name)
+    accounts = Account.order(name: :desc)
     accounts.each do |acc|
       if acc.operations.size > 0
         result[acc.id] = {}
       end
     end
+    result['all'] = {}
     # Записываем в кошельки даты с суммами
     data.each do |item|
+      if result['all'][item.op_date].nil?
+        result['all'][item.op_date] = 0
+      end
+      result['all'][item.op_date] += item.op_sum
       result[item.account_id][item.op_date] = item.op_sum
     end
     # Получаем количество дней в текущем месяце
@@ -129,21 +134,24 @@ class HomeController < ApplicationController
         tmp_day = x.day.to_i
         tmp[tmp_day + 1] = y.to_f
       end
-      if id.nil?
-        # do nothing
+      if id.nil? || id == 'all'
+        series[i] = {
+            :name => 'Сумма',
+            :data => tmp
+        }
       else
         account = Account.find(id)
         series[i] = {
             :name => account.name,
             :data => tmp
         }
-        i += 1
       end
+      i += 1
     end
 
     chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.chart({
-        :defaultSeriesType => 'area',
+        :defaultSeriesType => 'spline',
         :height => 300
       })
       f.title(:text => 'Кошельки')
@@ -152,7 +160,7 @@ class HomeController < ApplicationController
         f.series(:name => item[:name], :yAxis => 0, :data => data)
       end
       f.plot_options(
-        :area => {
+        :spline => {
           :point_start => 1,
           :marker => {
             :enabled => false
