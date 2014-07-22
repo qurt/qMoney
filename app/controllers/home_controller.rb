@@ -106,7 +106,7 @@ class HomeController < ApplicationController
     # Получаем id кошельков, где есть операции
 
     # Формируем хэш для аккаунтов
-    accounts = Account.all
+    accounts = Account.order(:name)
     accounts.each do |acc|
       if acc.operations.size > 0
         result[acc.id] = {}
