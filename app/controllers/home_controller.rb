@@ -29,9 +29,9 @@ class HomeController < ApplicationController
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),
-        :accounts => get_accounts_chart(@operations)
+        :accounts => get_accounts_chart
     }
-    @operations = @operations.limit(5)
+    @operations = @operations.order('created_at DESC').limit(5)
   end
 
   private
@@ -45,13 +45,13 @@ class HomeController < ApplicationController
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
     if account == 0 && category == 0
-      operations = Operation.where('operations.created_at >= ?', start_date).order(created_at: :desc)
+      operations = Operation.where('operations.created_at >= ?', start_date)
     elsif account > 0 && category == 0
-      operations = Account.find(account).operations.where('created_at >= ?', start_date).order(created_at: :desc)
+      operations = Account.find(account).operations.where('created_at >= ?', start_date)
     elsif account == 0 && category > 0
-      operations = Category.find(category).operations.where('created_at >= ?', start_date).order(created_at: :desc)
+      operations = Category.find(category).operations.where('created_at >= ?', start_date)
     else
-      operations = Operation.where(category_id: category, account_id: account).order(created_at: :desc)
+      operations = Operation.where(category_id: category, account_id: account)
     end
     operations
   end
@@ -95,7 +95,9 @@ class HomeController < ApplicationController
       )
     end
   end
-  def get_accounts_chart(operations)
+  def get_accounts_chart
+    now = Time.now
+    start_date = Time.mktime(now.year, now.month)
     result = {}
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
@@ -104,7 +106,7 @@ class HomeController < ApplicationController
     # Получаем id кошельков, где есть операции
 
     # Формируем хэш для аккаунтов
-    accounts = Account.all
+    accounts = Account.order(:name)
     accounts.each do |acc|
       if acc.operations.size > 0
         result[acc.id] = {}
@@ -116,8 +118,7 @@ class HomeController < ApplicationController
     end
     # Получаем количество дней в текущем месяце
     series = {}
-    now = Time.now
-    day_in_month = Time.days_in_month(now.month)
+    day_in_month = Time.days_in_month(now.month).to_i
     i = 0
     # Формируем массив дат для каждого кошелька
     # Записываем суммы в нужную дату у каждого кошелька
@@ -128,12 +129,16 @@ class HomeController < ApplicationController
         tmp_day = x.day.to_i
         tmp[tmp_day + 1] = y.to_f
       end
-      account = Account.find(id)
-      series[i] = {
-          :name => account.name,
-          :data => tmp
-      }
-      i += 1
+      if id.nil?
+        # do nothing
+      else
+        account = Account.find(id)
+        series[i] = {
+            :name => account.name,
+            :data => tmp
+        }
+        i += 1
+      end
     end
 
     chart = LazyHighCharts::HighChart.new('graph') do |f|
