@@ -12,10 +12,10 @@ class StatisticController < ApplicationController
 
     #Выбираем данные из базы
     @operations = Operation.where('operation_date >= ? and operation_date <= ?', date_s, date_e)
-    if params.has_key?(:c) && params[:c] > 0
+    if params.has_key?(:c) && params[:c].to_i > 0
       @operations = @operations.where(:category_id => params[:c].to_i)
     end
-    if params.has_key?(:a) && params[:a] > 0
+    if params.has_key?(:a) && params[:a].to_i > 0
       @operations = @operations.where(:account_id => params[:a].to_i)
     end
     #Создаем данные для фильтра
