@@ -8,10 +8,10 @@
       </div>
     </div>
     <div class="col-md-3">
-      <%= select_tag 'a', options_from_collection_for_select(@filter[:accounts], 'id', 'name'), :prompt => 'Все кошельки', :class => 'form-control' %>
+      <%= select_tag 'a', options_from_collection_for_select(@filter[:accounts], 'id', 'name', @filter[:active_a]), :prompt => 'Все кошельки', :class => 'form-control' %>
     </div>
     <div class="col-md-3">
-      <%= select_tag 'c', options_from_collection_for_select(@filter[:categories], 'id', 'title'), :prompt => 'Все категории', :class => 'form-control' %>
+      <%= select_tag 'c', options_from_collection_for_select(@filter[:categories], 'id', 'title', @filter[:active_c]), :prompt => 'Все категории', :class => 'form-control' %>
     </div>
     <div class="col-md-2">
       <button class="btn btn-primary">Сформировать</button>
