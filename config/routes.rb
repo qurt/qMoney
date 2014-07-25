@@ -1,6 +1,8 @@
 QMoney::Application.routes.draw do
 
   get "statistic/operations"
+  get "statistic/average_spending"
+
   resources :credits do
     collection do
       get 'transfer'
