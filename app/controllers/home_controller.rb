@@ -97,11 +97,8 @@ class HomeController < ApplicationController
   end
   def get_accounts_chart(operations)
     now = Time.now
-    start_date = Time.mktime(now.year, now.month)
-    result = {}
     data = {}
     now = Time.now
-    start_date = Time.mktime(now.year, now.month)
     # Выбираем оперции и группируем их по дате и кошельку
     data[:all] = {}
     operations.each do |item|
@@ -119,8 +116,7 @@ class HomeController < ApplicationController
       end
       data[:all][cur_day] += item.value.to_f
     end
-    # data = Operation.select('operations.type as op_type, operations.account_id, SUM(operations.value) as op_sum, date(operation_date) as op_date').where('operation_date >= ? and operations.type = ?', start_date, 0).group('operations.account_id, op_date, op_type')
-
+    
     # Получаем количество дней в текущем месяце
     series = {}
     day_in_month = Time.days_in_month(now.month).to_i
