@@ -102,8 +102,14 @@ class HomeController < ApplicationController
     # Выбираем оперции и группируем их по дате и кошельку
     data[:all] = {}
     operations.each do |item|
+      if item.operation_date.nil?
+        item.operation_date = Time.zone.now
+      end
       cur_day = item.operation_date.day
       account_id = item.account_id
+      if item.account_id.nil?
+        account_id = 1
+      end
       if data[account_id].nil?
         data[account_id] = {}
       end
