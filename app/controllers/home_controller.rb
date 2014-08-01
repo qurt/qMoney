@@ -150,6 +150,7 @@ class HomeController < ApplicationController
         :height => 300
       })
       f.title(:text => 'Кошельки')
+      f.y_axis(:min => 0)
       series.each do |id, item|
         data = item[:data]
         f.series(:name => item[:name], :yAxis => 0, :data => data)
