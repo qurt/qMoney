@@ -29,7 +29,7 @@ class HomeController < ApplicationController
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),
-        :accounts => get_accounts_chart
+        :accounts => get_accounts_chart(@operations)
     }
     @operations = @operations.order('created_at DESC').limit(5)
   end
@@ -95,32 +95,32 @@ class HomeController < ApplicationController
       )
     end
   end
-  def get_accounts_chart
+  def get_accounts_chart(operations)
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
     result = {}
+    data = {}
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
     # Выбираем оперции и группируем их по дате и кошельку
-    data = Operation.select('operations.type as op_type, operations.account_id, SUM(operations.value) as op_sum, date(operation_date) as op_date').where('operation_date >= ? and operations.type = ?', start_date, 0).group('operations.account_id, op_date, op_type')
-    # TODO Получаем id кошельков, где есть операции
+    data[:all] = {}
+    operations.each do |item|
+      cur_day = item.operation_date.day
+      account_id = item.account_id
+      if data[account_id].nil?
+        data[account_id] = {}
+      end
+      if data[account_id][cur_day].nil?
+        data[account_id][cur_day] = 0
+      end
+      data[account_id][cur_day] += item.value.to_f
+      if data[:all][cur_day].nil?
+        data[:all][cur_day] = 0
+      end
+      data[:all][cur_day] += item.value.to_f
+    end
+    # data = Operation.select('operations.type as op_type, operations.account_id, SUM(operations.value) as op_sum, date(operation_date) as op_date').where('operation_date >= ? and operations.type = ?', start_date, 0).group('operations.account_id, op_date, op_type')
 
-    # Формируем хэш для аккаунтов
-    accounts = Account.order(name: :desc)
-    accounts.each do |acc|
-      if acc.operations.size > 0
-        result[acc.id] = {}
-      end
-    end
-    result['all'] = {}
-    # Записываем в кошельки даты с суммами
-    data.each do |item|
-      if result['all'][item.op_date].nil?
-        result['all'][item.op_date] = 0
-      end
-      result['all'][item.op_date] += item.op_sum
-      result[item.account_id][item.op_date] = item.op_sum
-    end
     # Получаем количество дней в текущем месяце
     series = {}
     day_in_month = Time.days_in_month(now.month).to_i
@@ -128,13 +128,12 @@ class HomeController < ApplicationController
     # Формируем массив дат для каждого кошелька
     # Записываем суммы в нужную дату у каждого кошелька
     # ФОрмируем итоговый массив для графика
-    result.each do |id, item|
+    data.each do |id, item|
       tmp = Array.new(day_in_month, 0)
       item.each do |x, y|
-        tmp_day = x.day.to_i
-        tmp[tmp_day + 1] = y.to_f
+        tmp[x] = y.to_f
       end
-      if id.nil? || id == 'all'
+      if id.nil? || id.to_s == 'all'
         series[i] = {
             :name => 'Сумма',
             :data => tmp
