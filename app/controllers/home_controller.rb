@@ -133,7 +133,7 @@ class HomeController < ApplicationController
     data.each do |id, item|
       tmp = Array.new(day_in_month, 0)
       item.each do |x, y|
-        tmp[x] = y.to_f
+        tmp[x - 1] = y.to_f
       end
       if id.nil? || id.to_s == 'all'
         series[i] = {
