@@ -83,7 +83,7 @@ class CreditsController < ApplicationController
 
     if value > 0
       operation = Operation.new
-      operation.account_id = account
+      operation.account_id = account.id
       operation.value = value
       operation.category_id = 0
       operation.description = 'Долг ' + credit.name
@@ -97,6 +97,7 @@ class CreditsController < ApplicationController
         credit.value += value
       end
       operation.category_id = 0
+      operation.operation_date = Time.zone.now.beginning_of_day
       respond_to do |format|
         if operation.save
           if account.save
