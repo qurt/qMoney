@@ -55,6 +55,7 @@ class AccountsController < ApplicationController
       operation.description = 'Корректировка баланса'
       operation.account_id = params[:account][:id]
       operation.category_id = 0
+      operation.operation_date = Time.zone.now.beginning_of_day
     end
     respond_to do |format|
       if @account.update(account_params)
