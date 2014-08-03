@@ -68,34 +68,33 @@ class StatisticController < ApplicationController
       month = item.op_date.month.to_i
       year = item.op_date.year.to_i
       category_id = item.category_id
-      if category_sum[category_id].nil?
-        category_sum[category_id] = {
-            :title => get_category_title(category_id),
-            :data => {}
+      if category_sum[year].nil?
+        category_sum[year] = {}
+      end
+      if category_sum[year][month].nil?
+        category_sum[year][month] = {}
+      end
+      if category_sum[year][month][category_id].nil?
+        category_sum[year][month][category_id] = {
+          :title => get_category_title(category_id),
+          :value => 0
         }
       end
-      if category_sum[category_id][:data][year].nil?
-        category_sum[category_id][:data][year] = {}
-      end
-      if category_sum[category_id][:data][year][month].nil?
-        category_sum[category_id][:data][year][month] = 0
-      end
-      category_sum[category_id][:data][year][month] += item.op_sum
+      category_sum[year][month][category_id][:value] += item.op_sum
     end
     category_average = {}
-    category_sum.each do |id, item|
-      category_average[id] = {
-        :title => category_sum[id][:title],
-        :average => 0
-      }
-      item[:data].each do |y, year_data|
-        year_data.each do |m, month_data|
-          category_average[id][:average] += month_data
+    category_sum.each do |year, item|
+      item.each do |month, category|
+        category.each do |id, data|
+          if category_average[id].nil?
+            category_average[id] = 0
+          end
+          category_average[id] += data[:value].to_f
         end
       end
     end
-    category_average.each do |id, c_average|
-      c_average[:average] = c_average[:average] / month_count
+    category_average.each do |id, value|
+      category_average[id] = value / month_count
     end
     # Формируем график, который будет содержать:
     # - Сумму всех трат в месяц
@@ -110,7 +109,12 @@ class StatisticController < ApplicationController
   private
   # Вспомогательные методы
   def get_category_title(category_id)
-    category_item = Category.find(category_id)
-    title = category_item.title
+    if category_id == 0
+      title = 'Без категории'
+    else
+      category_item = Category.find(category_id)
+      title = category_item.title
+    end
+    title
   end
 end
