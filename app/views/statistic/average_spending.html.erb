@@ -2,7 +2,14 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-3">
-        <div class="well">Всреднем за месяц: <%= @result[:average] %></div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">Средние траты: <%= @result[:average] %></div>
+          <div class="list-group">
+            <% @result[:category_average].each do |title, value| %>
+            <div class="list-group-item"><%= title %> <span class="badge"><%= value %></span></div>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -86,15 +86,15 @@ class StatisticController < ApplicationController
     category_sum.each do |year, item|
       item.each do |month, category|
         category.each do |id, data|
-          if category_average[id].nil?
-            category_average[id] = 0
+          if category_average[data[:title]].nil?
+            category_average[data[:title]] = 0
           end
-          category_average[id] += data[:value].to_f
+          category_average[data[:title]] += data[:value].to_f
         end
       end
     end
-    category_average.each do |id, value|
-      category_average[id] = value / month_count
+    category_average.each do |title, value|
+      category_average[title] = value / month_count
     end
     # Формируем график, который будет содержать:
     # - Сумму всех трат в месяц
