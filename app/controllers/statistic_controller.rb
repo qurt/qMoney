@@ -37,6 +37,7 @@ class StatisticController < ApplicationController
       .select('SUM(value) as op_sum, category_id, type, date(operation_date) as op_date')
       .group('op_date, category_id, type')
       .where('type = 0')
+      .order('op_date ASC')
 
     # Считаем среднюю сумму трат в месяц за все время
     sum = {}
@@ -104,6 +105,7 @@ class StatisticController < ApplicationController
       :average => average,
       :category_average => category_average
     }
+    @chart = graph(sum, category_sum)
   end
 
   private
@@ -116,5 +118,72 @@ class StatisticController < ApplicationController
       title = category_item.title
     end
     title
+  end
+
+  def graph(average_sum, average_category)
+    series = {
+      :sum => []
+    }
+    first_date = {
+      :month => 0,
+      :year => 0
+    }
+    now = {
+      :month => Time.zone.now.month.to_i,
+      :year => Time.zone.now.year.to_i
+    }
+    average_sum.each do |year, item|
+      item.each do |month, data|
+        first_date = {
+          :month => month,
+          :year => year
+        }
+        break
+      end
+    end
+    x_axis = []
+    y = first_date[:year]
+    m = first_date[:month]
+    while y <= now[:year]
+      while m <= 12
+        if y == now[:year] && m > now[:month]
+          break
+        end
+        x_axis << m.to_s + '.' + y.to_s
+
+        if average_sum[y].nil? || average_sum[y][m].nil?
+          series[:sum] << 0
+        else
+          series[:sum] << average_sum[y][m]
+        end
+
+        m += 1
+      end
+      y += 1
+    end
+
+    chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.chart({
+                  :defaultSeriesType => 'spline',
+              })
+      f.title(:text => '')
+      f.x_axis(:categories => x_axis)
+      f.y_axis(:min => 0)
+      series.each do |name, value|
+        f.series(:name => 'Общее', :yAxis => 0, :data => value)
+      end
+      f.plot_options(
+          :spline => {
+              :point_start => 0,
+              :marker => {
+                  :enabled => false
+              }
+          }
+      )
+      f.legend(
+          :align => 'center',
+          :layout => 'horizontal'
+      )
+    end
   end
 end
