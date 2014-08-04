@@ -56,6 +56,10 @@ class StatisticController < ApplicationController
       if d_sum_g[year].nil?
         d_sum_g[year] = {}
         d_sum_g[year][month] = 0
+      else
+        if d_sum_g[year][month].nil?
+          d_sum_g[year][month] = 0
+        end
       end
       d_sum_g[year][month] += d_op.value.to_f
       d_sum += d_op.value.to_f
