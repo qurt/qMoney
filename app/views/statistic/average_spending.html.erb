@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Средние траты: <%= @result[:average] %></div>
+          <div class="list-group">
+            <% @result[:category_average].each do |title, value| %>
+            <div class="list-group-item"><%= title %> <span class="badge"><%= value %></span></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <%= high_chart('pending_chart', @chart) %>
+      </div>
+    </div>
+  </div>
+</div>
