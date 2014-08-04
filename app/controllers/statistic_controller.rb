@@ -186,7 +186,7 @@ class StatisticController < ApplicationController
             f.series(:name => title.to_s, :yAxis => 0, :data => sum)
           end
         else
-          f.series(:name => 'Общее', :yAxis => 0, :data => value)
+          f.series(:name => 'Сумма', :yAxis => 0, :data => value)
         end
       end
       f.plot_options(
