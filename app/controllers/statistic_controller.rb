@@ -32,18 +32,15 @@ class StatisticController < ApplicationController
         :active_a   => active_a
     }
   end
+
   def average_spending
-    operations = Operation
-      .select('SUM(value) as op_sum, category_id, type, date(operation_date) as op_date')
-      .group('op_date, category_id, type')
-      .where('type = 0')
-      .order('op_date ASC')
+    operations = Operation.where('type = 0').order('operation_date ASC')
 
     # Считаем среднюю сумму трат в месяц за все время
     sum = {}
     operations.each do |item|
-      month = item.op_date.month.to_i
-      year = item.op_date.year.to_i
+      month = item.operation_date.month.to_i
+      year = item.operation_date.year.to_i
       if sum[year].nil?
         sum[year] = {}
         sum[year][month] = 0
@@ -52,50 +49,45 @@ class StatisticController < ApplicationController
           sum[year][month] = 0
         end
       end
-      sum[year][month] += item.op_sum.to_f
+      sum[year][month] += item.value.to_f
     end
-    average = 0
     month_count = 0
     sum.each do |y, item|
       month_count += item.size
-      item.each do |m, item_month|
-        average += item_month
-      end
     end
-    average = average / month_count
     # Считаем среднюю сумму трат в месяц за все время, разделенную по категориям
     category_sum = {}
     operations.each do |item|
-      month = item.op_date.month.to_i
-      year = item.op_date.year.to_i
+      month = item.operation_date.month.to_i
+      year = item.operation_date.year.to_i
       category_id = item.category_id
+      category_title = get_category_title(category_id)
       if category_sum[year].nil?
         category_sum[year] = {}
       end
       if category_sum[year][month].nil?
         category_sum[year][month] = {}
       end
-      if category_sum[year][month][category_id].nil?
-        category_sum[year][month][category_id] = {
-          :title => get_category_title(category_id),
-          :value => 0
-        }
+      if category_sum[year][month][category_title].nil?
+        category_sum[year][month][category_title] = 0
       end
-      category_sum[year][month][category_id][:value] += item.op_sum
+      category_sum[year][month][category_title] += item.value.to_f
     end
     category_average = {}
     category_sum.each do |year, item|
       item.each do |month, category|
         category.each do |id, data|
-          if category_average[data[:title]].nil?
-            category_average[data[:title]] = 0
+          if category_average[id].nil?
+            category_average[id] = 0
           end
-          category_average[data[:title]] += data[:value].to_f
+          category_average[id] += data.to_f
         end
       end
     end
+    average = 0
     category_average.each do |title, value|
-      category_average[title] = value / month_count
+      category_average[title] = (value / month_count).round 2
+      average += category_average[title]
     end
     # Формируем график, который будет содержать:
     # - Сумму всех трат в месяц
@@ -122,8 +114,18 @@ class StatisticController < ApplicationController
 
   def graph(average_sum, average_category)
     series = {
-      :sum => []
+      :sum => [],
+      :cat => {}
     }
+    average_category.each do |y, data|
+      data.each do |m, cat|
+        cat.each do |id, value|
+          if series[:cat][id].nil?
+            series[:cat][id] = []
+          end
+        end
+      end
+    end
     first_date = {
       :month => 0,
       :year => 0
@@ -157,6 +159,15 @@ class StatisticController < ApplicationController
           series[:sum] << average_sum[y][m]
         end
 
+        series[:cat].each do |id, value|
+          if average_category[y].nil? || average_category[y][m].nil? || average_category[y][m][id].nil?
+            series[:cat][id] << 0
+          else
+            series[:cat][id] << average_category[y][m][id].to_f
+          end
+
+        end
+
         m += 1
       end
       y += 1
@@ -170,7 +181,13 @@ class StatisticController < ApplicationController
       f.x_axis(:categories => x_axis)
       f.y_axis(:min => 0)
       series.each do |name, value|
-        f.series(:name => 'Общее', :yAxis => 0, :data => value)
+        if name.to_s != 'sum'
+          value.each do |title, sum|
+            f.series(:name => title.to_s, :yAxis => 0, :data => sum)
+          end
+        else
+          f.series(:name => 'Общее', :yAxis => 0, :data => value)
+        end
       end
       f.plot_options(
           :spline => {

@@ -95,6 +95,7 @@ class HomeController < ApplicationController
       )
     end
   end
+
   def get_accounts_chart(operations)
     now = Time.now
     data = {}
@@ -122,7 +123,7 @@ class HomeController < ApplicationController
       end
       data[:all][cur_day] += item.value.to_f
     end
-    
+
     # Получаем количество дней в текущем месяце
     series = {}
     day_in_month = Time.days_in_month(now.month).to_i
