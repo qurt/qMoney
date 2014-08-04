@@ -39,6 +39,9 @@ class StatisticController < ApplicationController
     # Считаем среднюю сумму трат в месяц за все время
     sum = {}
     operations.each do |item|
+      if item.operation_date.nil?
+        item.operation_date = item.created_at.beginning_of_day
+      end
       month = item.operation_date.month.to_i
       year = item.operation_date.year.to_i
       if sum[year].nil?
