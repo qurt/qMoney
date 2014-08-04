@@ -97,7 +97,7 @@ class HomeController < ApplicationController
   end
 
   def get_accounts_chart(operations)
-    now = Time.now
+    operations = operations.where('type = 0')
     data = {}
     now = Time.now
     # Выбираем оперции и группируем их по дате и кошельку

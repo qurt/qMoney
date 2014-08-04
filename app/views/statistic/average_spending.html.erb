@@ -10,6 +10,9 @@
             <% end %>
           </div>
         </div>
+        <div class="well">
+          Средний доход: <%= @result[:d_average] %>
+        </div>
       </div>
       <div class="col-md-9">
         <%= high_chart('pending_chart', @chart) %>

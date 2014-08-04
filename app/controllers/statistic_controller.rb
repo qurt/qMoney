@@ -34,7 +34,26 @@ class StatisticController < ApplicationController
   end
 
   def average_spending
+    now = {
+        :month => Time.zone.now.month.to_i,
+        :year => Time.zone.now.year.to_i
+    }
+
     operations = Operation.where('type = 0').order('operation_date ASC')
+    # Считаем доход
+    d_operations = Operation.where('type = 1').order('operation_date ASC')
+    d_sum = 0
+    d_operations.each do |d_op|
+      if d_op.operation_date.nil?
+        d_op.operation_date = d_op.created_at.beginning_of_day
+      end
+      month = d_op.operation_date.month.to_i
+      year = d_op.operation_date.year.to_i
+      if year == now[:year] && month == now[:month]
+        break
+      end
+      d_sum += d_op.value.to_f
+    end
 
     # Считаем среднюю сумму трат в месяц за все время
     sum = {}
@@ -79,6 +98,9 @@ class StatisticController < ApplicationController
     category_average = {}
     category_sum.each do |year, item|
       item.each do |month, category|
+        if year == now[:year] && month == now[:month]
+          break
+        end
         category.each do |id, data|
           if category_average[id].nil?
             category_average[id] = 0
@@ -96,9 +118,11 @@ class StatisticController < ApplicationController
     # - Сумму всех трат в месяц
     # - Сумму трат по категориям в месяц
     # Формирование результатат для отправки в шаблон
+    d_average = (d_sum / month_count).round 2
     @result = {
       :average => average,
-      :category_average => category_average
+      :category_average => category_average,
+      :d_average => d_average
     }
     @chart = graph(sum, category_sum)
   end
