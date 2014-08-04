@@ -54,7 +54,7 @@ class StatisticController < ApplicationController
       end
       sum[year][month] += item.value.to_f
     end
-    month_count = 0
+    month_count = -1
     sum.each do |y, item|
       month_count += item.size
     end
