@@ -34,7 +34,7 @@ class StatisticController < ApplicationController
   end
 
   def average_spending
-    operations = Operation.where('type = 0').order('operation_date ASC')
+    operations = Operation.where('type = 0 and category_id > 0').order('operation_date ASC')
 
     # Считаем среднюю сумму трат в месяц за все время
     sum = {}
