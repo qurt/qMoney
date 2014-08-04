@@ -38,6 +38,22 @@ class StatisticController < ApplicationController
         :month => Time.zone.now.month.to_i,
         :year => Time.zone.now.year.to_i
     }
+    first_date = {}
+    first_operation = Operation.order(:operation_date => :asc)
+    first_operation.each do |item|
+      first_date = {
+          :month => item.operation_date.month.to_i,
+          :year => item.operation_date.year.to_i
+      }
+      break
+    end
+
+
+    if now[:year] > first_date[:year]
+      month_count = (now[:year] - first_date[:year]) * 12 + now[:month]
+    else
+      month_count = now[:month] - first_date[:month]
+    end
 
     operations = Operation.where('type = 0').order('operation_date ASC')
     # Считаем доход
@@ -82,10 +98,6 @@ class StatisticController < ApplicationController
         end
       end
       sum[year][month] += item.value.to_f
-    end
-    month_count = -1
-    sum.each do |y, item|
-      month_count += item.size
     end
     # Считаем среднюю сумму трат в месяц за все время, разделенную по категориям
     category_sum = {}
@@ -134,7 +146,7 @@ class StatisticController < ApplicationController
       :category_average => category_average,
       :d_average => d_average
     }
-    @chart = graph(sum, category_sum, d_sum_g)
+    @chart = graph(sum, category_sum, d_sum_g, first_date)
   end
 
   private
@@ -149,7 +161,7 @@ class StatisticController < ApplicationController
     title
   end
 
-  def graph(average_sum, average_category, d_sum)
+  def graph(average_sum, average_category, d_sum, first_date)
     series = {
       :sum => [],
       :cat => {},
@@ -164,10 +176,6 @@ class StatisticController < ApplicationController
         end
       end
     end
-    first_date = {
-      :month => 0,
-      :year => 0
-    }
     now = {
       :month => Time.zone.now.month.to_i - 1,
       :year => Time.zone.now.year.to_i
@@ -175,15 +183,6 @@ class StatisticController < ApplicationController
     if now[:month] == 0
       now[:month] = 12
       now[:year] -= 1
-    end
-    average_sum.each do |year, item|
-      item.each do |month, data|
-        first_date = {
-          :month => month,
-          :year => year
-        }
-        break
-      end
     end
     x_axis = []
     y = first_date[:year]
@@ -219,6 +218,7 @@ class StatisticController < ApplicationController
         m += 1
       end
       y += 1
+      m = 1
     end
 
     chart = LazyHighCharts::HighChart.new('graph') do |f|
