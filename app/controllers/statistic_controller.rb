@@ -43,6 +43,7 @@ class StatisticController < ApplicationController
     # Считаем доход
     d_operations = Operation.where('type = 1').order('operation_date ASC')
     d_sum = 0
+    d_sum_g = {}
     d_operations.each do |d_op|
       if d_op.operation_date.nil?
         d_op.operation_date = d_op.created_at.beginning_of_day
@@ -52,6 +53,11 @@ class StatisticController < ApplicationController
       if year == now[:year] && month == now[:month]
         break
       end
+      if d_sum_g[year].nil?
+        d_sum_g[year] = {}
+        d_sum_g[year][month] = 0
+      end
+      d_sum_g[year][month] += d_op.value.to_f
       d_sum += d_op.value.to_f
     end
 
@@ -124,7 +130,7 @@ class StatisticController < ApplicationController
       :category_average => category_average,
       :d_average => d_average
     }
-    @chart = graph(sum, category_sum)
+    @chart = graph(sum, category_sum, d_sum_g)
   end
 
   private
@@ -139,10 +145,11 @@ class StatisticController < ApplicationController
     title
   end
 
-  def graph(average_sum, average_category)
+  def graph(average_sum, average_category, d_sum)
     series = {
       :sum => [],
-      :cat => {}
+      :cat => {},
+      :d_sum => []
     }
     average_category.each do |y, data|
       data.each do |m, cat|
@@ -190,6 +197,12 @@ class StatisticController < ApplicationController
           series[:sum] << average_sum[y][m]
         end
 
+        if d_sum[y].nil? || d_sum[y][m].nil?
+          series[:d_sum] << 0
+        else
+          series[:d_sum] << d_sum[y][m]
+        end
+
         series[:cat].each do |id, value|
           if average_category[y].nil? || average_category[y][m].nil? || average_category[y][m][id].nil?
             series[:cat][id] << 0
@@ -212,12 +225,14 @@ class StatisticController < ApplicationController
       f.x_axis(:categories => x_axis)
       f.y_axis(:min => 0)
       series.each do |name, value|
-        if name.to_s != 'sum'
+        if name.to_s == 'cat'
           value.each do |title, sum|
             f.series(:name => title.to_s, :yAxis => 0, :data => sum)
           end
-        else
+        elsif name.to_s == 'sum'
           f.series(:name => 'Сумма', :yAxis => 0, :data => value)
+        elsif name.to_s == 'd_sum'
+          f.series(:name => 'Доход', :yAxis => 0, :data => value)
         end
       end
       f.plot_options(
