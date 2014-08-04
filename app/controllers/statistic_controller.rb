@@ -134,9 +134,13 @@ class StatisticController < ApplicationController
       :year => 0
     }
     now = {
-      :month => Time.zone.now.month.to_i,
+      :month => Time.zone.now.month.to_i - 1,
       :year => Time.zone.now.year.to_i
     }
+    if now[:month] == 0
+      now[:month] = 12
+      now[:year] -= 1
+    end
     average_sum.each do |year, item|
       item.each do |month, data|
         first_date = {
