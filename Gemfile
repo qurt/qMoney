@@ -41,6 +41,7 @@ gem 'bcrypt-ruby'
 
 group :production do
   gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
 
 gem 'bootstrap-datepicker-rails'
