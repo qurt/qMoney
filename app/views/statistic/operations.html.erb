@@ -42,7 +42,13 @@
            end
         %>
       <tr class="<%= style %>">
-        <td><%= item.description %></td>
+        <td>
+          <% if item.type != 2 %>
+              <%= link_to item.description, edit_operation_path(item) %>
+          <% else %>
+              <%= link_to item.description, edit_transfer_path(item) %>
+          <% end %>
+        </td>
         <td><%= item.value %></td>
       </tr>
       <% end %>
