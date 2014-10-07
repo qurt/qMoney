@@ -18,17 +18,15 @@
       <%= f.text_field :value, {:class => 'form-control', :placeholder => 'Сумма'} %>
     </div>
   </div>
-  <div class="form-group">
+  <div class="col-md-12 well form-group">
     <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
     <% unless @transfer.id.nil? %>
     <%= link_to 'Удалить', '/transfers/' + @transfer.id.to_s, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-danger' %>
     <% end %>
   </div>
-  <div class="form-group">
-    <%= hidden_field_tag('operation[category_id]', 0) %>
-    <%= hidden_field_tag('operation[type]', 2) %>
-    <%= hidden_field_tag('operation[account_from]', @transfer.account_id) %>
-    <%= hidden_field_tag('operation[account_to]', @transfer.transfer) %>
-    <%= hidden_field_tag('operation[old_sum]', @transfer.value) %>
-  </div>
+  <%= hidden_field_tag('operation[category_id]', 0) %>
+  <%= hidden_field_tag('operation[type]', 2) %>
+  <%= hidden_field_tag('operation[account_from]', @transfer.account_id) %>
+  <%= hidden_field_tag('operation[account_to]', @transfer.transfer) %>
+  <%= hidden_field_tag('operation[old_sum]', @transfer.value) %>
 <% end %>
