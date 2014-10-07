@@ -11,7 +11,7 @@ class StatisticController < ApplicationController
     end
     active_c = active_a = 0
     #Выбираем данные из базы
-    @operations = Operation.where('operation_date >= ? and operation_date <= ?', date_s, date_e)
+    @operations = Operation.where('operation_date >= ? and operation_date <= ?', date_s, date_e).order('created_at DESC')
     if params.has_key?(:c) && params[:c].to_i > 0
       @operations = @operations.where(:category_id => params[:c].to_i)
       active_c = params[:c]
