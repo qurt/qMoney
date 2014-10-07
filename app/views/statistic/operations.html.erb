@@ -28,6 +28,7 @@
       </tr>
       </thead>
       <tbody>
+      <% prev_date = nil %>
       <% @operations.each do |item| %>
         <%
            case item.type
@@ -41,16 +42,26 @@
                style = 'notice'
            end
         %>
-      <tr class="<%= style %>">
-        <td>
-          <% if item.type != 2 %>
+
+        <% if item.created_at != prev_date or prev_date.nil? %>
+          <tr class="notice">
+            <td><%= item.created_at %></td>
+            <td></td>
+          </tr>
+        <%
+           prev_date = item.created_at
+           end
+        %>
+        <tr class="<%= style %>">
+          <td>
+            <% if item.type != 2 %>
               <%= link_to item.description, edit_operation_path(item) %>
-          <% else %>
+            <% else %>
               <%= link_to item.description, edit_transfer_path(item) %>
-          <% end %>
-        </td>
-        <td><%= item.value %></td>
-      </tr>
+            <% end %>
+          </td>
+          <td><%= item.value %></td>
+        </tr>
       <% end %>
       </tbody>
     </table>
