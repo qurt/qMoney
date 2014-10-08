@@ -97,9 +97,10 @@ class HomeController < ApplicationController
   end
 
   def get_accounts_chart(operations)
-    operations = operations.where('type = 0')
     data = {}
     now = Time.now
+    first_day = '01.' + now.month.to_s + '.'+ now.year.to_s
+    operations = operations.where('type = 0').where('operation_date >= ?', first_day)
     # Выбираем оперции и группируем их по дате и кошельку
     data[:all] = {}
     operations.each do |item|
