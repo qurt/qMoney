@@ -43,13 +43,13 @@
            end
         %>
 
-        <% if item.created_at != prev_date or prev_date.nil? %>
+        <% if item.created_at.strftime('%d.%m.%Y') != prev_date or prev_date.nil? %>
           <tr class="notice">
-            <td><%= item.created_at %></td>
+            <td><%= item.created_at.strftime('%d.%m.%Y') %></td>
             <td></td>
           </tr>
         <%
-           prev_date = item.created_at
+           prev_date = item.created_at.strftime('%d.%m.%Y')
            end
         %>
         <tr class="<%= style %>">
