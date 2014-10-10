@@ -57,3 +57,5 @@ gem 'dentaku'
 
 #High Charts
 gem 'lazy_high_charts'
+
+gem 'foreman'
