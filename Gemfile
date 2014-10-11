@@ -42,6 +42,14 @@ gem 'bcrypt-ruby'
 group :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
+  gem 'unicorn'
+end
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
 end
 
 gem 'bootstrap-datepicker-rails'
@@ -49,3 +57,5 @@ gem 'dentaku'
 
 #High Charts
 gem 'lazy_high_charts'
+
+gem 'foreman'

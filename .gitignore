@@ -19,3 +19,8 @@
 /config/database.yml
 .DS_Store
 /db/schema.rb
+
+/Procfile
+/config/deploy/
+/shared/
+/public/system/
