@@ -59,3 +59,5 @@ gem 'dentaku'
 gem 'lazy_high_charts'
 
 gem 'foreman'
+
+gem 'le'

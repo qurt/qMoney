@@ -78,6 +78,7 @@ GEM
     lazy_high_charts (1.5.4)
       bundler (>= 1.0)
       hash-deep-merge
+    le (2.5.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -174,6 +175,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   lazy_high_charts
+  le
   newrelic_rpm
   pg
   rails (= 4.0.3)
