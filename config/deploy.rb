@@ -77,7 +77,7 @@ namespace :deploy do
       execute "mkdir /srv/www/rails/#{application}/run/"
       execute "mkdir /srv/www/rails/#{application}/log/"
       execute "mkdir /srv/www/rails/#{application}/socket/"
-      execute "mkdir /#{shared_path}/system"
+      execute "mkdir #{shared_path}/system"
       sudo "ln -s /var/log/upstart /srv/www/log"
 
       upload!('shared/database.yml', "#{shared_path}/config/database.yml")
@@ -85,10 +85,10 @@ namespace :deploy do
       upload!('shared/Procfile', "#{shared_path}/Procfile")
 
       upload!('shared/nginx.conf', "#{shared_path}/nginx.conf")
-      sudo 'stop nginx'
-      sudo 'rm -f /usr/local/nginx/conf/nginx.conf'
-      sudo "ln -s #{shared_path}/nginx.conf /usr/local/nginx/conf/nginx.conf"
-      sudo 'start nginx'
+      sudo 'service nginx stop'
+      sudo 'mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf_b'
+      sudo "ln -s #{shared_path}/nginx.conf /etc/nginx/nginx.conf"
+      sudo 'service nginx start'
 
       within release_path do
         with rails_env: fetch(:rails_env) do
@@ -101,7 +101,7 @@ namespace :deploy do
   desc 'Create symlink'
   task :symlink do
     on roles(:all) do
-      execute "ln -s #{shared_path}/database.yml #{release_path}/config/database.yml"
+      execute "ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
       execute "ln -s #{shared_path}/Procfile #{release_path}/Procfile"
     end
   end
