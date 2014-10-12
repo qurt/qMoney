@@ -90,11 +90,13 @@ namespace :deploy do
       sudo "ln -s #{shared_path}/nginx.conf /etc/nginx/nginx.conf"
       sudo 'service nginx start'
 
+=begin
       within release_path do
         with rails_env: fetch(:rails_env) do
           execute :rake, 'db:setup'
         end
       end
+=end
     end
   end
 
