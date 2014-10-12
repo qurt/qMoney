@@ -7,6 +7,7 @@ application = 'qmoney'
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.3'
 set :deploy_to, '/srv/www/rails/qmoney'
+set :normalize_asset_timestamps, %{public/images public/javascripts public/stylesheets}
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -134,6 +135,7 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:cleanup'
+  after :finishing, 'deploy:compile_assets'
   after :finishing, 'deploy:restart'
 
   after :updating, 'deploy:symlink'
