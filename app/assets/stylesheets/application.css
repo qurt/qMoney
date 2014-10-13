@@ -13,3 +13,7 @@
  *= require bootstrap-datepicker3
  *= require_tree .
  */
+
+* {
+  font-family: "Roboto Condensed", sans-serif !important;
+}
