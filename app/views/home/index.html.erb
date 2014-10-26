@@ -75,14 +75,6 @@
       </tr>
       <% end %>
       </tbody>
-      <% if @operations.sum(&:value) > 0 %>
-      <tfoot>
-      <tr class="info">
-        <td class="pull-right"><strong>ИТОГО:</strong></td>
-        <td><%= @operations.where(type: 0).sum(&:value) %></td>
-      </tr>
-      </tfoot>
-      <% end %>
     </table>
   </div>
 </div>
