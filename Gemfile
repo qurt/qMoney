@@ -41,7 +41,6 @@ gem 'bcrypt-ruby'
 
 group :production do
   gem 'rails_12factor'
-  gem 'newrelic_rpm'
   gem 'unicorn'
 end
 
