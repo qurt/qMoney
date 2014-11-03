@@ -46,7 +46,7 @@ class OperationsController < ApplicationController
     respond_to do |format|
       if @operation.save
         account.save
-        format.html { redirect_to home_index_path, notice: 'Operation was successfully created.' }
+        format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @operation }
       else
         format.html { render action: 'new' }
