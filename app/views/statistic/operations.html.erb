@@ -1,10 +1,10 @@
 <div class="row">
   <form method="get">
     <div class="col-md-4">
-      <div class="input-daterange input-group" id="datepicker-range" data-behaviour="datepicker_range">
-        <input type="text" class="form-control" name="date_s" value="<%= @filter[:date_s].strftime('%d.%m.%Y') %>" />
+      <div class="input-daterange input-group" id="datepicker-range">
+        <input type="text" class="form-control" name="date_s" value="<%= @filter[:date_s].strftime('%d.%m.%Y') %>" data-behaviour="datepicker_range" />
         <span class="input-group-addon">-</span>
-        <input type="text" class="form-control" name="date_e" value="<%= @filter[:date_e].strftime('%d.%m.%Y') %>" />
+        <input type="text" class="form-control" name="date_e" value="<%= @filter[:date_e].strftime('%d.%m.%Y') %>" data-behaviour="datepicker_range" />
       </div>
     </div>
     <div class="col-md-3">
