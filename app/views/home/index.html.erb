@@ -30,13 +30,6 @@
       <%= notice %>
     </div>
   <% end %>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="col-md-5">
-        <%= high_chart('category_chart', @chart[:categories]) %>
-      </div>
-    </div>
-  </div>
   <div class="panel panel-primary">
     <div class="panel-heading">Журнал операций <div class="pull-right panel-title"><%= link_to 'Посмотреть все', statistic_operations_path, :class => 'small' %></div></div>
     <table class="table table-striped">
@@ -73,5 +66,10 @@
       <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= high_chart('category_chart', @chart[:categories]) %>
+    </div>
   </div>
 </div>

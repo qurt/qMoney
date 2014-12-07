@@ -66,7 +66,7 @@ class HomeController < ApplicationController
     chart = LazyHighCharts::HighChart.new('pie') do |f|
       f.chart({
         :height => 300,
-        :margin => [0, 100, 0, 0]
+        :margin => [25, 100, 0, 0]
       })
       f.title(
         :text => 'Категории'
@@ -155,7 +155,7 @@ class HomeController < ApplicationController
     chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.chart({
         :defaultSeriesType => 'spline',
-        :height => 300
+        :height => 350
       })
       f.title(:text => 'Кошельки')
       f.y_axis({:min => 0, :max=> 5000})
