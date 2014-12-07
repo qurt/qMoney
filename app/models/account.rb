@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
   validates :value, presence: true, numericality: true
-  validates :title, presence: true
+  validates :name, presence: true
   has_many :operations
 end

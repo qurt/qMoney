@@ -29,7 +29,7 @@ class HomeController < ApplicationController
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),
-        :accounts => get_accounts_chart(@operations)
+       # :accounts => get_accounts_chart(@operations) todo delete?
     }
     @operations = @operations.order('created_at DESC').limit(5)
   end

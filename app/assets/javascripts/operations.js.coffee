@@ -10,13 +10,9 @@ ready = ->
       category.show()
     return
 
-  $('[data-behaviour~=datepicker]').datepicker({
+  $('[data-behaviour~=datepicker]').pickadate({
     format: "yyyy-mm-dd",
-    weekStart: 1,
-    todayBtn: "linked",
-    language: "ru",
-    autoclose: true,
-    todayHighlight: true
+    formatSubmit: "yyyy-mm-dd"
   })
 
 $(document).ready(ready)

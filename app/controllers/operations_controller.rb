@@ -40,13 +40,13 @@ class OperationsController < ApplicationController
       @operation.category_id = 0
     end
 
-    custom_date = Time.zone.parse(params[:operation][:custom_date])
+    custom_date = Time.zone.parse(params[:custom_date])
     @operation.operation_date = custom_date.beginning_of_day
 
     respond_to do |format|
       if @operation.save
         account.save
-        format.html { redirect_to home_index_path, notice: 'Operation was successfully created.' }
+        format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @operation }
       else
         format.html { render action: 'new' }
@@ -71,7 +71,7 @@ class OperationsController < ApplicationController
     end
     add_account(account, new_params[:type], new_params[:value])
 
-    custom_date = Time.zone.parse(params[:operation][:custom_date])
+    custom_date = Time.zone.parse(params[:custom_date])
     @operation.operation_date = custom_date.beginning_of_day
 
     respond_to do |format|

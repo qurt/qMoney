@@ -2,13 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 ready = ->
-  $('[data-behaviour~=datepicker_range]').datepicker({
-    format: "dd.mm.yyyy",
-    weekStart: 1,
-    todayBtn: "linked",
-    language: "ru",
-    autoclose: true,
-    todayHighlight: true
+  $('[data-behaviour~=datepicker_range]').pickadate({
+    format: "dd.mm.yyyy"
   })
 
 $(document).ready(ready)
