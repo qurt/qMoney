@@ -7,10 +7,10 @@
 
     <div class="list-group">
       <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.sum(&:value) %></span>Всего</div>
+      <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
         <div class="list-group-item ">
           <span class="badge"><%= item.value %></span>
-          <% unless @accounts_pay[item.id].nil? %><span class="badge"><%= @accounts_pay[item.id][:value] %></span><% end %>
           <%= item.name %>
         </div>
       <% end %>

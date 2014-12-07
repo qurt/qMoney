@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     operations = get_operations(account, category)
     # Generate categories list from operations
     @categories = {}
-    @accounts_pay = {}
+    @accounts_pay = 0
     operations.each do |item|
       if item.category_id != 0 and item.type == 0
         if @categories[item.category.id].nil?
@@ -24,11 +24,7 @@ class HomeController < ApplicationController
           @categories[item.category.id][:value] += item.value.to_f
         end
       end
-      if @accounts_pay[item.account_id].nil?
-        @accounts_pay[item.account_id] = {account: item.account.name, value: item.value.to_f}
-      else
-        @accounts_pay[item.account_id][:value] += item.value.to_f
-      end
+        @accounts_pay += item.value.to_f
     end
     # Get credits list
     @credits = Credit.where.not(value:0)
