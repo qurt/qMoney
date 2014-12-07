@@ -50,7 +50,7 @@
            date = @operation.operation_date.strftime('%Y-%m-%d')
          end
       %>
-      <%= text_field_tag('operation[custom_date]', date, :class => 'form-control', 'data-behaviour' => 'datepicker') %>
+      <%= text_field_tag('custom_date', date, :class => 'form-control', 'data-behaviour' => 'datepicker') %>
     </div>
   </div>
   <div class="col-md-12 form-group">

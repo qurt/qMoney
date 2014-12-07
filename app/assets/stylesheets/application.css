@@ -10,7 +10,9 @@
  *
  *= require_self
  *= require bootstrap
- *= require bootstrap-datepicker3
+ * require bootstrap-datepicker3
+ *= require themes/default.css
+ *= require themes/default.date
  *= require_tree .
  */
 
