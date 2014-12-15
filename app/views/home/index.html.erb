@@ -7,8 +7,12 @@
 
     <div class="list-group">
       <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.sum(&:value) %></span>Всего</div>
+      <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
-        <div class="list-group-item "><span class="badge"><%= item.value %></span><%= item.name %></div>
+        <div class="list-group-item ">
+          <span class="badge"><%= item.value %></span>
+          <%= item.name %>
+        </div>
       <% end %>
     </div>
   </div>
@@ -37,10 +41,11 @@
       <tr>
         <th>Описание</th>
         <th>Сумма</th>
+        <th>Дата</th>
       </tr>
       </thead>
       <tbody>
-      <% @operations.each do |item| %>
+      <% @operations_history.each do |item| %>
         <%
         case item.type
           when 0
@@ -62,6 +67,7 @@
           <% end %>
         </td>
         <td><%= item.value %></td>
+        <td><%= item.operation_date.strftime('%d.%m.%Y') %></td>
       </tr>
       <% end %>
       </tbody>
