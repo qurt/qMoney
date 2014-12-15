@@ -12,17 +12,19 @@ class HomeController < ApplicationController
     # Get accounts list
     @accounts = Account.order(:name)
     # Get operations list
-    @operations = get_operations(account, category)
+    operations = get_operations(account, category)
     # Generate categories list from operations
     @categories = {}
-    @operations.each do |item|
+    @accounts_pay = 0
+    operations.each do |item|
       if item.category_id != 0 and item.type == 0
         if @categories[item.category.id].nil?
-          @categories[item.category.id] = {title: item.category.title, value: item.value.to_i}
+          @categories[item.category.id] = {title: item.category.title, value: item.value.to_f}
         else
-          @categories[item.category.id][:value] += item.value.to_i
+          @categories[item.category.id][:value] += item.value.to_f
         end
       end
+        @accounts_pay += item.value.to_f
     end
     # Get credits list
     @credits = Credit.where.not(value:0)
@@ -31,7 +33,7 @@ class HomeController < ApplicationController
         :categories => get_categories_chart(@categories),
        # :accounts => get_accounts_chart(@operations) todo delete?
     }
-    @operations = @operations.order('created_at DESC').limit(5)
+    @operations_history = Operation.order('created_at DESC').limit(5)
   end
 
   private
@@ -45,11 +47,11 @@ class HomeController < ApplicationController
     now = Time.now
     start_date = Time.mktime(now.year, now.month)
     if account == 0 && category == 0
-      operations = Operation.where('operations.created_at >= ?', start_date)
+      operations = Operation.where('operations.operation_date >= ?', start_date)
     elsif account > 0 && category == 0
-      operations = Account.find(account).operations.where('created_at >= ?', start_date)
+      operations = Account.find(account).operations.where('operation_date >= ?', start_date)
     elsif account == 0 && category > 0
-      operations = Category.find(category).operations.where('created_at >= ?', start_date)
+      operations = Category.find(category).operations.where('operation_date >= ?', start_date)
     else
       operations = Operation.where(category_id: category, account_id: account)
     end
@@ -66,7 +68,7 @@ class HomeController < ApplicationController
     chart = LazyHighCharts::HighChart.new('pie') do |f|
       f.chart({
         :height => 300,
-        :margin => [0, 100, 0, 0]
+        :margin => [25, 100, 0, 0]
       })
       f.title(
         :text => 'Категории'
@@ -155,7 +157,7 @@ class HomeController < ApplicationController
     chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.chart({
         :defaultSeriesType => 'spline',
-        :height => 300
+        :height => 350
       })
       f.title(:text => 'Кошельки')
       f.y_axis({:min => 0, :max=> 5000})
