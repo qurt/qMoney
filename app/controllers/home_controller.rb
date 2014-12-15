@@ -24,7 +24,9 @@ class HomeController < ApplicationController
           @categories[item.category.id][:value] += item.value.to_f
         end
       end
+      if item.type == 0
         @accounts_pay += item.value.to_f
+      end
     end
     # Get credits list
     @credits = Credit.where.not(value:0)
