@@ -1,20 +1,20 @@
 <%= form_tag('', class: 'form-horizontal') do %>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3 well">
-      <legend>Необходима авторизация</legend>
-      <div class="form-group">
-        <%= label_tag :name, 'Имя пользователя', :class => 'col-sm-4 control-label' %>
-        <div class="col-md-8">
+  <div class="container">
+    <div class="login_box content_block">
+      <div class="header">
+        Необходима авторизация
+      </div>
+      <div class="content">
+        <div class="row">
+          <%= label_tag :name, 'Имя пользователя', :class => 'col-sm-4 control-label' %>
           <%= text_field_tag :name, params[:name], :class => 'form-control' %>
         </div>
-      </div>
-      <div class="form-group">
-        <%= label_tag :password, 'Пароль', :class => 'col-sm-4 control-label' %>
-        <div class="col-md-8">
+        <div class="row">
+          <%= label_tag :password, 'Пароль', :class => 'col-sm-4 control-label' %>
           <%= password_field_tag :password, params[:password], :class => 'form-control' %>
         </div>
+        <%= submit_tag 'Войти', :class => 'btn btn-primary btn-block' %>
       </div>
-      <%= submit_tag 'Войти', :class => 'btn btn-primary btn-block' %>
     </div>
   </div>
 <% end %>

@@ -1,0 +1,9 @@
+// Файл содержит стили, использующиеся в формах
+
+label {
+  @include span-columns(3 of 10);
+}
+input {
+  @include span-columns(7 of 10);
+  @include omega();
+}

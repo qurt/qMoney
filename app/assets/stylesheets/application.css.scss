@@ -1,3 +1,6 @@
+@import "bourbon";
+@import "neat";
+@import "neat-helpers";
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -13,8 +16,28 @@
  *= require themes/default.date
  */
 
-@import "bourbon";
+@import "var";
+
+@import "forms";
+
+@import "sessions";
+
+@include reset-all;
 
 * {
   font-family: "Roboto", sans-serif !important;
+}
+
+.container {
+  @include outer-container;
+}
+.row {
+  @include row();
+  @include margin(null null 1em null);
+}
+.content_block {
+  background: #ffffff;
+  border: 1px solid $base-border-color;
+  box-shadow: 0 2px 4px darken($base-background-color, 10);
+  border-radius: $base-border-radius;
 }
