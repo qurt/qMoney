@@ -8,7 +8,7 @@ gem 'sqlite3', group: :development
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 5.0.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -60,3 +60,7 @@ gem 'lazy_high_charts'
 gem 'foreman'
 
 gem 'le'
+
+#Bourbon
+gem 'bourbon'
+gem 'neat'

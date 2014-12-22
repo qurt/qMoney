@@ -35,6 +35,9 @@ GEM
       bcrypt (>= 3.1.3)
     bootstrap-datepicker-rails (1.3.0.2)
       railties (>= 3.0)
+    bourbon (3.2.3)
+      sass (~> 3.2)
+      thor
     builder (3.1.4)
     capistrano (3.2.1)
       i18n
@@ -85,6 +88,9 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.9.0)
+    neat (1.5.0)
+      bourbon (>= 2.1)
+      sass (>= 3.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
@@ -117,10 +123,12 @@ GEM
     rdoc (4.1.1)
       json (~> 1.4)
     sass (3.2.14)
-    sass-rails (4.0.1)
+    sass-rails (5.0.0)
       railties (>= 4.0.0, < 5.0)
-      sass (>= 3.1.10)
-      sprockets-rails (~> 2.0.0)
+      sass (~> 3.1)
+      sprockets (>= 2.8, < 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
+      tilt (~> 1.1)
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
@@ -164,6 +172,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt-ruby
   bootstrap-datepicker-rails
+  bourbon
   capistrano
   capistrano-bundler
   capistrano-rails
@@ -175,10 +184,11 @@ DEPENDENCIES
   jquery-rails
   lazy_high_charts
   le
+  neat
   pg
   rails (= 4.0.3)
   rails_12factor
-  sass-rails (~> 4.0.0)
+  sass-rails (~> 5.0.0)
   sdoc
   sqlite3
   turbolinks
