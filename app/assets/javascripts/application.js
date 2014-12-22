@@ -13,12 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap
 //= require pikadate/picker.js
 //= require pikadate/picker.date
 //= require pikadate/translations/ru_RU
-// require bootstrap-datepicker
-// require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require highcharts/highcharts
 //= require highcharts/highcharts-more
 //= require_tree .

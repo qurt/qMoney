@@ -9,12 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require bootstrap
- * require bootstrap-datepicker3
  *= require themes/default.css
  *= require themes/default.date
- *= require_tree .
  */
+
+@import "bourbon";
 
 * {
   font-family: "Roboto", sans-serif !important;
