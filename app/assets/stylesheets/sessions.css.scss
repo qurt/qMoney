@@ -3,19 +3,20 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .login_box {
-  @include span-columns(10);
-  @include shift(1);
+  @include span-columns(8);
+  @include shift(2);
 
   .header {
-    @include span-columns(10 of 10);
+    @include span-columns(8 of 8);
     border-bottom: 1px solid $base-border-color;
     @include pad();
+    font-size: $base-font-size + 5;
   }
   .content {
-    @include span-columns(10 of 10);
+    @include span-columns(8 of 8);
     @include pad();
   }
 }
 input[type="submit"] {
-  @include span-columns(10 of 10);
+  float: right;
 }

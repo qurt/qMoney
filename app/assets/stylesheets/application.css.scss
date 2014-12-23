@@ -19,18 +19,23 @@
 @import "var";
 
 @import "forms";
+@import "buttons";
 
 @import "sessions";
 
 @include reset-all;
 
-* {
+body {
   font-family: "Roboto", sans-serif !important;
+  font-size: $base-font-size;
+  color: $base-font-color;
+  background-color: $base-background-color;
 }
 
 .container {
   @include outer-container;
 }
+
 .row {
   @include row();
   @include margin(null null 1em null);
@@ -38,6 +43,6 @@
 .content_block {
   background: #ffffff;
   border: 1px solid $base-border-color;
-  box-shadow: 0 2px 4px darken($base-background-color, 10);
+  box-shadow: $shadow-1lvl;
   border-radius: $base-border-radius;
 }

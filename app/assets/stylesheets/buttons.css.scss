@@ -1,0 +1,25 @@
+// Стили кнопок
+
+.btn {
+  min-width: 48px;
+  padding: 0 8px;
+  margin: 0 4px;
+  text-transform: uppercase;
+  height: 36px;
+  line-height: 36px;
+  border: none;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: $base-border-radius;
+  box-shadow: $shadow-1lvl;
+  cursor: pointer;
+}
+
+@each $button in $button-color  {
+  .button_#{nth($button, 1)} {
+    background-color: nth($button, 2);
+  }
+  .button_#{nth($button, 1)}:hover {
+    background-color: lighten(nth($button, 2), 10);
+  }
+}

@@ -1,6 +1,13 @@
 // Файл содержит различные переменные стилей
 
-$base-background-color: #c2c2c2;
+$base-background-color: #f5f5f5;
+
 $base-border-color: #c2c2c2;
 $base-border-radius: 2px;
-$base-font-size: 11pt;
+
+$base-font-size: 12pt;
+$base-font-color: #121212;
+
+$shadow-1lvl: 0 2px 4px darken($base-background-color, 20);
+
+$button-color: (primary #2196F3)(success #4CAF50);
