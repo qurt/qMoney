@@ -1,10 +1,10 @@
 // Файл содержит стили, использующиеся в формах
 
 label {
-  @include span-columns(3);
+  @include span-columns(4);
 }
 .form_input {
-  @include span-columns(9);
+  @include span-columns(8);
   @include omega();
   border: none;
   border-bottom: 1px solid $base-font-color;
