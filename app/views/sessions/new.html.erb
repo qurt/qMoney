@@ -1,19 +1,19 @@
 <%= form_tag('', class: '') do %>
   <div class="container">
-    <div class="login_box content_block">
+    <div class="login-box content-block">
       <div class="header">
         Необходима авторизация
       </div>
       <div class="content">
         <div class="row">
           <%= label_tag :name, 'Имя пользователя', :class => '' %>
-          <%= text_field_tag :name, params[:name], :class => 'form_input' %>
+          <%= text_field_tag :name, params[:name], :class => 'form-input' %>
         </div>
         <div class="row">
           <%= label_tag :password, 'Пароль', :class => '' %>
-          <%= password_field_tag :password, params[:password], :class => 'form_input' %>
+          <%= password_field_tag :password, params[:password], :class => 'form-input' %>
         </div>
-        <%= submit_tag 'Войти', :class => 'btn button_primary' %>
+        <%= submit_tag 'Войти', :class => 'btn button-primary' %>
       </div>
     </div>
   </div>

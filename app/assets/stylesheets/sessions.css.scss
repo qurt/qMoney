@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.login_box {
+.login-box {
   @include span-columns(8);
   @include shift(2);
   @include media(max-width 769px) {

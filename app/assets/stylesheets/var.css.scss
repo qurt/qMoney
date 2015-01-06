@@ -1,11 +1,13 @@
 // Файл содержит различные переменные стилей
+$mobile-screen: 360px;
+$large-screen: 768px;
 
 $base-background-color: #f5f5f5;
 
 $base-border-color: #c2c2c2;
 $base-border-radius: 2px;
 
-$base-font-size: 12pt;
+$base-font-size: 14px;
 $base-font-color: #121212;
 
 $shadow-1lvl: 0 2px 4px darken($base-background-color, 20);

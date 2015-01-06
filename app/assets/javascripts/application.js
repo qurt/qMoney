@@ -19,3 +19,18 @@
 //= require highcharts/highcharts
 //= require highcharts/highcharts-more
 //= require_tree .
+
+$(document).ready(function() {
+  var menu = $('#js-navigation-menu');
+  menu.removeClass("show");
+
+  $('#js-mobile-menu').on('click', function(e) {
+    e.preventDefault();
+    menu.slideToggle(function(){
+      if(menu.is(':hidden')) {
+        menu.removeAttr('style');
+      }
+    });
+  });
+});
+

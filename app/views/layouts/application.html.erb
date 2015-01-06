@@ -12,53 +12,37 @@
 </head>
 <body>
 <% unless session[:user_id].nil? %>
-<nav class="navbar navbar-inverse" role="navigation">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">qMoney</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Справочники <b class="caret"></b></a>
-          <ul class="dropdown-menu">
+<header class="navigation">
+  <div class="navigation-wrapper">
+    <!--<a href="/" class="logo">qMoney</a>-->
+    <!--<a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">menu</a>-->
+    <div class="nav">
+      <ul id="js-navigation-menu" class="navigation-menu show">
+        <li class="nav-item"><a href="/">Главная</a></li>
+        <li class="nav-item more">
+          <a href="javascript:void(0)">Справочники</a>
+          <ul class="submenu">
             <li><%= link_to 'Кошельки', accounts_path %></li>
             <li><%= link_to 'Категории', categories_path %></li>
             <li><%= link_to 'Долги', credits_path %></li>
             <li><%= link_to 'Пользователи', users_path %></li>
           </ul>
         </li>
-        <li><a href="/operations/new">Внести доход/расход</a></li>
-        <li><%= link_to 'Переместить средства', new_transfer_path %></li>
-        <li><%= link_to 'Операции с долгами', transfer_credits_path %></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Статистика <b class="caret"></b></a>
-          <ul class="dropdown-menu">
+        <li class="nav-item"><%= link_to 'Внести доход/расход', new_operation_path %></li>
+        <li class="nav-item"><%= link_to 'Переместить средства', new_transfer_path %></li>
+        <li class="nav-item"><%= link_to 'Операции с долгами', transfer_credits_path %></li>
+        <li class="nav-item more">
+          <a href="javascript:void(0)">Справочники</a>
+          <ul class="submenu">
             <li><%= link_to 'Журнал операций', statistic_operations_path %></li>
             <li><%= link_to 'Траты за месяц', statistic_average_spending_path %></li>
           </ul>
         </li>
+        <!--<li class="logout-button"><%= link_to 'Выйти', logout_path, method: :delete %></li>-->
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= session[:user_name] %> <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Выйти', logout_path, method: :delete %></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+    </div>
+  </div>
+</header>
 <% end %>
 
 <div class="container"><div class="row"><%= yield %></div></div>

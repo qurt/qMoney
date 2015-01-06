@@ -16,10 +16,10 @@
 }
 
 @each $button in $button-color  {
-  .button_#{nth($button, 1)} {
+  .button-#{nth($button, 1)} {
     background-color: nth($button, 2);
   }
-  .button_#{nth($button, 1)}:hover {
+  .button-#{nth($button, 1)}:hover {
     background-color: lighten(nth($button, 2), 10);
   }
 }
