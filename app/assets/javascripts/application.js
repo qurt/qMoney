@@ -21,15 +21,21 @@
 //= require_tree .
 
 $(document).ready(function() {
-  var menu = $('#js-navigation-menu');
-  menu.removeClass("show");
+  var menu = $('header.navigation');
 
+  $('#menu-fade').on('click', function() {
+    if(menu.is(':visible')) {
+      menu.toggle();
+      $(this).hide();
+    }
+  });
   $('#js-mobile-menu').on('click', function(e) {
     e.preventDefault();
-    menu.slideToggle(function(){
+    menu.toggle(function(){
       if(menu.is(':hidden')) {
         menu.removeAttr('style');
       }
+      $('#menu-fade').toggle();
     });
   });
   var more_button = $('li.more').find('a');

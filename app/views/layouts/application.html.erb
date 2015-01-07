@@ -12,10 +12,11 @@
 </head>
 <body>
 <% unless session[:user_id].nil? %>
+<div class="navigation-menu-button" id="js-mobile-menu"><a href="javascript:void(0)">&#9776;</a></div>
+<div id="menu-fade"></div>
 <header class="navigation">
   <div class="navigation-wrapper">
     <!--<a href="/" class="logo">qMoney</a>-->
-    <!--<a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">menu</a>-->
     <div class="nav">
       <ul id="js-navigation-menu" class="navigation-menu show">
         <li class="nav-item"><a href="/">Главная</a></li>
@@ -45,7 +46,7 @@
 </header>
 <% end %>
 
-<div class="container"><div class="row"><%= yield %></div></div>
+<div class="main-container"><div class="container"><div class="row"><%= yield %></div></div></div>
 
 </body>
 </html>
