@@ -20,7 +20,7 @@
 //= require highcharts/highcharts-more
 //= require_tree .
 
-$(document).ready(function() {
+var ready = function() {
   var menu = $('header.navigation');
 
   $('#menu-fade').on('click', function() {
@@ -42,5 +42,7 @@ $(document).ready(function() {
   more_button.click(function () {
     $(this).parent().find('ul.submenu').toggle();
   });
-});
+};
 
+$(document).ready(ready());
+$(document).on('page:load', ready());

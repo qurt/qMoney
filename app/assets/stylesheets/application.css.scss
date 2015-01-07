@@ -92,7 +92,6 @@ header.navigation {
   position: fixed;
   top:0;
   left: 0;
-  padding-left: .8em;
   padding-top: .8em;
   display: none;
   z-index: 9999;
@@ -129,51 +128,33 @@ header.navigation {
           a {
             color: $link-color;
             text-decoration: none;
+            width: 100%;
+            background: $background-color;
+            display: block;
             &:hover {
               color: #ffffff;
+              background-color: lighten($background-color, 5);
             }
           }
           .submenu {
             display: none;
             padding-left: 0;
 
-            @include media($large-screen) {
-              left: -$nav-padding-submenu;
-              position: absolute;
-              top: 52px;
-            }
-
             li {
               display: block;
               padding-right: 0;
-
-              @include media($large-screen) {
-                line-height: 30px;
-
-                &:first-child > a {
-                  border-top-left-radius: $base-border-radius;
-                  border-top-right-radius: $base-border-radius;
-                }
-
-                &:last-child > a {
-                  border-bottom-left-radius: $base-border-radius;
-                  border-bottom-right-radius: $base-border-radius;
-                  padding-bottom: .7em;
-                }
-              }
+              line-height: 30px;
 
               a {
-                //background-color: darken($background-color, 3);
+                background-color: lighten($background-color, 10);
                 display: inline-block;
-                text-align: right;
+                text-align: left;
                 width: 100%;
-                color: $base-font-color;
+                color: $link-color;
 
-                @include media($large-screen) {
-                  //background-color: $background-color;
-                  padding-left: $nav-padding-submenu;
-                  text-align: left;
-                  width: 12em;
+                &:hover {
+                  color: #ffffff;
+                  background-color: lighten($background-color, 20);
                 }
               }
             }
@@ -196,7 +177,7 @@ header.navigation {
           }
 
           > a:after {
-            @include position(absolute, auto -.4em auto auto);
+            @include position(absolute, auto 0 auto auto);
             content: '\25BE';
             color: $link-color;
           }
