@@ -32,5 +32,9 @@ $(document).ready(function() {
       }
     });
   });
+  var more_button = $('li.more').find('a');
+  more_button.click(function () {
+    $(this).parent().find('ul.submenu').toggle();
+  });
 });
 
