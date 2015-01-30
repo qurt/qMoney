@@ -1,5 +1,8 @@
 QMoney::Application.routes.draw do
 
+  get "shop_list/new"
+  get "shop_list/update"
+  get "shop_list/delete"
   get "statistic/operations"
   get "statistic/average_spending"
 
