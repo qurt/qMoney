@@ -1,11 +1,11 @@
 # config valid only for Capistrano 3.1
-lock '3.3.5'
+lock '3.2.1'
 
 set :application, 'qmoney'
 set :repo_url, 'git@github.com:qurt/qMoney.git'
 application = 'qmoney'
 set :rvm_type, :user
-set :rvm_ruby_version, '2.1.3'
+set :rvm_ruby_version, '2.2.0'
 set :deploy_to, '/srv/www/rails/qmoney'
 set :normalize_asset_timestamps, %{public/images public/javascripts public/stylesheets}
 
