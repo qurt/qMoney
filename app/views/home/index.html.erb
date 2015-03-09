@@ -63,7 +63,7 @@
             <%= link_to item.description, edit_transfer_path(item) %>
           <% end %>
         </td>
-        <td><%= item.value %></td>
+        <td><%= item.value.to_f %></td>
         <td><%= item.operation_date.strftime('%d.%m.%Y') %></td>
       </tr>
       <% end %>
