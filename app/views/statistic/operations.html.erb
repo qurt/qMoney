@@ -55,9 +55,9 @@
         <tr class="<%= style %>">
           <td>
             <% if item.type != 2 %>
-              <%= link_to item.description, edit_operation_path(item) %>
+              <%= link_to item.description.mb_chars.capitalize, edit_operation_path(item) %>
             <% else %>
-              <%= link_to item.description, edit_transfer_path(item) %>
+              <%= link_to item.description.mb_chars.capitalize, edit_transfer_path(item) %>
             <% end %>
           </td>
           <td><%= item.value.round(2) %></td>
