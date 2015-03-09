@@ -60,7 +60,7 @@
               <%= link_to item.description, edit_transfer_path(item) %>
             <% end %>
           </td>
-          <td><%= item.value.to_f %></td>
+          <td><%= item.value.round(2) %></td>
         </tr>
       <% end %>
       </tbody>
