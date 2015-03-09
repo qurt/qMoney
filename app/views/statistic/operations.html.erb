@@ -60,7 +60,7 @@
               <%= link_to item.description, edit_transfer_path(item) %>
             <% end %>
           </td>
-          <td><%= item.value %></td>
+          <td><%= item.value.to_f %></td>
         </tr>
       <% end %>
       </tbody>
