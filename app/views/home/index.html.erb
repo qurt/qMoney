@@ -7,7 +7,7 @@
       <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
         <div class="list-group-item ">
-          <span class="badge"><%= item.value %></span>
+          <span class="badge"><%= item.value.to_f %></span>
           <%= item.name %>
         </div>
       <% end %>
@@ -19,7 +19,7 @@
 
     <div class="list-group">
       <% @credits.each do |item| %>
-        <div class="list-group-item <%= 'list-group-item-' + (item.value > 0 ? 'success' : 'danger') %>"><%= item.name %><span class="badge"><%= item.value %></span></div>
+        <div class="list-group-item <%= 'list-group-item-' + (item.value > 0 ? 'success' : 'danger') %>"><%= item.name %><span class="badge"><%= item.value.to_f %></span></div>
       <% end %>
     </div>
   </div>
