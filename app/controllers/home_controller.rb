@@ -25,7 +25,7 @@ class HomeController < ApplicationController
         end
       end
       if item.type == 0
-        @accounts_pay += item.value.to_f
+        @accounts_pay += item.value
       end
     end
     # Get credits list

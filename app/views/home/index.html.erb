@@ -4,10 +4,10 @@
 
     <div class="list-group">
       <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > 0').sum('value') %></span>Всего</div>
-      <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay.to_f %></span>Всего портачено</div>
+      <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay.round(2) %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
         <div class="list-group-item ">
-          <span class="badge"><%= item.value.to_f %></span>
+          <span class="badge"><%= item.value.round(2) %></span>
           <%= item.name %>
         </div>
       <% end %>
@@ -19,7 +19,7 @@
 
     <div class="list-group">
       <% @credits.each do |item| %>
-        <div class="list-group-item <%= 'list-group-item-' + (item.value > 0 ? 'success' : 'danger') %>"><%= item.name %><span class="badge"><%= item.value.to_f %></span></div>
+        <div class="list-group-item <%= 'list-group-item-' + (item.value > 0 ? 'success' : 'danger') %>"><%= item.name %><span class="badge"><%= item.value.round(2) %></span></div>
       <% end %>
     </div>
   </div>
@@ -63,7 +63,7 @@
             <%= link_to item.description, edit_transfer_path(item) %>
           <% end %>
         </td>
-        <td><%= item.value.to_f %></td>
+        <td><%= item.value.round(2) %></td>
         <td><%= item.operation_date.strftime('%d.%m.%Y') %></td>
       </tr>
       <% end %>
