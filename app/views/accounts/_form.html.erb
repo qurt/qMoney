@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="action">
-    <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
+    <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
   </div>
   <%= hidden_field_tag 'account[value_old]', @account.value %>
 <% end %>
