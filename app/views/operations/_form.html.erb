@@ -54,9 +54,9 @@
     </div>
   </div>
   <div class="col-md-12 form-group">
-    <%= f.submit 'Сохранить', :class => 'btn btn-primary' %>
+    <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
     <% unless @operation.id.nil? %>
-    <%= link_to 'Удалить', @operation, method: :delete, data: {confirm: 'Вы уверены?'}, :class => 'btn btn-danger' %>
+    <%= link_to 'Удалить', @operation, method: :delete, data: {confirm: 'Вы уверены?', disable_with: "Удаляем..."}, :class => 'btn btn-danger' %>
     <% end %>
   </div>
 
