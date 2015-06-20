@@ -28,6 +28,12 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
+        if @account.deposit
+          deposit = Deposit.new
+          deposit.account_id = @account.id
+          deposit.save
+        end
+
         format.html { redirect_to accounts_url, notice: 'Account was successfully created.' }
         format.json { render action: 'show', status: :created, location: @account }
       else
@@ -43,7 +49,7 @@ class AccountsController < ApplicationController
     value_old = params[:account][:value_old].to_f
     value = account_params[:value].to_f
     if value != value_old
-      if value_old < value 
+      if value_old < value
         type = 1
       else
         type = 0
@@ -81,13 +87,14 @@ class AccountsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_account
-      @account = Account.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-      params.require(:account).permit(:name, :value)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_account
+    @account = Account.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def account_params
+    params.require(:account).permit(:name, :value, :deposit)
+  end
 end

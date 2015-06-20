@@ -16,6 +16,18 @@
   </div>
 
   <div class="panel panel-primary">
+    <div class="panel-heading">Вклады</div>
+
+    <div class="list-group">
+      <% @accounts_deposit.each do |item| %>
+        <div class="list-group-item">
+          <span class="badge"><%= item.value.round(2) %></span>
+          <%= item.name %>
+        </div>
+    </div>
+  </div>
+
+  <div class="panel panel-primary">
     <div class="panel-heading">Долги</div>
 
     <div class="list-group">
