@@ -64,6 +64,9 @@ class AccountsController < ApplicationController
       operation.account_id = @account.id
       operation.operation_date = Time.zone.now.beginning_of_day
     end
+
+    update_deposit(params[:account][:id])
+
     respond_to do |format|
       if @account.update(account_params)
         operation.save
@@ -87,6 +90,21 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  # Check deposit entry when account updated
+  def update_deposit(account_id)
+    deposit = Deposit.find_by_account_id(account_id)
+    account = Account.find(account_id)
+    if account.deposit != account_params[:deposit]
+      if account_params[:deposit] == 0 and deposit
+        deposit.delete
+      elsif !deposit and account_params[:deposit] == 1
+        deposit = Deposit.new
+        deposit.account_id = account_id
+        deposit.save
+      end
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_account
