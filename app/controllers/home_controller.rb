@@ -10,8 +10,7 @@ class HomeController < ApplicationController
       category = params[:c].to_i
     end
     # Get accounts list
-    @accounts = Account.where(deposit: false).order(:name)
-    @accounts_deposit = Account.where(deposit: true).joins(:deposits).order(:name)
+    @accounts = get_accounts
     # Get operations list
     operations = get_operations(account, category)
     # Generate categories list from operations
@@ -40,6 +39,15 @@ class HomeController < ApplicationController
   end
 
   private
+  ###
+  # Получаем список кошельков
+  # @return [Object]
+  # @answer {accounts: []}
+  ###
+  def get_accounts()
+    account = Account.order(:name).joins(:deposit)
+  end
+
   ###
   # Получаем операции с начала месяца по текущий момент
   # @param [Integer] account

@@ -4,7 +4,7 @@
     <div class="panel-heading">Текущий остаток</div>
 
     <div class="list-group">
-      <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > 0').sum('value') %></span>Всего</div>
+      <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > :value and deposit = :deposit', { value: 0, deposit: false }).sum('value') %></span>Всего</div>
       <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay.round(2) %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
         <div class="list-group-item ">
@@ -19,11 +19,12 @@
     <div class="panel-heading">Вклады</div>
 
     <div class="list-group">
-      <% @accounts_deposit.each do |item| %>
+      <% @accounts.where('deposit = ?', true).each do |item| %>
         <div class="list-group-item">
           <span class="badge"><%= item.value.round(2) %></span>
           <%= item.name %>
         </div>
+      <% end %>
     </div>
   </div>
 
