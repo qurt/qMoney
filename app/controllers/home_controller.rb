@@ -45,7 +45,7 @@ class HomeController < ApplicationController
   # @answer {accounts: []}
   ###
   def get_accounts()
-    account = Account.order(:name).joins(:deposit)
+    account = Account.order(:name)
   end
 
   ###

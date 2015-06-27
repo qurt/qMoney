@@ -26,14 +26,12 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
 
+    if params[:account][:deposit] == '1'
+      @account.deposit = Deposit.new
+    end
+
     respond_to do |format|
       if @account.save
-        if @account.deposit
-          deposit = Deposit.new
-          deposit.account_id = @account.id
-          deposit.save
-        end
-
         format.html { redirect_to accounts_url, notice: 'Account was successfully created.' }
         format.json { render action: 'show', status: :created, location: @account }
       else
@@ -59,17 +57,19 @@ class AccountsController < ApplicationController
       operation.value = tmp.abs
       operation.type = type
       operation.description = 'Корректировка баланса'
-      operation.account_id = params[:account][:id]
+      operation.account_id = params[:id]
       operation.category_id = 0
       operation.account_id = @account.id
       operation.operation_date = Time.zone.now.beginning_of_day
     end
 
-    update_deposit(params[:account][:id])
+    update_deposit(params[:id])
 
     respond_to do |format|
       if @account.update(account_params)
-        operation.save
+        if operation
+          operation.save
+        end
         format.html { redirect_to accounts_url, notice: 'Account was successfully updated.' }
         format.json { head :no_content }
       else
@@ -93,16 +93,16 @@ class AccountsController < ApplicationController
 
   # Check deposit entry when account updated
   def update_deposit(account_id)
-    deposit = Deposit.find_by_account_id(account_id)
     account = Account.find(account_id)
-    if account.deposit != account_params[:deposit]
-      if account_params[:deposit] == 0 and deposit
-        deposit.delete
-      elsif !deposit and account_params[:deposit] == 1
-        deposit = Deposit.new
-        deposit.account_id = account_id
-        deposit.save
-      end
+
+    # Если вклад существует но юзер снял галку
+    if account.deposit and !params[:account][:deposit]
+      account.deposit.destroy
+    end
+
+    # Если вклад не существует, но юзер поставил галку
+    if !account.deposit and params[:account][:deposit] == '1'
+      account.deposit = Deposit.new
     end
   end
 
@@ -113,6 +113,6 @@ class AccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def account_params
-    params.require(:account).permit(:name, :value, :deposit)
+    params.require(:account).permit(:name, :value)
   end
 end
