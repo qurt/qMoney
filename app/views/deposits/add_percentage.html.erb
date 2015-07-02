@@ -1,0 +1,16 @@
+<ol class="breadcrumb">
+  <li><%= link_to 'Главная', home_index_url %></li>
+  <li class="active">Добавление начислений по процентам</li>
+</ol>
+
+<%= form_tag add_percentage_url, method: :post do %>
+  <div class="form-group">
+    <%= label_tag :percentage, 'Сумма', :class => 'col-md-2 control-label' %>
+    <div class="col-md-10">
+      <%= text_field_tag :percentage, :class => 'form-control', :placeholder => 'Сумма' %>
+    </div>
+  </div>
+  <div class="col-md-12 well form-group">
+    <%= submit_tag 'Сохранить', :class => 'btn btn-primary', data: {disable_with: 'Сохраняем...'} %>
+  </div>
+<% end %>

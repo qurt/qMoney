@@ -3,6 +3,9 @@ QMoney::Application.routes.draw do
   get "statistic/operations"
   get "statistic/average_spending"
 
+  get 'accounts/percentage/:id' => 'deposit#add_percentage_view'
+  post 'accounts/percentage/:id/update' => 'deposit#add_percentage', :as => 'add_percentage'
+
   resources :credits do
     collection do
       get 'transfer'

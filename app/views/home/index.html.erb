@@ -24,9 +24,11 @@
       <% @accounts.each do |item| %>
         <% if item.deposit %>
         <div class="list-group-item">
-          <span class="badge"><%= item.value.round(2) %></span>
-          <span class="badge"><%= item.deposit.percentage %></span>
           <%= item.name %>
+          <div class="pull-right">
+            <span class="label label-success"><%= item.value.round(2) %></span>
+            <span class="label label-warning"><%= item.deposit.percentage %></span>
+          </div>
         </div>
         <% end %>
       <% end %>
