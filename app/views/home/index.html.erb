@@ -27,7 +27,7 @@
           <%= item.name %>
           <div class="pull-right">
             <span class="label label-success"><%= item.value.round(2) %></span>
-            <span class="label label-warning"><%= item.deposit.percentage %></span>
+            <span class="label label-warning"><%= link_to item.deposit.percentage, add_percentage_view_path, %></span>
           </div>
         </div>
         <% end %>
