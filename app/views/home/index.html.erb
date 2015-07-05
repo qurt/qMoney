@@ -4,13 +4,33 @@
     <div class="panel-heading">Текущий остаток</div>
 
     <div class="list-group">
-      <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > 0').sum('value') %></span>Всего</div>
+      <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > :value', { value: 0 }).sum('value') %></span>Всего</div>
       <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay.round(2) %></span>Всего портачено</div>
       <% @accounts.each do |item| %>
+        <% unless item.deposit %>
         <div class="list-group-item ">
           <span class="badge"><%= item.value.round(2) %></span>
           <%= item.name %>
         </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Вклады</div>
+
+    <div class="list-group">
+      <% @accounts.each do |item| %>
+        <% if item.deposit %>
+        <div class="list-group-item">
+          <%= item.name %>
+          <div class="pull-right">
+            <span class="label label-success"><%= item.value.round(2) + item.percentage.round(2) %></span>
+            <span class="label label-warning"><%= link_to item.percentage, add_percentage_view_path(item), :title => 'Внести запись' %></span>
+          </div>
+        </div>
+        <% end %>
       <% end %>
     </div>
   </div>

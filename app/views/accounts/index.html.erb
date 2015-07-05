@@ -6,13 +6,29 @@
     </div>
   <% end %>
   <%= link_to 'Новый кошелек', new_account_path, class: 'btn btn-success btn-sm' %>
+  <h2>Кошельки</h2>
   <table class="table table-striped table-condensed">
     <tr>
       <th>Название</th>
       <th>Сумма</th>
       <th></th>
     </tr>
-    <% @accounts.each do |account| %>
+    <% @accounts.where('deposit = ?', false).each do |account| %>
+      <tr>
+        <td><%= account.name %></td>
+        <td><%= account.value %></td>
+        <td><%= link_to 'Редактировать', edit_account_path(account) %> / <%= link_to 'Удалить', account, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </table>
+  <h2>Вклады</h2>
+  <table class="table table-striped table-condensed">
+    <tr>
+      <th>Название</th>
+      <th>Сумма</th>
+      <th></th>
+    </tr>
+    <% @accounts.where('deposit = ?', true).each do |account| %>
       <tr>
         <td><%= account.name %></td>
         <td><%= account.value %></td>
