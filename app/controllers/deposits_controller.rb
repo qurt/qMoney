@@ -1,9 +1,9 @@
 class DepositsController < ApplicationController
   # Добавление начисленных процентов ко вкладу
   def add_percentage
-    deposit = Account.find(params[:id])
-    deposit.value += params[:percentage]
-    if deposit.save
+    account = Account.find(params[:id])
+    account.percentage += params[:percentage].to_d
+    if account.save
       redirect_to home_index_url
     end
   end

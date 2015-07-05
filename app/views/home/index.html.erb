@@ -26,8 +26,8 @@
         <div class="list-group-item">
           <%= item.name %>
           <div class="pull-right">
-            <span class="label label-success"><%= item.value.round(2) %></span>
-            <span class="label label-warning"><%= link_to item.deposit.percentage, add_percentage_view_path, %></span>
+            <span class="label label-success"><%= item.value.round(2) + item.percentage.round(2) %></span>
+            <span class="label label-warning"><%= link_to item.percentage, add_percentage_view_path(item), :title => 'Внести запись' %></span>
           </div>
         </div>
         <% end %>

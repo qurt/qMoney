@@ -63,7 +63,11 @@ class AccountsController < ApplicationController
       operation.operation_date = Time.zone.now.beginning_of_day
     end
 
-    update_deposit(params[:id])
+    if @account.deposit
+      @account.percentage = params[:account][:percentage]
+    else
+      @account.percentage = 0
+    end
 
     respond_to do |format|
       if @account.update(account_params)
@@ -91,21 +95,6 @@ class AccountsController < ApplicationController
 
   private
 
-  # Check deposit entry when account updated
-  def update_deposit(account_id)
-    account = Account.find(account_id)
-
-    # Если вклад существует но юзер снял галку
-    if account.deposit and !params[:account][:deposit]
-      account.deposit.destroy
-    end
-
-    # Если вклад не существует, но юзер поставил галку
-    if !account.deposit and params[:account][:deposit] == '1'
-      account.deposit = Deposit.new
-    end
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_account
     @account = Account.find(params[:id])
@@ -113,6 +102,6 @@ class AccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def account_params
-    params.require(:account).permit(:name, :value)
+    params.require(:account).permit(:name, :value, :deposit)
   end
 end
