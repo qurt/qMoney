@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 ready = ->
   category = $("#operation_category_id").parent().parent()
+
+  if $("#operation_type").val() is '1'
+    category.hide()
+
   $("#operation_type").change ->
     if $(this).val() is '1'
       category.hide()
