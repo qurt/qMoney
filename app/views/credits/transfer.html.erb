@@ -10,7 +10,7 @@
       <div class="form-group">
         <%= label_tag :account, 'Кошелек', :class => 'col-md-3 control-label' %>
         <div class="col-md-9">
-          <%= collection_select(:data, :account_id, Account.joins('LEFT JOIN deposits ON deposits.account_id = accounts.id where deposits.account_id is null'), :id, :name, {}, {:class => 'form-control'}) %>
+          <%= collection_select(:data, :account_id, Account.all, :id, :name, {}, {:class => 'form-control'}) %>
         </div>
       </div>
       <div class="form-group">

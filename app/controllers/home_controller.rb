@@ -10,16 +10,16 @@ class HomeController < ApplicationController
       category = params[:c].to_i
     end
     # Get accounts list
-    @accounts = get_accounts
+    @accounts = Account.order(:name)
     # Get operations list
     operations = get_operations(account, category)
     # Generate categories list from operations
     @categories = {}
     @accounts_pay = 0
     operations.each do |item|
-      if item.category_id != 0 && item.type == 0
+      if item.category_id != 0 and item.type == 0
         if @categories[item.category.id].nil?
-          @categories[item.category.id] = { title: item.category.title, value: item.value.to_f }
+          @categories[item.category.id] = {title: item.category.title, value: item.value.to_f}
         else
           @categories[item.category.id][:value] += item.value.to_f
         end
@@ -29,25 +29,16 @@ class HomeController < ApplicationController
       end
     end
     # Get credits list
-    @credits = Credit.where.not(value: 0)
+    @credits = Credit.where.not(value:0)
     # Set charts objects
     @chart = {
-      :categories => get_categories_chart(@categories),
-      # :accounts => get_accounts_chart(@operations) todo delete?
+        :categories => get_categories_chart(@categories),
+       # :accounts => get_accounts_chart(@operations) todo delete?
     }
     @operations_history = Operation.order('created_at DESC').limit(5)
   end
 
   private
-  ###
-  # Получаем список кошельков
-  # @return [Object]
-  # @answer {accounts: []}
-  ###
-  def get_accounts()
-    account = Account.order(:name)
-  end
-
   ###
   # Получаем операции с начала месяца по текущий момент
   # @param [Integer] account
@@ -55,7 +46,7 @@ class HomeController < ApplicationController
   # @return [Object]
   ###
   def get_operations(account, category)
-    now = Time.zone.now
+    now = Time.now
     start_date = Time.mktime(now.year, now.month)
     if account == 0 && category == 0
       operations = Operation.where('operations.operation_date >= ?', start_date)

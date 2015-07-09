@@ -21,21 +21,6 @@
       <%= f.number_field :value, :class => 'form-control', :placeholder => 'Сумма', :step => 'any' %>
     </div>
   </div>
-  <% if @account.deposit %>
-    <div class="form-group">
-      <%= f.label :percentage, 'Сумма с процентов', :class => 'col-sm-2 control-label' %>
-      <div class="col-sm-10">
-        <%= f.number_field :percentage, :class => 'form-control', :placeholder => 'Сумма', :step => 'any' %>
-      </div>
-    </div>
-  <% end %>
-  <div class="form-group">
-    <div class="checkbox">
-      <label class="col-sm-10 col-sm-offset-2">
-        <%= f.check_box :deposit %> Вклад
-      </label>
-    </div>
-  </div>
   <div class="action">
     <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
   </div>
