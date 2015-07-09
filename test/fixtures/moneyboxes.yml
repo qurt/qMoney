@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  summary: 9.99
+  current: 9.99
+  percentage: 9.99
+  name: MyString
+
+two:
+  summary: 9.99
+  current: 9.99
+  percentage: 9.99
+  name: MyString

@@ -1,0 +1,33 @@
+<%= form_for(@moneybox) do |f| %>
+  <% if @moneybox.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@moneybox.errors.count, "error") %> prohibited this moneybox from being saved:</h2>
+
+      <ul>
+      <% @moneybox.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :summary %><br>
+    <%= f.text_field :summary %>
+  </div>
+  <div class="field">
+    <%= f.label :current %><br>
+    <%= f.text_field :current %>
+  </div>
+  <div class="field">
+    <%= f.label :percentage %><br>
+    <%= f.text_field :percentage %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

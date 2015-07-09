@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :moneyboxes
+
   get "statistic/operations"
   get "statistic/average_spending"
 
