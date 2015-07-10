@@ -30,6 +30,8 @@ class HomeController < ApplicationController
     end
     # Get credits list
     @credits = Credit.where.not(value:0)
+    # Get moneyboxes list
+    @moneyboxes = Moneybox.all
     # Set charts objects
     @chart = {
         :categories => get_categories_chart(@categories),

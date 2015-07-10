@@ -16,6 +16,19 @@
   </div>
 
   <div class="panel panel-primary">
+    <div class="panel-heading"><%= link_to 'Накопления', moneyboxes_path %></div>
+
+    <div class="list-group">
+      <% @moneyboxes.each do |item| %>
+        <div class="list-group-item">
+          <span class="badge"><%= item.current.round(2) %></span>
+          <%= item.name %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel panel-primary">
     <div class="panel-heading">Долги</div>
 
     <div class="list-group">
