@@ -1,5 +1,6 @@
 class TransfersController < ApplicationController
   before_action :set_transfer, only: [:edit, :update, :destroy]
+  before_action :set_options, only: [:new, :edit]
 
   # GET /transfers/new
   def new
@@ -78,9 +79,42 @@ class TransfersController < ApplicationController
   end
 
   private
+
   def set_transfer
-    @transfer = Operation.find(params[:id]);
+    @transfer = Operation.find(params[:id])
   end
+
+  def set_options
+    @options = []
+
+    accounts_array = []
+    accounts_options_array = []
+    moneyboxes_options_array = []
+    moneyboxes_array = []
+
+    accounts = Account.all
+    moneyboxes = Moneybox.all
+
+    unless accounts.empty?
+      accounts_array << 'Кошельки'
+      accounts.each do |item|
+        accounts_options_array << [item.name, item.id]
+      end
+      accounts_array << accounts_options_array
+      @options << accounts_array
+    end
+
+    unless moneyboxes.empty?
+      moneyboxes_array << 'Накопления'
+      moneyboxes.each do |item|
+        moneyboxes_options_array << [item.name, item.id]
+      end
+      moneyboxes_array << moneyboxes_options_array
+      @options << moneyboxes_array
+    end
+
+  end
+
   def transfer_params
     params.require(:operation).permit(:account_id, :transfer, :value, :category_id, :type)
   end
