@@ -1,5 +1,6 @@
 class TransfersController < ApplicationController
   before_action :set_transfer, only: [:edit, :update, :destroy]
+  before_action :set_options, only: [:new, :edit]
 
   # GET /transfers/new
   def new
@@ -10,8 +11,9 @@ class TransfersController < ApplicationController
   # POST /transfers.json
   def create
     @transfer = Operation.new(transfer_params)
-    account_from = Account.find(transfer_params[:account_id])
-    account_to = Account.find(transfer_params[:transfer])
+
+    account_from = get_account(transfer_params[:account_id])
+    account_to = get_account(transfer_params[:transfer])
     account_from.value -= transfer_params[:value].to_f
     account_to.value += transfer_params[:value].to_f
     @transfer.description = 'Перемещение из ' + account_from.name + ' в ' + account_to.name
@@ -40,13 +42,13 @@ class TransfersController < ApplicationController
 
   # PUT /transfers/1
   def update
-    account_from = Account.find(params[:account_from])
-    account_to = Account.find(params[:account_to])
+    account_from = get_account(params[:account_from])
+    account_to = get_account(params[:account_to])
     old_sum = params[:old_sum]
     account_from.value += old_sum
     account_to.value -= old_sum
-    account_from_new = Account.find(transfer_params[:account_id])
-    account_to_new = Account.find(transfer_params[:transfer])
+    account_from_new = get_account(transfer_params[:account_id])
+    account_to_new = get_account(transfer_params[:transfer])
     account_from_new -= transfer_params[:value]
     account_to_new += transfer_params[:value]
 
@@ -78,9 +80,55 @@ class TransfersController < ApplicationController
   end
 
   private
+
   def set_transfer
-    @transfer = Operation.find(params[:id]);
+    @transfer = Operation.find(params[:id])
   end
+
+  def get_account(str)
+    type = str.split(/_/)
+    id = type[1]
+    type = type[0]
+    if type == 'account'
+      result = Account.find(id)
+    else
+      result = Moneybox.find(id)
+    end
+
+    result
+  end
+
+  def set_options
+    @options = []
+
+    accounts_array = []
+    accounts_options_array = []
+    moneyboxes_options_array = []
+    moneyboxes_array = []
+
+    accounts = Account.all
+    moneyboxes = Moneybox.all
+
+    unless accounts.empty?
+      accounts_array << 'Кошельки'
+      accounts.each do |item|
+        accounts_options_array << [item.name, 'account_' + item.id.to_s]
+      end
+      accounts_array << accounts_options_array
+      @options << accounts_array
+    end
+
+    unless moneyboxes.empty?
+      moneyboxes_array << 'Накопления'
+      moneyboxes.each do |item|
+        moneyboxes_options_array << [item.name, 'moneybox_' + item.id.to_s]
+      end
+      moneyboxes_array << moneyboxes_options_array
+      @options << moneyboxes_array
+    end
+
+  end
+
   def transfer_params
     params.require(:operation).permit(:account_id, :transfer, :value, :category_id, :type)
   end
