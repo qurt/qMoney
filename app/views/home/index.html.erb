@@ -21,7 +21,7 @@
     <div class="list-group">
       <% @moneyboxes.each do |item| %>
         <div class="list-group-item">
-          <span class="badge"><%= item.current.round(2) %></span>
+          <span class="badge"><%= item.value.round(2) %></span>
           <%= item.name %>
         </div>
       <% end %>
