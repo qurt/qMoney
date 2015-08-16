@@ -42,7 +42,16 @@ class CategoriesController < ApplicationController
   end
 
   def index
-    @category = Category.all
+    @category = []
+    Category.where(:parent_id => 0).order(:title).each do |category|
+      @category << category
+      subcategories = Category.where(:parent_id => category.id).order(:title)
+      if subcategories
+        subcategories.each do |item|
+          @category << item
+        end
+      end
+    end
   end
 
   def show
