@@ -1,6 +1,10 @@
 <ol class="breadcrumb">
   <li><%= link_to 'Категории', categories_path %></li>
+  <% if @parent_category.id > 0 %>
+  <li class="active">Новая подкатегория для <strong><%= @parent_category.title %></strong></li>
+  <% else %>
   <li class="active">Новая категория</li>
+  <% end %>
 </ol>
 
 <%= render 'form' %>

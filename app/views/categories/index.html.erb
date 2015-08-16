@@ -14,7 +14,7 @@
     <% @category.each do |item| %>
         <tr>
           <td><%= item.title %></td>
-          <td><%= link_to 'Редактировать', edit_category_path(item) %> / <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+          <td><%= link_to 'Редактировать', edit_category_path(item) %> / <%= link_to 'Добавить подкатегорию', add_subcategory_path(item) %> / <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
         </tr>
     <% end %>
   </table>
