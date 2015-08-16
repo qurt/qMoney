@@ -25,8 +25,8 @@ QMoney::Application.routes.draw do
   resources :transfers
 
   resources :categories
-  get '/categories/:id/subcategory', to: 'category#new', as: 'add_subcategory'
-  post '/categories/:id/subcategory', to: 'category#create', as: 'create_subcategory'
+  get '/categories/:id/subcategory', to: 'categories#new', as: 'add_subcategory'
+  post '/categories/:id/subcategory', to: 'categories#create', as: 'create_subcategory'
 
   resources :operations
 

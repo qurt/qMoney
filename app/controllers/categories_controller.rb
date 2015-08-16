@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   def new
     @category = Category.new
+    @parent_category = nil
     if params[:id]
       @parent_category = Category.find(params[:id])
     end
@@ -8,10 +9,11 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if params[:id]
-      @category.parent_id = params[:id]
+    if params[:category][:parent_id]
+      @category.parent_id = params[:category][:parent_id]
     else
       @category.parent_id = 0
+    end
     respond_to do |format|
       if @category.save
         format.html { redirect_to categories_url, notice: 'Категория успешно создана' }
