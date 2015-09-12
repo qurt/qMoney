@@ -42,7 +42,7 @@
     <div class="form-group" id="transfer_field" style="display: none;">
         <%= label_tag "tranfer_label", "Переместить в:", :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
-            <%= collection_select(:operation, :to_account_id, Account.all, :id, :name, {selected: is_selected(@operation)}, {:class => 'form-control'}) %>
+            <%= collection_select(:operation, :transfer, Account.all, :id, :name, {:class => 'form-control'}) %>
         </div>
     </div>
 
