@@ -26,9 +26,9 @@ class OperationsController < ApplicationController
     def create
         @operation = Operation.new(operation_params)
         @operation.value = calculate(params[:operation][:value])
-        account = Account.find(params[:operation][:account_id])
-        if params[:operation][:transfer] > 0
-            account_to = Account.find(params[:operation][:transfer])
+        account = get_account(params[:operation][:account_id])
+        if params[:operation][:type] == 2
+            account_to = get_account(params[:operation][:transfer])
         end
 
         case params[:operation][:type]
@@ -39,6 +39,7 @@ class OperationsController < ApplicationController
             when '2'
                 account.value -= @operation.value
                 account_to.value += @operation.value
+                @operation.description = account.name + '>>>' + account_to.name
             else
                 account.value -= 0
         end
@@ -155,5 +156,18 @@ class OperationsController < ApplicationController
         def calculate(str)
             calc = Dentaku::Calculator.new
             calc.evaluate(str)
+        end
+
+        def get_account(str)
+            type = str.split(/_/)
+            id = type[1]
+            type = type[0]
+            if type == 'account'
+                result = Account.find(id)
+            else
+                result = Moneybox.find(id)
+            end
+
+            result
         end
 end
