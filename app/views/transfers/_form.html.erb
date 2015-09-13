@@ -1,0 +1,42 @@
+<%= form_for @transfer, url: {action: 'create'}, :html => {:class => 'form-horizontal col-md-12'} do |f| %>
+  <% if @transfer.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <ul>
+        <% @transfer.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="col-sm-6">
+      <select name="operation[account_id]" id="operation-transfer" class="form-control">
+        <%= grouped_options_for_select(@options) %>
+      </select>
+    </div>
+    <div class="col-sm-6">
+      <select name="operation[transfer]" id="operation-transfer" class="form-control">
+        <%= grouped_options_for_select(@options) %>
+      </select>
+    </div>
+    <!--<div class="col-sm-6"><%= collection_select(:operation, :account_id, Account.all, :id, :name, {}, {:class => 'form-control'}) %> </div><div class="col-sm-6"><%= collection_select(:operation, :transfer, Account.all, :id, :name, {}, {:class => 'form-control'}) %></div>-->
+  </div>
+  <div class="form-group">
+    <%= f.label 'Сумма', :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.number_field :value, {:class => 'form-control', :placeholder => 'Сумма', :step => 'any'} %>
+    </div>
+  </div>
+  <div class="col-md-12 well">
+    <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
+    <% unless @transfer.id.nil? %>
+    <%= link_to 'Удалить', '/transfers/' + @transfer.id.to_s, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
+  <%= hidden_field_tag('operation[category_id]', 0) %>
+  <%= hidden_field_tag('operation[type]', 2) %>
+  <%= hidden_field_tag('operation[account_from]', @transfer.account_id) %>
+  <%= hidden_field_tag('operation[account_to]', @transfer.transfer) %>
+  <%= hidden_field_tag('operation[old_sum]', @transfer.value) %>
+<% end %>
