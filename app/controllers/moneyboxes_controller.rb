@@ -24,7 +24,10 @@ class MoneyboxesController < ApplicationController
   # POST /moneyboxes
   # POST /moneyboxes.json
   def create
-    @moneybox = Moneybox.new(moneybox_params)
+    @account = Account.new
+    data = params[:moneybox]
+    @account.name = params[:name]
+
 
     respond_to do |format|
       if @moneybox.save
@@ -65,10 +68,5 @@ class MoneyboxesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_moneybox
       @moneybox = Moneybox.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def moneybox_params
-      params.require(:moneybox).permit(:summary, :current, :percentage, :name)
     end
 end
