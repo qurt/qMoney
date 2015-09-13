@@ -30,7 +30,9 @@ QMoney::Application.routes.draw do
 
   resources :operations
 
-  resources :accounts
+  resources :accounts do
+    get 'moneybox', on: :new
+  end
 
   get "home/index"
   # The priority is based upon order of creation: first created -> highest priority.

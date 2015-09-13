@@ -17,6 +17,13 @@ class AccountsController < ApplicationController
     @account = Account.new
   end
 
+  # GET /accounts/new/moneybox
+  def moneybox
+    @account = Account.new
+    @account.build_moneybox()
+    render 'new'
+  end
+
   # GET /accounts/1/edit
   def edit
   end
@@ -43,7 +50,7 @@ class AccountsController < ApplicationController
     value_old = params[:account][:value_old].to_f
     value = account_params[:value].to_f
     if value != value_old
-      if value_old < value 
+      if value_old < value
         type = 1
       else
         type = 0
