@@ -67,7 +67,9 @@ class AccountsController < ApplicationController
     end
     respond_to do |format|
       if @account.update(account_params)
-        operation.save
+        unless operation.nil?
+          operation.save
+        end
         format.html { redirect_to accounts_url, notice: 'Account was successfully updated.' }
         format.json { head :no_content }
       else

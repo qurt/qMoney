@@ -7,23 +7,26 @@
             <div class="list-group-item list-group-item-info"><span class="badge"><%= @accounts.where('value > 0').sum('value') %></span>Всего</div>
             <div class="list-group-item list-group-item-danger"><span class="badge"><%= @accounts_pay.round(2) %></span>Всего портачено</div>
             <% @accounts.each do |item| %>
-                <div class="list-group-item ">
-                    <span class="badge"><%= item.value.round(2) %></span>
-                    <%= item.name %>
-                </div>
+                <% if item.moneybox.nil? %>
+                    <div class="list-group-item ">
+                        <span class="badge"><%= item.value.round(2) %></span>
+                        <%= item.name %>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </div>
 
     <div class="panel panel-primary">
-        <div class="panel-heading"><%= link_to 'Накопления', moneyboxes_path %></div>
-
+        <div class="panel-heading">Накопления</div>
         <div class="list-group">
-            <% @moneyboxes.each do |item| %>
-                <div class="list-group-item">
-                    <span class="badge"><%# item.value.round(2) %></span>
-                    <%# item.name %>
-                </div>
+            <% @accounts.each do |item| %>
+                <% unless item.moneybox.nil? %>
+                    <div class="list-group-item">
+                        <span class="badge"><%= item.value.round(2) %></span>
+                        <%= item.name %>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </div>
