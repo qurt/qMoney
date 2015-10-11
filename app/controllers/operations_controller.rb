@@ -41,6 +41,7 @@ class OperationsController < ApplicationController
                 account_to.value += @operation.value
                 @operation.description = account.name + ' >>> ' + account_to.name
                 @operation.transfer = params[:operation][:transfer]
+                @operation.category = nil
             else
                 account.value -= 0
         end
