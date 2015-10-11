@@ -42,6 +42,7 @@ class OperationsController < ApplicationController
                 @operation.description = account.name + ' >>> ' + account_to.name
                 @operation.transfer = params[:operation][:transfer]
                 @operation.category = nil
+                @operation.transfer = params[:operation][:transfer]
             else
                 account.value -= 0
         end
@@ -71,20 +72,21 @@ class OperationsController < ApplicationController
     # PATCH/PUT /operations/1
     # PATCH/PUT /operations/1.json
     def update
-        old_sum = params[:old_value]
-        new_params = operation_params
-        old_type = params[:old_type]
-        old_account = params[:old_account]
-        tmp = Account.find(old_account)
-        del_account(tmp, old_type, old_sum)
-        if params[:old_account] == new_params[:account_id]
-            account = tmp
-        else
-            account = Account.find(new_params[:account_id])
-        end
-        add_account(account, new_params[:type], new_params[:value])
+        account_new    = Account.find(params[:account_id])
+        account_old    = Account.find(params[:account_old])
 
-        custom_date = Time.zone.parse(params[:custom_date])
+        value_new      = params[:value]
+        value_old      = params[:value_old]
+
+        type_new       = params[:type]
+        type_old       = params[:type_old]
+
+        account_to_new = Account.find(params[:transfer])
+        account_to_old = Account.find(params[:transfer_old])
+
+        rollback(account_old, value_old, type_old, account_to_old)
+        return_operation(account, value, type, account_to)
+
         @operation.operation_date = custom_date.beginning_of_day
 
         respond_to do |format|
@@ -135,26 +137,32 @@ class OperationsController < ApplicationController
             params.require(:operation).permit(:type, :description, :account_id, :category_id, :value)
         end
 
-        def del_account(account, type, value)
+        #Откат операции
+        def rollback(account, value, type, account_to)
             case type
-                when '0'
-                    account.value += value.to_f
-                when '1'
-                    account.value -= value.to_f
-                else
-                    account.value -= 0
+                when 0
+                    account.value += value
+                when 1
+                    account.value -= value
+                when 2
+                    account += value
+                    account_to -= value
             end
         end
-        def add_account(account, type, value)
+
+        #Восстанавливаем операцию
+        def return_operation(account, value, type, account_to)
             case type
-                when '0'
-                    account.value -= value.to_f
-                when '1'
-                    account.value += value.to_f
-                else
-                    account.value -= 0
+                when 0
+                    account.value -= value
+                when 1
+                    account.value += value
+                when 2
+                    account -= value
+                    account_to += value
             end
         end
+
         def calculate(str)
             calc = Dentaku::Calculator.new
             calc.evaluate(str)
