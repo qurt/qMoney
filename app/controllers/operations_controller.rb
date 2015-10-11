@@ -26,9 +26,9 @@ class OperationsController < ApplicationController
     def create
         @operation = Operation.new(operation_params)
         @operation.value = calculate(params[:operation][:value])
-        account = params[:operation][:account_id]
-        if params[:operation][:type] == 2
-            account_to = params[:operation][:transfer]
+        account = Account.find(params[:operation][:account_id])
+        if params[:operation][:type] == '2'
+            account_to = Account.find(params[:operation][:transfer])
         end
 
         case params[:operation][:type]
@@ -39,7 +39,7 @@ class OperationsController < ApplicationController
             when '2'
                 account.value -= @operation.value
                 account_to.value += @operation.value
-                @operation.description = account.name + '>>>' + account_to.name
+                @operation.description = account.name + ' >>> ' + account_to.name
             else
                 account.value -= 0
         end
