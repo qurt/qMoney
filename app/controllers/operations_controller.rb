@@ -40,6 +40,7 @@ class OperationsController < ApplicationController
                 account.value -= @operation.value
                 account_to.value += @operation.value
                 @operation.description = account.name + ' >>> ' + account_to.name
+                @operation.category = nil
             else
                 account.value -= 0
         end
