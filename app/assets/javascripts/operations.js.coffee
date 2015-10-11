@@ -1,23 +1,41 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+
 ready = ->
-  category = $("#operation_category_id").parent().parent()
+    category = $("#operation_category_id").parent().parent()
+    transfer = $("#transfer_field")
+    account_from = $('#operation_account_id')
+    account_from_transfer = $('#operation-account-from')
 
-  if $("#operation_type").val() is '1'
-    category.hide()
+    switch_visible = (val) ->
+        switch val
+            when '1'
+                category.hide()
+                transfer.hide()
+                account_from.show()
+                account_from_transfer.hide()
+            when '2'
+                category.hide()
+                transfer.show()
+                account_from.hide()
+                account_from_transfer.show()
+            else
+                category.show()
+                transfer.hide()
+                account_from.show()
+                account_from_transfer.hide()
 
-  $("#operation_type").change ->
-    if $(this).val() is '1'
-      category.hide()
-    else
-      category.show()
-    return
+    switch_visible($("#operation_type").val())
 
-  $('[data-behaviour~=datepicker]').pickadate({
-    format: "yyyy-mm-dd",
-    formatSubmit: "yyyy-mm-dd"
-  })
+    $("#operation_type").change ->
+        switch_visible($(this).val())
+
+    $('[data-behaviour~=datepicker]').pickadate({
+        format: "yyyy-mm-dd",
+        formatSubmit: "yyyy-mm-dd"
+    })
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

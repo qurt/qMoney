@@ -17,24 +17,41 @@
             <%= f.text_field :description, :class => 'form-control', :placeholder => 'Описание' %>
         </div>
     </div>
+
     <div class="form-group">
         <%= f.label :value, 'Сумма', :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
             <%= f.text_field :value, :class => 'form-control', :placeholder => 'Сумма', :step => 'any' %>
         </div>
     </div>
+
     <div class="form-group">
         <%= f.label :type, 'Тип операции', :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
-            <%= select(:operation, :type, [['Расход', 0], ['Доход', 1]], {}, {:class => 'form-control'}) %>
+            <%= select(:operation, :type, [['Расход', 0], ['Доход', 1], ['Перемещение', 2]], {}, {:class => 'form-control'}) %>
         </div>
     </div>
+
     <div class="form-group">
         <%= f.label :account_id, 'Кошелек', :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
-            <%= collection_select(:operation, :account_id, Account.all, :id, :name, {selected: is_selected(@operation)}, {:class => 'form-control'}) %>
+            <%= collection_select(:operation, :account_id, Account.includes(:moneybox).where(:moneyboxes => {:account_id => nil}), :id, :name, {selected: is_selected(@operation)}, {:class => 'form-control'}) %>
+            <select name="operation[account_id]" id="operation-account-from" class="form-control" style="display: none;">
+                <%= grouped_options_for_select(select_options) %>
+            </select>
         </div>
     </div>
+
+    <div class="form-group" id="transfer_field" style="display: none;">
+        <%= label_tag "tranfer_label", "Переместить в:", :class => 'col-sm-2 control-label' %>
+        <div class="col-sm-10">
+            <select name="operation[transfer]" id="operation-transfer" class="form-control">
+                <%= grouped_options_for_select(select_options) %>
+            </select>
+            <%# collection_select(:operation, :transfer, Account.all, :id, :name, {:class => 'form-control'}) %>
+        </div>
+    </div>
+
     <div class="form-group">
         <%= f.label :category_id, 'Категория', :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
@@ -42,10 +59,12 @@
             <%= select_tag "operation[category_id]", grouped_options_for_select(category_options(Category.all), @operation.category_id), {:class => 'form-control'} %>
         </div>
     </div>
+
     <div class="form-group">
         <%= label_tag 'custom_date_label', 'Дата', :class => 'col-sm-2 control-label' %>
         <div class="col-sm-10">
             <%
+                #TODO Вынести в хелпер
                 date = Time.zone.today
                 unless @operation.operation_date.nil?
                     date = @operation.operation_date.strftime('%Y-%m-%d')
@@ -54,6 +73,7 @@
             <%= text_field_tag('custom_date', date, :class => 'form-control', 'data-behaviour' => 'datepicker') %>
         </div>
     </div>
+
     <div class="col-md-12 form-group">
         <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
         <% unless @operation.id.nil? %>
@@ -64,4 +84,5 @@
     <%= hidden_field_tag 'old_value', @operation.value %>
     <%= hidden_field_tag 'old_type', @operation.type %>
     <%= hidden_field_tag 'old_account', @operation.account_id %>
+    <%= hidden_field_tag 'old_account_to', @operation.transfer %>
 <% end %>
