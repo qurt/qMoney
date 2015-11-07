@@ -1,3 +1,4 @@
+# coding: utf-8
 module OperationsHelper
     def is_selected(operation)
         if operation.account_id.nil?

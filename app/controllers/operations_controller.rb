@@ -32,22 +32,21 @@ class OperationsController < ApplicationController
         end
 
         case params[:operation][:type]
-            when '0'
-                account.value -= @operation.value
-            when '1'
-                account.value += @operation.value
-            when '2'
-                account.value -= @operation.value
-                account_to.value += @operation.value
-                @operation.description = account.name + ' >>> ' + account_to.name
-                @operation.transfer = params[:operation][:transfer]
-                @operation.category = nil
-                @operation.transfer = params[:operation][:transfer]
-            else
-                account.value -= 0
+        when '0'
+            account.value -= @operation.value
+        when '1'
+            account.value += @operation.value
+        when '2'
+            account.value -= @operation.value
+            account_to.value += @operation.value
+            @operation.description = account.name + ' >>> ' + account_to.name
+            @operation.transfer = params[:operation][:transfer]
+            @operation.category = nil
+        else
+            account.value -= 0
         end
         session[:last_account] = @operation.account_id
-        if params[:operation][:type] == 1 or params[:operation][:type] == 2
+        if params[:operation][:type] == 1 || params[:operation][:type] == 2
             @operation.category_id = 0
         end
 
@@ -57,9 +56,7 @@ class OperationsController < ApplicationController
         respond_to do |format|
             if @operation.save
                 account.save
-                if account_to
-                    account_to.save
-                end
+                account_to.save if account_to
                 format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
                 format.json { render action: 'show', status: :created, location: @operation }
             else
@@ -72,27 +69,30 @@ class OperationsController < ApplicationController
     # PATCH/PUT /operations/1
     # PATCH/PUT /operations/1.json
     def update
-        account_new    = Account.find(params[:account_id])
-        account_old    = Account.find(params[:account_old])
+        account_change = false
 
-        value_new      = params[:value]
-        value_old      = params[:value_old]
+        new_id = params[:operation][:account_id]
+        old_id = params[:old_account]
 
-        type_new       = params[:type]
-        type_old       = params[:type_old]
+        type = params[:operation][:type]
 
-        account_to_new = Account.find(params[:transfer])
-        account_to_old = Account.find(params[:transfer_old])
+        value_old = params[:old_value]
+        # value_new = params[:operation][:value]
 
-        rollback(account_old, value_old, type_old, account_to_old)
-        return_operation(account, value, type, account_to)
+        account_old = Account.find(old_id)
 
-        @operation.operation_date = custom_date.beginning_of_day
+        rollback(account_old, type, value_old)
+        if new_id == old_id
+            account_new = account_old
+        else
+            account_new = Account.find(new_id)
+        end
 
         respond_to do |format|
             if @operation.update(operation_params)
-                if tmp.save
-                    account.save
+                if account_change
+                    account_old.save
+                    account_new.save
                 end
 
                 format.html { redirect_to home_index_path, notice: 'Operation was successfully updated.' }
@@ -109,16 +109,14 @@ class OperationsController < ApplicationController
     def destroy
         account = @operation.account
         case @operation.type
-            when 0
-                account.value += @operation.value
-            when 1
-                account.value -= @operation.value
-            else
-                account.value -= 0
+        when 0
+            account.value += @operation.value
+        when 1
+            account.value -= @operation.value
+        else
+            account.value -= 0
         end
-        if @operation.destroy
-            account.save
-        end
+        account.save if @operation.destroy
 
         respond_to do |format|
             format.html { redirect_to home_index_url }
@@ -127,44 +125,51 @@ class OperationsController < ApplicationController
     end
 
     private
-        # Use callbacks to share common setup or constraints between actions.
-        def set_operation
-            @operation = Operation.find(params[:id])
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_operation
+        @operation = Operation.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def operation_params
+        params.require(:operation).permit(:type, :description, :account_id, :category_id, :value)
+    end
+
+    def calculate(str)
+        calc = Dentaku::Calculator.new
+        calc.evaluate(str)
+    end
+
+    def rollback(account, type, value)
+        type = type.to_i
+        value = value.to_f
+
+        case type
+        when 0
+            account.value += value
+        when 1
+            account.value -= value
+        else
+            logger.info 'Unknown type'
         end
 
-        # Never trust parameters from the scary internet, only allow the white list through.
-        def operation_params
-            params.require(:operation).permit(:type, :description, :account_id, :category_id, :value)
+        account
+    end
+
+    def return_operation(account, type, value)
+        type = type.to_i
+        value = value.to_f
+
+        case type
+        when 0
+            account.value -= value
+        when 1
+            account.value += value
+        else
+            logger.info 'Unknown type'
         end
 
-        #Откат операции
-        def rollback(account, value, type, account_to)
-            case type
-                when 0
-                    account.value += value
-                when 1
-                    account.value -= value
-                when 2
-                    account += value
-                    account_to -= value
-            end
-        end
-
-        #Восстанавливаем операцию
-        def return_operation(account, value, type, account_to)
-            case type
-                when 0
-                    account.value -= value
-                when 1
-                    account.value += value
-                when 2
-                    account -= value
-                    account_to += value
-            end
-        end
-
-        def calculate(str)
-            calc = Dentaku::Calculator.new
-            calc.evaluate(str)
-        end
+        account
+    end
 end
