@@ -32,6 +32,7 @@ module HomeHelper
 
         result[:value] = item.value
         result[:operation_date] = item.operation_date
+        result[:account] = item.account.name if item.type != 2
 
         render partial: 'history_row', locals: { item: result }
     end

@@ -4,6 +4,7 @@
         <span class="text-muted">
             <%= item[:sub_title] %>
         </span>
+        <small class="text-muted"><%= item[:account] %></small>
     </td>
     <td><%= item[:value].round(2) %></td>
     <td><%= item[:operation_date].strftime('%d.%m.%Y') %></td>
