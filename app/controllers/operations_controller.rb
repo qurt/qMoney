@@ -26,9 +26,11 @@ class OperationsController < ApplicationController
     def create
         @operation = Operation.new(operation_params)
         @operation.value = calculate(params[:operation][:value])
-        account = Account.find(params[:operation][:account_id])
-        if params[:operation][:type] == '2'
+        if params[:operation][:type].to_i == 2
+            account = Account.find(params[:operation][:account_id_from])
             account_to = Account.find(params[:operation][:transfer])
+        else
+            account = Account.find(params[:operation][:account_id])
         end
 
         case params[:operation][:type]
@@ -50,6 +52,8 @@ class OperationsController < ApplicationController
             @operation.category_id = 0
         end
 
+        @operation.account_id = account.id
+
         custom_date = Time.zone.parse(params[:custom_date])
         @operation.operation_date = custom_date.beginning_of_day
 
@@ -69,31 +73,26 @@ class OperationsController < ApplicationController
     # PATCH/PUT /operations/1
     # PATCH/PUT /operations/1.json
     def update
-        account_change = false
+        type = @operation.type
+        # Откатываем транзакцию
+        account_old = rollback(params[:old_data][:account_id], type, params[:old_data][:value], params[:old_data][:transfer])
+        # Меняем значения в кошельках
+        account_new = create_operation(params[:operation][:account_id_from], type, params[:operation][:value], params[:operation][:transfer], account_old)
 
-        new_id = params[:operation][:account_id]
-        old_id = params[:old_account]
-
-        type = params[:operation][:type]
-
-        value_old = params[:old_value]
-        # value_new = params[:operation][:value]
-
-        account_old = Account.find(old_id)
-
-        rollback(account_old, type, value_old)
-        if new_id == old_id
-            account_new = account_old
-        else
-            account_new = Account.find(new_id)
+        if type == 2
+            params[:operation][:description] = account_new[:account].name + ' >>> ' + account_new[:transfer].name
         end
+
+        @operation.account_id = account_new[:account].id
+        @operation.transfer = account_new[:transfer].id
 
         respond_to do |format|
             if @operation.update(operation_params)
-                if account_change
-                    account_old.save
-                    account_new.save
-                end
+                account_old[:account].save()
+                account_old[:transfer].save() if account_old[:transfer]
+
+                account_new[:account].save()
+                account_new[:transfer].save() if account_new[:transfer]
 
                 format.html { redirect_to home_index_path, notice: 'Operation was successfully updated.' }
                 format.json { head :no_content }
@@ -133,7 +132,7 @@ class OperationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def operation_params
-        params.require(:operation).permit(:type, :description, :account_id, :category_id, :value)
+        params.require(:operation).permit(:type, :description, :category_id, :value)
     end
 
     def calculate(str)
@@ -141,35 +140,61 @@ class OperationsController < ApplicationController
         calc.evaluate(str)
     end
 
-    def rollback(account, type, value)
+    def rollback(account_id, type, value, transfer_id)
         type = type.to_i
         value = value.to_f
+        account = Account.find(account_id.to_i)
+        transfer = nil
 
         case type
         when 0
             account.value += value
         when 1
             account.value -= value
+        when 2
+            transfer = Account.find(transfer_id.to_i)
+            account.value += value
+            transfer.value -= value
         else
             logger.info 'Unknown type'
         end
 
-        account
+        return {
+            :account => account,
+            :transfer => transfer
+        }
     end
 
-    def return_operation(account, type, value)
+    def create_operation(account_id, type, value, transfer_id = nil, old_data)
         type = type.to_i
         value = value.to_f
+        if old_data[:account].id == account_id.to_i
+            account = old_data[:account]
+        else
+            account = Account.find(account_id.to_i)
+        end
+        transfer = nil
 
         case type
         when 0
             account.value -= value
         when 1
             account.value += value
+        when 2
+            if old_data[:transfer].id == transfer_id.to_i
+                transfer = old_data[:transfer]
+            else
+                transfer = Account.find(transfer_id.to_i)
+            end
+            account.value -= value
+            transfer.value += value
         else
             logger.info 'Unknown type'
         end
 
-        account
+        return {
+            :account => account,
+            :transfer => transfer
+        }
     end
 end
