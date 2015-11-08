@@ -19,9 +19,9 @@ module HomeHelper
         result[:description] = item.description.capitalize
         result[:sub_title] = ''
 
-        if item.type != 2 and !item.category.nil?
+        if item.type == 0 and !item.category.nil?
             description = item.category.title
-            if item.category.parent_id != 0
+            if item.category.parent_id && item.category.parent_id != 0
                 parent_category = Category.find(item.category.parent_id)
                 description = parent_category.title + '/' + item.category.title
             end
