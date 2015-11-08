@@ -77,14 +77,15 @@ class OperationsController < ApplicationController
         # Откатываем транзакцию
         account_old = rollback(params[:old_data][:account_id], type, params[:old_data][:value], params[:old_data][:transfer])
         # Меняем значения в кошельках
-        account_new = create_operation(params[:operation][:account_id_from], type, params[:operation][:value], params[:operation][:transfer], account_old)
+        account_new_id = type == 2 ? params[:operation][:account_id_from] : params[:operation][:account_id]
+        account_new = create_operation(account_new_id, type, params[:operation][:value], params[:operation][:transfer], account_old)
 
         if type == 2
             params[:operation][:description] = account_new[:account].name + ' >>> ' + account_new[:transfer].name
         end
 
         @operation.account_id = account_new[:account].id
-        @operation.transfer = account_new[:transfer].id
+        @operation.transfer = account_new[:transfer].id if account_new[:transfer]
 
         respond_to do |format|
             if @operation.update(operation_params)
