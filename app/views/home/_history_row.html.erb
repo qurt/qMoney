@@ -1,0 +1,11 @@
+<tr class="<%= item[:style] %>">
+    <td>
+        <%= link_to item[:description].capitalize, edit_operation_path(item[:id]) %>
+        <span class="text-muted">
+            <%= item[:sub_title] %>
+        </span>
+        <small class="text-muted"><%= item[:account] %></small>
+    </td>
+    <td><%= item[:value].round(2) %></td>
+    <td><%= item[:operation_date].strftime('%d.%m.%Y') %></td>
+</tr>

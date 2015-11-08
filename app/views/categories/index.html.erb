@@ -6,15 +6,11 @@
   </div>
   <% end %>
   <a href="/categories/new" class="btn btn-success btn-sm">Добавить категорию</a>
-  <table class="table table-striped table-condensed">
-    <tr>
-      <th>Название</th>
-      <th></th>
-    </tr>
-    <% @category.each do |item| %>
-        <tr>
-          <td><%= item.title %></td>
-          <td><%= link_to 'Редактировать', edit_category_path(item) %> / <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+  <table class="table table-condensed tree">
+    <% sort_category(@category).each do |item| %>
+        <tr class="treegrid-<%= item.id %><%= item.parent_id > 0 ? ' treegrid-parent-' + item.parent_id.to_s : '' %>">
+          <td style="vertical-align: middle"><%= item.title %></td>
+          <td><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Добавить подкатегорию', add_subcategory_path(item), :class => (item.parent_id > 0) ? "hidden" : "btn btn-sm btn-success" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
         </tr>
     <% end %>
   </table>

@@ -49,6 +49,8 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
+  gem 'meta_request'
+  gem "better_errors"
 end
 
 gem 'bootstrap-datepicker-rails'

@@ -21,4 +21,5 @@
 // require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require highcharts/highcharts
 //= require highcharts/highcharts-more
+//= require treegrid/jquery.treegrid
 //= require_tree .

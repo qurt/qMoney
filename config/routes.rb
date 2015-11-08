@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :moneyboxes
+
   get "statistic/operations"
   get "statistic/average_spending"
 
@@ -23,10 +25,14 @@ QMoney::Application.routes.draw do
   resources :transfers
 
   resources :categories
+  get '/categories/:id/subcategory', to: 'categories#new', as: 'add_subcategory'
+  post '/categories/:id/subcategory', to: 'categories#create', as: 'create_subcategory'
 
   resources :operations
 
-  resources :accounts
+  resources :accounts do
+    get 'moneybox', on: :new
+  end
 
   get "home/index"
   # The priority is based upon order of creation: first created -> highest priority.

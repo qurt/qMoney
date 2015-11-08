@@ -13,6 +13,7 @@
  * require bootstrap-datepicker3
  *= require themes/default.css
  *= require themes/default.date
+ *= require treegrid/jquery.treegrid
  *= require_tree .
  */
 
