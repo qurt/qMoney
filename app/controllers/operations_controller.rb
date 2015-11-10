@@ -137,6 +137,7 @@ class OperationsController < ApplicationController
     end
 
     def calculate(str)
+        str.gsub!(',', '.')
         calc = Dentaku::Calculator.new
         calc.evaluate(str)
     end
