@@ -1,7 +1,7 @@
 module ApplicationHelper
     def category_options(categories)
         result = {}
-        parents = categories.where('parent_id = 0')
+        parents = categories.where('parent_id = 0 or parent_id is null')
         parents.each do |item|
             result[item.title] = []
             if categories.where(parent_id: item.id).count() > 0

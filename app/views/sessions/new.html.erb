@@ -3,7 +3,7 @@
     <div class="col-md-6 col-md-offset-3 well">
       <legend>Необходима авторизация</legend>
       <div class="form-group">
-        <%= label_tag :name, 'Имя пользователя', :class => 'col-sm-4 control-label' %>
+        <%= label_tag :name, 'Имя пользователя', :class => 'col-sm-4 control-label', :autofocus => true %>
         <div class="col-md-8">
           <%= text_field_tag :name, params[:name], :class => 'form-control' %>
         </div>
