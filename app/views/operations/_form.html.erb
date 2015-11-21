@@ -1,8 +1,6 @@
 <%= form_for(@operation, :html => {:class => 'form-horizontal'}) do |f| %>
     <% if @operation.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(@operation.errors.count, "error") %> prohibited this operation from being saved:</h2>
-
+        <div class="alert alert-danger alert-dismissable">
             <ul>
                 <% @operation.errors.full_messages.each do |msg| %>
                     <li><%= msg %></li>
