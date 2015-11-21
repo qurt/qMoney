@@ -11,18 +11,14 @@ class HomeController < ApplicationController
         # Get operations list
         operations = get_operations(account, category)
         # Generate categories list from operations
-        @categories = {}
-
-        @parent_categories = Category.where("parent_id is null")
-        @parent_categories.each do |item|
-            @categories[item.id] = {title: item.title, value: 0}
-        end
-
         @accounts_pay = 0
+        @categories = {}
         operations.each do |item|
             if item.category_id != 0 && item.type == 0
-                category_id = item.category.parent_id.nil? ? item.category.id : item.category.parent_id
-                @categories[category_id][:value] += item.value.to_f
+                if @categories[item.category_id].nil?
+                    @categories[item.category_id] = {title: item.category.title, value: 0}
+                end
+                @categories[item.category_id][:value] += item.value.to_f
             end
             @accounts_pay += item.value if item.type == 0
         end
