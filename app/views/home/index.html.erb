@@ -50,7 +50,7 @@
     <% end %>
     <div class="panel panel-primary">
         <div class="panel-heading">Журнал операций <div class="pull-right panel-title"><%= link_to 'Посмотреть все', statistic_operations_path, :class => 'small' %></div></div>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
                 <th>Описание</th>
@@ -66,8 +66,9 @@
         </table>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <%= high_chart('category_chart', @chart[:categories]) %>
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <%# high_chart('category_chart', @chart[:categories]) %>
+            <%= donut_chart('test_chart', @categories) %>
         </div>
     </div>
 </div>

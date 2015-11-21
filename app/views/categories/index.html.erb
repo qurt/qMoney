@@ -7,11 +7,9 @@
   <% end %>
   <a href="/categories/new" class="btn btn-success btn-sm">Добавить категорию</a>
   <table class="table table-condensed table-hover tree">
-    <% sort_category(@category).each do |item| %>
-        <tr class="treegrid-<%= item.id %><%= (item.parent_id == nil or item.parent_id > 0) ? ' treegrid-parent-' + item.parent_id.to_s : '' %>">
-          <td style="vertical-align: middle"><%= item.title %></td>
-          <td class="text-right"><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Добавить подкатегорию', add_subcategory_path(item), :class => (item.parent_id != nil and item.parent_id > 0) ? "hidden" : "btn btn-sm btn-success" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
-        </tr>
-    <% end %>
+      <tr>
+        <td style="vertical-align: middle"><%= item.title %></td>
+        <td class="text-right"><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
+      </tr>
   </table>
 </div>

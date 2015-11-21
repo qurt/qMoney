@@ -18,7 +18,4 @@
     <div class="action">
       <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
     </div>
-    <% if @parent_category and @parent_category.id > 0 %>
-    <%= hidden_field_tag 'category[parent_id]', @parent_category.id %>
-    <% end %>
 <% end %>
