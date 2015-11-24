@@ -50,7 +50,8 @@ save_refresh = ->
         url: form.attr('action')
         data: data
         success: () ->
-            $('input[type=text]').val('')
+            $('#operation_value').val('')
+            $('#operation_description').val('')
     })
 
 

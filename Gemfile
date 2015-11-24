@@ -57,9 +57,8 @@ end
 gem 'bootstrap-datepicker-rails'
 gem 'dentaku'
 
-#High Charts
-gem 'lazy_high_charts'
-
 gem 'foreman'
 
 gem 'le'
+
+gem 'toastr_rails'
