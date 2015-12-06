@@ -1,15 +1,17 @@
 <div class="col-md-12">
-  <% if notice %>
-  <div class="alert alert-success alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <%= notice %>
-  </div>
-  <% end %>
-  <a href="/categories/new" class="btn btn-success btn-sm">Добавить категорию</a>
-  <table class="table table-condensed table-hover tree">
-      <tr>
-        <td style="vertical-align: middle"><%= item.title %></td>
-        <td class="text-right"><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
-      </tr>
-  </table>
+    <% if notice %>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <%= notice %>
+    </div>
+    <% end %>
+    <a href="/categories/new" class="btn btn-success btn-sm">Добавить категорию</a>
+    <table class="table table-condensed table-hover tree">
+            <% @category.each do |item| %>
+                <tr>
+                    <td style="vertical-align: middle"><%= item.title %></td>
+                    <td class="text-right"><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
+                </tr>
+            <% end %>
+    </table>
 </div>

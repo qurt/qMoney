@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
+    button = $('#save_refresh')
+    button.click ->
+        save_refresh()
+
     category = $("#operation_category_id").parent().parent()
     transfer = $("#transfer_field")
     account_from = $('#operation_account_id')
@@ -34,6 +38,20 @@ ready = ->
     $('[data-behaviour~=datepicker]').pickadate({
         format: "yyyy-mm-dd",
         formatSubmit: "yyyy-mm-dd"
+    })
+
+
+save_refresh = ->
+    form = $("#new_operation")
+    data = form.serialize()
+
+    $.ajax({
+        type: 'POST'
+        url: form.attr('action')
+        data: data
+        success: () ->
+            $('#operation_value').val('')
+            $('#operation_description').val('')
     })
 
 

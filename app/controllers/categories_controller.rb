@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
     end
 
     def index
-        @category = Category.all
+        @category = Category.where('parent_id is null')
     end
 
     def show
