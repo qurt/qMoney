@@ -25,7 +25,7 @@ module ChartistHelper
             item = elem[1]
             data << {
                 label: item[:title],
-                value: item[:value]
+                value: item[:value].round(2)
             }
         end
 
