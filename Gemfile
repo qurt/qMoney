@@ -63,3 +63,5 @@ gem 'lazy_high_charts'
 gem 'foreman'
 
 gem 'le'
+
+gem 'whenever', :require => false

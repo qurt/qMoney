@@ -7,6 +7,7 @@ set :rvm_type, :user
 set :rvm_ruby_version, '2.2.0'
 set :deploy_to, '/srv/www/rails/qmoney'
 set :normalize_asset_timestamps, %{public/images public/javascripts public/stylesheets}
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
