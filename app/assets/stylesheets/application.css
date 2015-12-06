@@ -14,9 +14,14 @@
  *= require themes/default.css
  *= require themes/default.date
  *= require treegrid/jquery.treegrid
+ *= require toastr_rails
  *= require_tree .
  */
 
 * {
   font-family: "Roboto", sans-serif !important;
+}
+
+#toast-container {
+   top: inherit !important;
 }
