@@ -13,11 +13,14 @@ module Select2Helper
 
         return select_tag
     end
-    def select2(model, field, options_for_select, selected = nil, attributes = nil)
+    def select2(model, field, options_for_select, selected = nil, attributes = nil, promt = nil)
         select_tag = init(model, field, attributes)
         id = "#{model}_#{field}"
 
         options = ''
+        unless promt.nil?
+            options = "<option value=\"\">#{promt}</option>"
+        end
         options_for_select.each do |key, value|
             if value == selected
                 options += "<option value=\"#{value}\" selected>#{key}</options>"
@@ -34,11 +37,14 @@ module Select2Helper
         return result.html_safe
     end
 
-    def select2_collection(model, field, collection, value, title, selected = nil, attributes = nil)
+    def select2_collection(model, field, collection, value, title, selected = nil, attributes = nil, promt = nil)
         select_tag = init(model, field, attributes)
         id = "#{model}_#{field}"
 
         options  = ''
+        unless promt.nil?
+            options = "<option value=\"\">#{promt}</option>"
+        end
         collection.each do |item|
             option_value = item[value]
             option_title = item[title]
@@ -57,11 +63,14 @@ module Select2Helper
         return result.html_safe
     end
 
-    def select2_grouped(model, field, collection, selected = nil, attributes = nil)
+    def select2_grouped(model, field, collection, selected = nil, attributes = nil, promt = nil)
         select_tag = init(model, field, attributes)
         id = "#{model}_#{field}"
 
         options = ''
+        unless promt.nil?
+            options = "<option value=\"\">#{promt}</option>"
+        end
         collection.each do |key, data|
             options += "<optgroup label=\"#{key}\">"
             data.each do |title, value|
