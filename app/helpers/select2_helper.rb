@@ -1,12 +1,21 @@
 module Select2Helper
-    def select2(id, model, options_for_select, selected = nil, attributes = nil)
-        select_tag = "<select id=\"#{id}\" name=\"#{model}\""
+    def init(model, field, attributes)
+        id = "#{model}_#{field}"
+        name = "#{model}[#{field}]"
+
+        select_tag = "<select id=\"#{id}\" name=\"#{name}\""
         unless attributes.nil?
-            attributes.each do |name, value|
-                select_tag += " #{name}=\"#{value}\""
+            attributes.each do |key, v|
+                select_tag += ' ' + key.to_s + '="' + v + '"'
             end
         end
         select_tag += '>'
+
+        return select_tag
+    end
+    def select2(model, field, options_for_select, selected = nil, attributes = nil)
+        select_tag = init(model, field, attributes)
+        id = "#{model}_#{field}"
 
         options = ''
         options_for_select.each do |key, value|
@@ -26,16 +35,8 @@ module Select2Helper
     end
 
     def select2_collection(model, field, collection, value, title, selected = nil, attributes = nil)
+        select_tag = init(model, field, attributes)
         id = "#{model}_#{field}"
-        name = "#{model}[#{field}]"
-
-        select_tag = "<select id=\"#{id}\" name=\"#{name}\""
-        unless attributes.nil?
-            attributes.each do |name, value|
-                select_tag += ' ' + name.to_s + '="' + value + '"'
-            end
-        end
-        select_tag += '>'
 
         options  = ''
         collection.each do |item|
@@ -56,7 +57,28 @@ module Select2Helper
         return result.html_safe
     end
 
-    def select2_grouped
+    def select2_grouped(model, field, collection, selected = nil, attributes = nil)
+        select_tag = init(model, field, attributes)
+        id = "#{model}_#{field}"
 
+        options = ''
+        collection.each do |key, data|
+            options += "<optgroup label=\"#{key}\">"
+            data.each do |title, value|
+                if value == selected
+                    options += "<option value=\"#{value}\" selected>#{title}</options>"
+                else
+                    options += "<option value=\"#{value}\">#{title}</options>"
+                end
+            end
+            options += '</optgroup>'
+        end
+
+        select_tag += options
+        select_tag += '</select>'
+        script = "<script>$('##{id}').select2();</script>"
+
+        result = select_tag + script
+        return result.html_safe
     end
 end
