@@ -13,5 +13,7 @@ class Operation < ActiveRecord::Base
     belongs_to :account
     belongs_to :category
 
+    has_many :tags
+
     self.inheritance_column = nil
 end

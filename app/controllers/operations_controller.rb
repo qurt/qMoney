@@ -15,10 +15,15 @@ class OperationsController < ApplicationController
     # GET /operations/new
     def new
         @operation = Operation.new
+        @tags = []
     end
 
     # GET /operations/1/edit
     def edit
+        @tags = []
+        unless @operation.tags.nil?
+            @operation.tags.each {|item| @tags << item.id}
+        end
     end
 
     # POST /operations
@@ -56,6 +61,10 @@ class OperationsController < ApplicationController
 
         custom_date = Time.zone.parse(params[:custom_date])
         @operation.operation_date = custom_date.beginning_of_day
+
+        #tags
+        tags = params[:operation][:tags]
+        logger.debug tags
 
         respond_to do |format|
             if @operation.save

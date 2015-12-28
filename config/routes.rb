@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :tags
+
   get 'categories/delete/subcategory/all', to: 'categories#remove_subcategory'
 
   resources :moneyboxes

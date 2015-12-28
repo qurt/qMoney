@@ -90,4 +90,34 @@ module Select2Helper
         result = select_tag + script
         return result.html_safe
     end
+
+    def select2_tag(model, field, collection, selected, attributes)
+        id = "#{model}_#{field}"
+        name = "#{model}[#{field}][]"
+        select_tag = "<select id=\"#{id}\" name=\"#{name}\""
+        unless attributes.nil?
+            attributes.each do |key, v|
+                select_tag += ' ' + key.to_s + '="' + v + '"'
+            end
+        end
+        select_tag += '>'
+
+        options = ''
+        collection.each do |item|
+            value = item.id
+            title = item.title
+            if selected.include?(value)
+                options += "<option value=\"#{value}\" selected>#{title}</options>"
+            else
+                options += "<option value=\"#{value}\">#{title}</options>"
+            end
+        end
+
+        select_tag += options
+        select_tag += '</select>'
+        script = "<script>$('##{id}').select2({tags: true, tokenSeparators: [',']});</script>"
+
+        result = select_tag + script
+        return result.html_safe
+    end
 end
