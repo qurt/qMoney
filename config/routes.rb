@@ -1,5 +1,7 @@
 QMoney::Application.routes.draw do
 
+  resources :tags
+
   get 'categories/delete/subcategory/all', to: 'categories#remove_subcategory'
 
   resources :moneyboxes
@@ -24,11 +26,7 @@ QMoney::Application.routes.draw do
   get "sessions/destroy"
   resources :users
 
-  resources :transfers
-
   resources :categories
-  get '/categories/:id/subcategory', to: 'categories#new', as: 'add_subcategory'
-  post '/categories/:id/subcategory', to: 'categories#create', as: 'create_subcategory'
 
   resources :operations
 
