@@ -21,8 +21,8 @@ class OperationsController < ApplicationController
     # GET /operations/1/edit
     def edit
         @tags = []
-        unless @operation.tags.nil?
-            @operation.tags.each {|item| @tags << item.id}
+        unless @operation.tags.empty?
+            @operation.tags.each {|item| @tags << item.alias}
         end
     end
 
@@ -63,8 +63,12 @@ class OperationsController < ApplicationController
         @operation.operation_date = custom_date.beginning_of_day
 
         #tags
-        tags = params[:operation][:tags]
-        logger.debug tags
+        tags = findCreateTags(params[:operation][:tags])
+        unless tags.empty?
+            tags.each do |tag|
+                @operation.tags << tag
+            end
+        end
 
         respond_to do |format|
             if @operation.save
@@ -96,6 +100,15 @@ class OperationsController < ApplicationController
         @operation.account_id = account_new[:account].id
         @operation.transfer = account_new[:transfer].id if account_new[:transfer]
 
+        #tags
+        tags = findCreateTags(params[:operation][:tags])
+        unless tags.empty?
+            @operation.tags.clear
+            tags.each do |tag|
+                @operation.tags << tag
+            end
+        end
+
         respond_to do |format|
             if @operation.update(operation_params)
                 account_old[:account].save()
@@ -126,6 +139,8 @@ class OperationsController < ApplicationController
             account.value -= 0
         end
         account.save if @operation.destroy
+
+        @operation.tags.clear
 
         respond_to do |format|
             format.html { redirect_to home_index_url }
@@ -207,5 +222,24 @@ class OperationsController < ApplicationController
             :account => account,
             :transfer => transfer
         }
+    end
+
+    def findCreateTags(tags)
+        result = []
+        unless tags.nil?
+            tags.each do |tag|
+                if item = Tag.find_by_alias(tag.downcase)
+                    result << item
+                else
+                    new_tag = Tag.new()
+                    new_tag.alias = tag.downcase
+                    new_tag.title = tag
+                    if new_tag.save()
+                        result << new_tag
+                    end
+                end
+            end
+        end
+        return result
     end
 end

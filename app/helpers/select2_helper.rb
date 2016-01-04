@@ -104,7 +104,7 @@ module Select2Helper
 
         options = ''
         collection.each do |item|
-            value = item.id
+            value = item.alias
             title = item.title
             if selected.include?(value)
                 options += "<option value=\"#{value}\" selected>#{title}</options>"

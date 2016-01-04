@@ -3,8 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-    $("tr[data-link]").click(() ->
-      window.location = $(this).data("link")
+    $("tr[data-link]").click((event) ->
+        event.preventDefault()
+        window.location = $(this).data("link")
     )
 
 

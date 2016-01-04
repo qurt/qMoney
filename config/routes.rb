@@ -26,11 +26,7 @@ QMoney::Application.routes.draw do
   get "sessions/destroy"
   resources :users
 
-  resources :transfers
-
   resources :categories
-  get '/categories/:id/subcategory', to: 'categories#new', as: 'add_subcategory'
-  post '/categories/:id/subcategory', to: 'categories#create', as: 'create_subcategory'
 
   resources :operations
 

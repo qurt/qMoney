@@ -31,7 +31,7 @@ $(document).ready(function() {
 
     toastr.options = {
         "closeButton": false,
-        "debug": true,
+        "debug": false,
         "positionClass": "toast-bottom-right",
         "onclick": null,
         "showDuration": "300",
