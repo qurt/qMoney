@@ -9,8 +9,8 @@ ready = ->
 
     category = $("#operation_category_id").parent().parent()
     transfer = $("#transfer_field")
-    account_from = $('#operation_account_id')
-    account_from_transfer = $('#operation-account-from')
+    account_from = $('#operation_account_id_container')
+    account_from_transfer = $('#operation_account_id_from_container')
 
     switch_visible = (val) ->
         switch val

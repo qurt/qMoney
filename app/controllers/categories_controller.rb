@@ -34,31 +34,23 @@ class CategoriesController < ApplicationController
     end
 
     def index
-        @category = Category.where('parent_id is null')
+        @category = Category.all
+        #TODO Удалить в следующем релизе
+        @category.each do |item|
+            if item.color.nil? or item.color.empty?
+                random_color = "%06x" % (rand * 0xffffff)
+                item.color = '#' + random_color
+                item.save
+            end
+        end
     end
 
     def show
     end
 
-    def remove_subcategory
-        operations = Operation.all
-        categories =  Category.all
-        operations.each do |item|
-            if !item.category_id.nil? and item.category_id > 0
-                if item.category.parent_id != nil
-                     parent = categories.find(item.category.parent_id)
-                    item.category_id = parent.id
-                    item.save
-                end
-            end
-        end
-        puts 'Done'
-        render nothing: true
-    end
-
     private
 
     def category_params
-        params.require(:category).permit(:title)
+        params.require(:category).permit(:title, :color)
     end
 end

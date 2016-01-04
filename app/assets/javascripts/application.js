@@ -23,13 +23,15 @@
 //= require highcharts/highcharts-more
 //= require treegrid/jquery.treegrid
 //= require toastr_rails
+//= require select2.full.min
+//= require select2_ru
 //= require_tree .
 
 $(document).ready(function() {
 
     toastr.options = {
         "closeButton": false,
-        "debug": true,
+        "debug": false,
         "positionClass": "toast-bottom-right",
         "onclick": null,
         "showDuration": "300",

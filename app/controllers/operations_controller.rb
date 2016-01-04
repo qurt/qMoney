@@ -15,10 +15,15 @@ class OperationsController < ApplicationController
     # GET /operations/new
     def new
         @operation = Operation.new
+        @tags = []
     end
 
     # GET /operations/1/edit
     def edit
+        @tags = []
+        unless @operation.tags.empty?
+            @operation.tags.each {|item| @tags << item.alias}
+        end
     end
 
     # POST /operations
@@ -57,6 +62,14 @@ class OperationsController < ApplicationController
         custom_date = Time.zone.parse(params[:custom_date])
         @operation.operation_date = custom_date.beginning_of_day
 
+        #tags
+        tags = findCreateTags(params[:operation][:tags])
+        unless tags.empty?
+            tags.each do |tag|
+                @operation.tags << tag
+            end
+        end
+
         respond_to do |format|
             if @operation.save
                 account.save
@@ -87,6 +100,15 @@ class OperationsController < ApplicationController
         @operation.account_id = account_new[:account].id
         @operation.transfer = account_new[:transfer].id if account_new[:transfer]
 
+        #tags
+        tags = findCreateTags(params[:operation][:tags])
+        unless tags.empty?
+            @operation.tags.clear
+            tags.each do |tag|
+                @operation.tags << tag
+            end
+        end
+
         respond_to do |format|
             if @operation.update(operation_params)
                 account_old[:account].save()
@@ -107,16 +129,16 @@ class OperationsController < ApplicationController
     # DELETE /operations/1
     # DELETE /operations/1.json
     def destroy
-        account = @operation.account
-        case @operation.type
-        when 0
-            account.value += @operation.value
-        when 1
-            account.value -= @operation.value
-        else
-            account.value -= 0
+        accounts = rollback(@operation.account_id, @operation.type, @operation.value, @operation.transfer)
+        account = accounts[:account]
+        transfer = accounts[:transfer]
+
+        @operation.tags.clear
+
+        if @operation.destroy
+            account.save
+            transfer.save unless transfer.nil?
         end
-        account.save if @operation.destroy
 
         respond_to do |format|
             format.html { redirect_to home_index_url }
@@ -198,5 +220,24 @@ class OperationsController < ApplicationController
             :account => account,
             :transfer => transfer
         }
+    end
+
+    def findCreateTags(tags)
+        result = []
+        unless tags.nil?
+            tags.each do |tag|
+                if item = Tag.find_by_alias(tag.downcase)
+                    result << item
+                else
+                    new_tag = Tag.new()
+                    new_tag.alias = tag.downcase
+                    new_tag.title = tag
+                    if new_tag.save()
+                        result << new_tag
+                    end
+                end
+            end
+        end
+        return result
     end
 end
