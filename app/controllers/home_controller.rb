@@ -16,7 +16,7 @@ class HomeController < ApplicationController
         operations.each do |item|
             if item.category_id != 0 && item.type == 0
                 if @categories[item.category_id].nil?
-                    @categories[item.category_id] = {title: item.category.title, value: 0}
+                    @categories[item.category_id] = {title: item.category.title, value: 0, color: item.category.color}
                 end
                 @categories[item.category_id][:value] += item.value.to_f
             end

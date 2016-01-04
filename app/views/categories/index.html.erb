@@ -9,6 +9,7 @@
     <table class="table table-condensed table-hover tree">
             <% @category.each do |item| %>
                 <tr>
+                    <td width="1%" style="background-color: <%= item.color %>"></td>
                     <td style="vertical-align: middle"><%= item.title %></td>
                     <td class="text-right"><%= link_to 'Редактировать', edit_category_path(item), :class => "btn btn-sm btn-warning" %> <%= link_to 'Удалить', item, method: :delete, data: { confirm: 'Вы уверены?' }, class: "btn btn-sm btn-danger" %></td>
                 </tr>
