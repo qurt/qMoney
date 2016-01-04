@@ -129,18 +129,16 @@ class OperationsController < ApplicationController
     # DELETE /operations/1
     # DELETE /operations/1.json
     def destroy
-        account = @operation.account
-        case @operation.type
-        when 0
-            account.value += @operation.value
-        when 1
-            account.value -= @operation.value
-        else
-            account.value -= 0
-        end
-        account.save if @operation.destroy
+        accounts = rollback(@operation.account_id, @operation.type, @operation.value, @operation.transfer)
+        account = accounts[:account]
+        transfer = accounts[:transfer]
 
         @operation.tags.clear
+
+        if @operation.destroy
+            account.save
+            transfer.save unless transfer.nil?
+        end
 
         respond_to do |format|
             format.html { redirect_to home_index_url }
