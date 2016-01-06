@@ -1,5 +1,7 @@
 module Select2Helper
     def init(model, field, attributes)
+        model = model.to_s
+        field = field.to_s
         id = "#{model}_#{field}"
         name = "#{model}[#{field}]"
 
