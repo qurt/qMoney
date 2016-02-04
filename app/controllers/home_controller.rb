@@ -10,6 +10,17 @@ class HomeController < ApplicationController
         @accounts = Account.order(:name)
         # Get operations list
         operations = get_operations(account, category)
+        # Generate day stat data
+        @dayStat = {
+            :total => 0.0,
+            :total_spend => 0.0,
+            :balance => 0.0
+        }
+        todayOperations = Operation.where('operation_date >= ?', Date.today.beginning_of_day)
+        todayOperations.each do |item|
+            @dayStat[:total_spend] += item.value.to_f if item.type == 0
+        end
+        @dayStat[:balance] = @dayStat[:total] - @dayStat[:total_spend]
         # Generate categories list from operations
         @accounts_pay = 0
         @categories = {}
