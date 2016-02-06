@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
         auth_check = false
         alert = nil
         auth_token = cookies[:auth_token]
+        auth_token = params[:token] if params[:token]
         if auth_token
             login = Session.where(:token => auth_token).first
             if login and login.expired_in >= Time.now.to_i
@@ -17,11 +18,15 @@ class ApplicationController < ActionController::Base
                 session[:user_id] = user.id
                 session[:user_name] = user.name
                 auth_check = true
+                return true
             else
                 alert = 'Время сессии истекло. Пожалуйста. войдите снова.'
             end
         end
 
-        redirect_to login_url, alert: alert unless auth_check
+        respond_to do |format|
+            format.html { redirect_to login_url, alert: alert unless auth_check }
+            format.json { render json: {:error => 'Auth error'}, status: :unauthorized }
+        end
     end
 end
