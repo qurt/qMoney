@@ -71,10 +71,22 @@ class OperationsController < ApplicationController
             end
         end
 
+        #repeat operation
+        if params[:repeat] and @operation.type != '2'
+            rp = RepeatOperation.new
+            rp.value = @operation.value
+            rp.duration = 30
+            rp.account_id = @operation.account_id
+            rp.category_id = @operation.category_id
+            rp.description = @operation.description
+            rp.type = @operation.type
+        end
+
         respond_to do |format|
             if @operation.save
                 account.save
                 account_to.save if account_to
+                rp.save if rp
                 format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
                 format.json { render action: 'show', status: :created, location: @operation }
             else
