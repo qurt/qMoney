@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227210217) do
+ActiveRecord::Schema.define(version: 20160309202811) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160227210217) do
     t.integer  "category_id"
     t.integer  "transfer"
     t.datetime "operation_date"
+    t.boolean  "repeat"
   end
 
   create_table "operations_tags", force: :cascade do |t|

@@ -32,6 +32,7 @@ class OperationsController < ApplicationController
     def create
         @operation = Operation.new(operation_params)
         @operation.value = calculate(params[:operation][:value])
+        @operation.repeat = false
         if params[:operation][:type].to_i == 2
             account = Account.find(params[:operation][:account_id_from])
             account_to = Account.find(params[:operation][:transfer])
@@ -72,7 +73,7 @@ class OperationsController < ApplicationController
         end
 
         #repeat operation
-        if params[:repeat] and @operation.type != '2'
+        if params[:repeat_create] and @operation.type != '2'
             rp = RepeatOperation.new
             rp.value = @operation.value
             rp.duration = 30
@@ -80,7 +81,9 @@ class OperationsController < ApplicationController
             rp.category_id = @operation.category_id
             rp.description = @operation.description
             rp.type = @operation.type
+            @operation.repeat = true
         end
+        @operation.repeat = true if params[:repeat]
 
         respond_to do |format|
             if @operation.save

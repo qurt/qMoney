@@ -26,7 +26,7 @@ class HomeController < ApplicationController
             if item.category_id != 0 && item.type == 0
 
                 # TODO Костыль из-за временной зоны
-                @day_sum[:today_spent] += item.value if item.operation_date.to_date == (Time.now - 3.hours).to_date
+                @day_sum[:today_spent] += item.value if item.operation_date.to_date == (Time.now - 3.hours).to_date and !item.repeat
                 if @categories[item.category_id].nil?
                     @categories[item.category_id] = {
                         title: !item.category.nil? ? item.category.title : 'Unknown category',
