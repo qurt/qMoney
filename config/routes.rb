@@ -1,9 +1,9 @@
 QMoney::Application.routes.draw do
     controller :repeat_operations do
-        get 'repeat_operations/list' => :list
-        get 'repeat_operations/:id' => :edit
+        get 'repeat_operations' => :list
+        get 'repeat_operations/:id' => :edit, as: :repeat_operations_edit
         put 'repeat_operations/:id' => :update
-        delete 'repeat_operations/:id' => :delete
+        delete 'repeat_operations/:id' => :delete, as: :repeat_operations_delete
     end
 
     resources :tags
