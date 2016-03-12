@@ -73,7 +73,8 @@ class OperationsController < ApplicationController
         end
 
         #repeat operation
-        if params[:repeat_create] and @operation.type != '2'
+        logger.debug params[:repeat]
+        if params[:repeat] and @operation.type != '2'
             rp = RepeatOperation.new
             rp.value = @operation.value
             rp.duration = 30
@@ -83,7 +84,6 @@ class OperationsController < ApplicationController
             rp.type = @operation.type
             @operation.repeat = true
         end
-        @operation.repeat = true if params[:repeat]
 
         respond_to do |format|
             if @operation.save
