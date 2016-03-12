@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class CategoryControllerTest < ActionController::TestCase
-  # test "should get add" do
-  #   get :add
+class RepeatOperationsControllerTest < ActionController::TestCase
+  # test "should get list" do
+  #   get :list
   #   assert_response :success
   # end
 
@@ -11,13 +11,13 @@ class CategoryControllerTest < ActionController::TestCase
   #   assert_response :success
   # end
 
-  # test "should get delete" do
-  #   get :delete
+  # test "should get update" do
+  #   get :update
   #   assert_response :success
   # end
 
-  # test "should get show" do
-  #   get :show
+  # test "should get delete" do
+  #   get :delete
   #   assert_response :success
   # end
 

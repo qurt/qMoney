@@ -1,5 +1,6 @@
 # coding: utf-8
 class SessionsController < ApplicationController
+    skip_before_filter :verify_authenticity_token
     skip_before_action :auth
 
     def new
@@ -20,12 +21,21 @@ class SessionsController < ApplicationController
                 cookies[:auth_token] = {:value => new_session.token, :expired => new_session.expired_in}
                 session[:user_id] = user.id
                 session[:user_name] = user.name
-                redirect_to home_index_url
+                respond_to do |format|
+                    format.html { redirect_to home_index_url }
+                    format.json { render json: new_session, status: 200 }
+                end
             else
-                redirect_to login_url, alert: 'Непредвиденная ошибка сервера. Попробуйте позже.'
+                respond_to do |format|
+                    format.html { redirect_to login_url }
+                    format.json { render json: {:error => 'Непредвиденная ошибка сервера. Попробуйте позже.'}, status: 500 }
+                end
             end
         else
-            redirect_to login_url, alert: 'Неверная комбинация имени и пароля'
+            respond_to do |format|
+                format.html { redirect_to login_url }
+                format.json { render json: {:error => 'Неверная комбинация имени и пароля'}, status: 403 }
+            end
         end
     end
 

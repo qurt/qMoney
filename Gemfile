@@ -8,7 +8,8 @@ gem 'sqlite3'
 # gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '>= 3.2'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -64,4 +65,6 @@ gem 'le'
 gem 'whenever', :require => false
 
 gem 'toastr_rails'
+
+gem 'rack-cors', :require => 'rack/cors'
 

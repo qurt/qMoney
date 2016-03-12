@@ -50,7 +50,7 @@ module Select2Helper
         collection.each do |item|
             option_value = item[value]
             option_title = item[title]
-            if value == selected
+            if option_value.to_s == selected.to_s
                 options += "<option value=\"#{option_value}\" selected>#{option_title}</option>"
             else
                 options += "<option value=\"#{option_value}\">#{option_title}</option>"

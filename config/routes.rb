@@ -1,9 +1,10 @@
 QMoney::Application.routes.draw do
-    # Regular opperations routes
-    get 'regular_operation/index'
-    delete 'regular_operation/:id/destroy'
-    get 'regular_operation/:id/edit'
-    post 'regular_operation/:id/update'
+    controller :repeat_operations do
+        get 'repeat_operations' => :list
+        get 'repeat_operations/:id' => :edit, as: :repeat_operations_edit
+        put 'repeat_operations/:id' => :update
+        delete 'repeat_operations/:id' => :delete, as: :repeat_operations_delete
+    end
 
     resources :tags
 
