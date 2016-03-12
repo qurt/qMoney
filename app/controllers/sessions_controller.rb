@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
             expired = Time.now.to_i + 3600
             logger.debug params
             if params[:remember_me]
-                expired = Time.now.to_i + 30*24*60*60
+                expired = Time.now.to_i + 30*24*60*60*1000
             end
             token = generate_token(user.id)
             new_session = Session.new({:user_id => user.id, :token => token, :expired_in => expired})
