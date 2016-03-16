@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104202001) do
+ActiveRecord::Schema.define(version: 20160316203549) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(version: 20160104202001) do
     t.decimal  "summary"
   end
 
+  create_table "notebooks", force: :cascade do |t|
+    t.decimal  "value"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "operations", force: :cascade do |t|
     t.decimal  "value"
     t.integer  "type"
@@ -53,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160104202001) do
     t.integer  "category_id"
     t.integer  "transfer"
     t.datetime "operation_date"
+    t.boolean  "repeat"
   end
 
   create_table "operations_tags", force: :cascade do |t|
@@ -63,10 +71,33 @@ ActiveRecord::Schema.define(version: 20160104202001) do
   add_index "operations_tags", ["operation_id"], name: "index_operations_tags_on_operation_id"
   add_index "operations_tags", ["tag_id"], name: "index_operations_tags_on_tag_id"
 
+  create_table "regular_operations", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "type"
+    t.decimal  "value"
+    t.string   "description"
+    t.integer  "account_id"
+    t.integer  "category_id"
+    t.string   "operation_date"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "repeat_operations", force: :cascade do |t|
+    t.decimal  "value"
+    t.string   "description"
+    t.integer  "account_id"
+    t.integer  "category_id"
+    t.integer  "duration"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "type"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "token"
-    t.integer  "expired_in"
+    t.decimal  "expired_in"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

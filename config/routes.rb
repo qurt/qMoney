@@ -1,5 +1,11 @@
 QMoney::Application.routes.draw do
 
+  get 'notebook/list'
+
+  get 'notebook/create/:id' => 'notebook#create'
+
+  delete 'notebook/destroy'
+
   resources :tags
 
   get 'categories/delete/subcategory/all', to: 'categories#remove_subcategory'

@@ -1,0 +1,17 @@
+<div class="col-md-12">
+    <% if notice %>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <%= notice %>
+    </div>
+    <% end %>
+    <table class="table table-condensed table-hover tree">
+            <% @list.each do |item| %>
+                <tr>
+                    <td><%= item.value %></td>
+                    <td><%= item.description %></td>
+                    <td><%= link_to 'Создать операцию', '/notebook/create/' + item.id.to_s, :class => "btn btn-sm btn-success" %></td>
+                </tr>
+            <% end %>
+    </table>
+</div>
