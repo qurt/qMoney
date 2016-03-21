@@ -11,6 +11,6 @@ class NotebookController < ApplicationController
   def destroy
     item = Notebook.find(params[:id])
     item.destroy
-    redirect_to '/notebook'
+    redirect_to '/notebook/list'
   end
 end

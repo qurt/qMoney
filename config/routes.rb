@@ -4,7 +4,7 @@ QMoney::Application.routes.draw do
 
   get 'notebook/create/:id' => 'notebook#create'
 
-  delete 'notebook/destroy'
+  delete 'notebook/delete/:id' => 'notebook#destroy'
 
   resources :tags
 
