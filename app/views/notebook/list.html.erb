@@ -10,7 +10,10 @@
                 <tr>
                     <td><%= item.value %></td>
                     <td><%= item.description %></td>
-                    <td><%= link_to 'Создать операцию', '/notebook/create/' + item.id.to_s, :class => "btn btn-sm btn-success" %></td>
+                    <td>
+                        <%= link_to 'Создать операцию', '/notebook/create/' + item.id.to_s, :class => "btn btn-sm btn-success" %>
+                        <%= link_to 'Удалить', '/notebook/delete/' + item.id.to_s, method: :delete, data: { confirm: 'Вы уверены?' }, :class => 'btn btn-sm btn-danger' %>
+                    </td>
                 </tr>
             <% end %>
     </table>

@@ -2,9 +2,16 @@ class ApplicationController < ActionController::Base
     # Prevent CSRF attacks by raising an exception.
     # For APIs, you may want to use :null_session instead.
     protect_from_forgery with: :exception
-    before_action :auth
+    before_action :auth, :dirty_work
 
     protected
+    # Разные глобальные обработчики
+    def dirty_work
+        unless @main
+            @main = {}
+        end
+        @main[:notebook_count] = Notebook.count()
+    end
     # Проверка авторизации
     def auth
         auth_check = false
