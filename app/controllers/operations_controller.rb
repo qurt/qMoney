@@ -16,6 +16,12 @@ class OperationsController < ApplicationController
     # GET /operations/new
     def new
         @operation = Operation.new
+        if flash[:item]
+            item = flash[:item]
+            @operation.description = item.description
+            @operation.value = item.value
+            @operation.operation_date = Time.at(item.created_at/1000)
+        end
         @tags = []
     end
 
