@@ -6,9 +6,15 @@ QMoney::Application.routes.draw do
         delete 'repeat_operations/:id' => :delete, as: :repeat_operations_delete
     end
 
-    resources :tags
-
     get 'categories/delete/subcategory/all', to: 'categories#remove_subcategory'
+
+    get 'notebook/list'
+
+    get 'notebook/create/:id' => 'notebook#create'
+
+    delete 'notebook/delete/:id' => 'notebook#destroy'
+
+    resources :tags
 
     resources :moneyboxes
 
