@@ -52,6 +52,7 @@ save_refresh = ->
         success: () ->
             $('#operation_value').val('')
             $('#operation_description').val('')
+            $('#operation_tags').select2('val', '')
     })
 
 
