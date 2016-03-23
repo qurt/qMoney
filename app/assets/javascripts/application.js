@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap
+//= require bootstrap-sprockets
 //= require pikadate/picker.js
 //= require pikadate/picker.date
 //= require pikadate/translations/ru_RU
@@ -42,6 +42,6 @@ $(document).ready(function() {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 
 });

@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 20160316203549) do
     t.datetime "updated_at"
   end
 
+  create_table "goods", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id",             default: 0
+  end
+
   create_table "moneyboxes", force: :cascade do |t|
     t.decimal  "percentage"
     t.datetime "created_at", null: false
@@ -100,6 +107,13 @@ ActiveRecord::Schema.define(version: 20160316203549) do
     t.decimal  "expired_in"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shop_lists", force: :cascade do |t|
+    t.integer  "goods_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tags", force: :cascade do |t|
