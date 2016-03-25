@@ -1,6 +1,7 @@
-<h1>Editing Tag</h1>
+<ol class="breadcrumb">
+  <li><%= link_to 'Главная', home_index_url %></li>
+  <li><%= link_to 'Список тегов', tags_url %></li>
+  <li class="active">Редактирование тега</li>
+</ol>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @tag %> |
-<%= link_to 'Back', tags_path %>
