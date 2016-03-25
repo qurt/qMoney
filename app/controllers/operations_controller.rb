@@ -248,12 +248,12 @@ class OperationsController < ApplicationController
         result = []
         unless tags.nil?
             tags.each do |tag|
-                if item = Tag.find_by_alias(tag.downcase)
+                if item = Tag.find_by_alias(tag.mb_chars.downcase.to_s)
                     result << item
                 else
                     new_tag = Tag.new()
-                    new_tag.alias = tag.downcase
-                    new_tag.title = tag
+                    new_tag.alias = tag.mb_chars.downcase.to_s
+                    new_tag.title = tag.mb_chars.capitalize.to_s
                     if new_tag.save()
                         result << new_tag
                     end
