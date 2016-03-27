@@ -75,17 +75,6 @@
                     <%= select2_tag('operation', 'tags', Tag.all.order(:title), @tags, {:class => 'form-control', :multiple => 'true'}) %>
                 </div>
             </div>
-            <% if @operation.id.nil? %>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label>
-                                <%= check_box_tag :repeat %> Переодичная операция
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            <% end %>
         </div>
     </div>
 

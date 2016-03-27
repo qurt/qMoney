@@ -1,5 +1,7 @@
 <% #coding: utf-8 %>
 <div class="col-md-3">
+    <a class="btn btn-success btn-block" href="/operations/new">Внести операцию</a>
+    <br>
     <div class="panel panel-primary">
         <div class="panel-heading">Текущий остаток</div>
 
@@ -42,39 +44,6 @@
     </div>
 </div>
 <div class="col-md-9">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <%= @day_sum[:total] %>
-                </div>
-                <div class="panel-footer">
-                    Можно потратить
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <%= @day_sum[:today_spent] %>
-                </div>
-                <div class="panel-footer">
-                    Потрачено
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <%= @day_sum[:left] %>
-                </div>
-                <div class="panel-footer">
-                    Осталось
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
         <div class="panel panel-primary">
             <div class="panel-heading">Журнал операций <div class="pull-right panel-title"><%= link_to 'Посмотреть все', statistic_operations_path, :class => 'small' %></div></div>
