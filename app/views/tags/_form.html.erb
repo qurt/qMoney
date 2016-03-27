@@ -1,21 +1,33 @@
 <%= form_for(@tag) do |f| %>
-  <% if @tag.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
+    <% if @tag.errors.any? %>
+        <div class="alert alert-danger alert-dismissable">
+            <ul>
+            <% @tag.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
 
-      <ul>
-      <% @tag.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :title, :class => 'col-sm-2 control-label' %>
+                <div class="col-sm-10">
+                    <%= f.text_field :title, :class => 'form-control' %>
+                </div>
+            </div>
+            <div class="form-group">
+                <%= f.label :alias, :class => 'col-sm-2 control-label' %>
+                <div class="col-sm-10">
+                    <%= f.text_field :alias, :class => 'form-control' %>
+                </div>
+            </div>
+        </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <%= f.submit 'Сохранить', :class => 'btn btn-primary', data: {disable_with: "Сохраняем..."} %>
+        </div>
+    </div>
 <% end %>
