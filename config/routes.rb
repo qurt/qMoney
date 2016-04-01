@@ -1,4 +1,11 @@
 QMoney::Application.routes.draw do
+    # Import
+    controller :import do
+        get 'import/operations' => :operations
+        post 'import/operations' => :operations_progress
+        get 'import/operations/list' => :operations_list
+    end
+
     controller :repeat_operations do
         get 'repeat_operations' => :list
         get 'repeat_operations/:id' => :edit, as: :repeat_operations_edit

@@ -1,0 +1,26 @@
+<div class="col-md-12">
+    <table class="table table-hovered">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Кошелек</th>
+                <th>Сумма</th>
+                <th>Категория</th>
+                <th>Тег</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @list.each do |item| %>
+                <tr>
+                    <td><%= item.date %></td>
+                    <td><%= item.account %></td>
+                    <td><%= item.value %></td>
+                    <td><%= item.category %></td>
+                    <td><%= item.tag %></td>
+                    <td></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
