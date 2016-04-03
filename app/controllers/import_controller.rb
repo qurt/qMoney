@@ -3,11 +3,13 @@ class ImportController < ApplicationController
     end
 
     def operations_progress
-        @list = []
+        list = []
         file = params[:file]
-        operations = Csv.new(file.path)
-        operations.each do |item|
-            @list << {
+        File.foreach(file.path) do |row|
+            item = CSV.parse(row.gsub('"', "'"))
+            logger.debug item.to_s
+
+            list << {
                 date: item[1] || item[0],
                 account: item[2],
                 value: item[6],
@@ -16,9 +18,20 @@ class ImportController < ApplicationController
                 tag: item[10]
             }
         end
+        logger.debug list.to_s
+        flash[:list]
+        redirect_to import_operations_list_path
     end
 
     def operations_list
-
+        if params[:list]
+            @list = flash[:list]
+            respond_to do |format|
+              format.html
+              format.json { render json: @list }
+            end
+        else
+            redirect_to import_operations_path
+        end
     end
 end
