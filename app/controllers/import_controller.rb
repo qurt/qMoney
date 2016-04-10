@@ -13,13 +13,24 @@ class ImportController < ApplicationController
             end
 
             operation = {}
+            ###
+            # Status list
+            # 0 - Нет совпадений
+            # 1 - Частичное совпадение
+            # 2 - Полное совпадение
+            ###
+            operation[:status] = 0
 
             # Дата импортируемой операции
             operation[:date] = item[1].length > 0 ? item[1] : item[0]
             # Определение кошелька
-            operation[:account] = findRule('account', item[2]) || nil
+            operation[:account_id] = findRule('account', item[2]) || nil
             # Сумма
             operation[:value] = item[6].to_f.abs
+            # Категория
+            operation[:category_id] = findRule('category', item[9]) || nil
+            # Tags
+            # Тут надо сделать поиск и подстановку тегов
 
             list << {
                 date: item[1].length > 0 ? item[1] : item[0],
@@ -54,9 +65,9 @@ class ImportController < ApplicationController
     end
 
     private
-    def findRule(value)
-        rule = ImportRules.where('rule = ?', value)
-        return rule if rule
+    def findRule(type, value)
+        rule = ImportRule.where('import_value = ? and operation_column = ?', value, type)
+        return rule if rule and rule.size == 1
         return false
     end
 end

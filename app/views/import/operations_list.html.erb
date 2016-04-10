@@ -12,15 +12,16 @@
         </thead>
         <tbody>
             <% @list.each do |item| %>
-                <tr>
+                <tr class="<%= importRowClass(item[:operation][:status]) %>">
                     <td><%= item[:date] %></td>
                     <td><%= item[:account] %></td>
                     <td><%= item[:value] %></td>
                     <td><%= item[:category] %></td>
                     <td><%= item[:tag] %></td>
-                    <td></td>
+                    <td><%= <%= link_to 'Добавить правило', new_rule_path, {:remote => true, 'data-toggle' => 'modal', 'data-target' => '#modal-window'} %> %></td>
                 </tr>
             <% end %>
         </tbody>
     </table>
+    <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"></div>
 </div>
