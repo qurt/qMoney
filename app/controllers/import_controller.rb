@@ -5,6 +5,7 @@ class ImportController < ApplicationController
     def operations_progress
         list = []
         file = params[:file]
+        i = 0
         File.foreach(file.path) do |row|
             item = row.split(';')
             item.each do |field|
@@ -31,6 +32,13 @@ class ImportController < ApplicationController
             operation[:category_id] = findRule('category', item[9]) || nil
             # Tags
             # Тут надо сделать поиск и подстановку тегов
+
+            if operation[:account_id] or operation[:category_id]
+                operation[:status] = 1
+            end
+            if operation[:account_id] and operation[:category_id]
+                operation[:status] = 2
+            end
 
             list << {
                 date: item[1].length > 0 ? item[1] : item[0],

@@ -10,18 +10,21 @@
                 <th></th>
             </tr>
         </thead>
+        <%= javascript_tag do %>
+            window.list = <%= raw @list.to_json %>
+        <% end %>
         <tbody>
-            <% @list.each do |item| %>
+            <% @list.each_with_index do |item, index| %>
                 <tr class="<%= importRowClass(item[:operation][:status]) %>">
                     <td><%= item[:date] %></td>
                     <td><%= item[:account] %></td>
                     <td><%= item[:value] %></td>
                     <td><%= item[:category] %></td>
                     <td><%= item[:tag] %></td>
-                    <td><%= <%= link_to 'Добавить правило', new_rule_path, {:remote => true, 'data-toggle' => 'modal', 'data-target' => '#modal-window'} %> %></td>
+                    <td><%= link_to 'Добавить правило', '#modal-window', :data => {:toggle => 'modal', :id => index, :target => '#modal-window'}, :class => 'open-modal' %></td>
                 </tr>
             <% end %>
         </tbody>
     </table>
-    <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"></div>
 </div>
+<div id="modal-window" class="modal fade" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"><%= render(:partial => 'import/new_rule') %></div>
