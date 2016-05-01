@@ -5,7 +5,6 @@ class ImportController < ApplicationController
     def operations_progress
         list = []
         file = params[:file]
-        i = 0
         File.foreach(file.path) do |row|
             item = row.split(';')
             item.each do |field|
@@ -26,10 +25,14 @@ class ImportController < ApplicationController
             operation[:date] = item[1].length > 0 ? item[1] : item[0]
             # Определение кошелька
             operation[:account_id] = findRule('account', item[2]) || nil
+            operation[:account_name] = Accounts.find(operation[:account_id]) if operation[:account_id]
             # Сумма
             operation[:value] = item[6].to_f.abs
+            # Тип операции
+            operation[:type] = item[6].to_f < 0 ? 0 : 1
             # Категория
             operation[:category_id] = findRule('category', item[9]) || nil
+            operation[:category_name] = Categories.find(operation[:category_id]) if operation[:category_id]
             # Tags
             # Тут надо сделать поиск и подстановку тегов
 
@@ -72,8 +75,23 @@ class ImportController < ApplicationController
 
     end
 
+    def opeartions_new_rule
+        item_account = ImportRule.new
+        item_category = ImportRule.new
+        import_item = params[:data]
+        item_account.import_value = import_item[:account]
+        item_account.operation_column = 'account'
+        item_account.operation_value = import_item[:operation][:account_id]
+        item_category.import_value = import_item[:category]
+        item_category.operation_column = 'category'
+        item_category.operation_value = import_item[:operation][:category_id]
+        respond_to do |format|
+            format.json { render json: {'status': 'success'} ,status: :created }
+        end
+    end
+
     private
-    def findRule(type, value)
+    def findRule(value, type)
         rule = ImportRule.where('import_value = ? and operation_column = ?', value, type)
         return rule if rule and rule.size == 1
         return false

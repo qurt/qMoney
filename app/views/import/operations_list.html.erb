@@ -15,7 +15,7 @@
         <% end %>
         <tbody>
             <% @list.each_with_index do |item, index| %>
-                <tr class="<%= importRowClass(item[:operation][:status]) %>">
+                <tr class="import-row <%= importRowClass(item[:operation][:status]) %>">
                     <td><%= item[:date] %></td>
                     <td><%= item[:account] %></td>
                     <td><%= item[:value] %></td>

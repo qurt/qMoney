@@ -4,6 +4,7 @@ QMoney::Application.routes.draw do
         get 'import/operations' => :operations, as: :import_operations
         post 'import/operations' => :operations_progress
         get 'import/operations/list' => :operations_list, as: :import_operations_list
+        post 'import/new_rule' => :opeartions_new_rule
     end
 
     controller :repeat_operations do

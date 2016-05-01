@@ -8,7 +8,7 @@ module ImportHelper
         when 0
             return 'danger'
         when 1
-            return 'danger'
+            return 'warning'
         when 2
             return 'success'
         end

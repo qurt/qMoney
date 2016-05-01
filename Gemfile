@@ -64,8 +64,6 @@ gem 'le'
 
 gem 'whenever', :require => false
 
-gem 'toastr_rails'
-
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'roo'

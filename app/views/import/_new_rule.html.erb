@@ -4,23 +4,53 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="myModalLabel">Новое правило</h3>
         </div>
-        <div class="modal-body form">
+        <form class="modal-body form">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <%= label_tag 'type' %>
-                        <%= text_field_tag 'type', nil, class: 'form-control' %>
+                        <label>Тип</label>
+                        <div id="type_placeholder"></div>
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <%= label_tag 'type', 'Тип операции' %>
-                        <%= text_field_tag 'type', nil, class: 'form-control' %>
+                        <%= select2('rule', 'type', [['Расход', 0], ['Доход', 1], ['Перемещение', 2]], 0, {:class => 'form-control'}) %>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Кошелек</label>
+                        <div id="account_placeholder"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <%= label_tag 'account' %>
+                        <%= select2_collection('rule', 'account_id', Account.includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', nil, {:class => 'form-control'}) %>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <div id="category_placeholder"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <%= label_tag 'category' %>
+                        <%= select2_collection('rule', 'category_id', Category.all, 'id', 'title', nil, {:class => 'form-control'}) %>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary">Save changes</button>
+            <button class="btn btn-primary" id="save_rule_button">Save changes</button>
         </div>
     </div>
 </div>
