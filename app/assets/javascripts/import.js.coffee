@@ -27,9 +27,24 @@ ready = () ->
             url: '/import/new_rule'
             data: post_data
             success: (res) ->
-                window.item.status = 2
+                window.item.operation.status = 2
                 check_all_row(post_data.data.category, post_data.data.account)
                 $('#modal-window').modal('hide')
+        })
+
+    $('#import_list').click () ->
+        unless window.list
+            return true
+
+        $(this).html('Сохраняем...').prop('disabled', true)
+        $.ajax({
+            type: 'POST'
+            url: '/import/start'
+            data: {
+                list: window.list
+            }
+            success: (res) ->
+                document.location.href = '/'
         })
 
     check_all_row = (import_category, import_account) ->
@@ -38,9 +53,9 @@ ready = () ->
             $(this).find('td').each (cell) ->
                 if $(this).text() == import_account or $(this).text() == import_category
                     check += 1
-                    $(this).parent().removeClass('danger success').addClass('warning') if check == 1
+                    $(this).parent().removeClass('danger').addClass('warning') if check == 1 and !$(this).parent().hasClass('success')
                     $(this).parent().removeClass('danger warning').addClass('success') if check == 2
-                    window.list[index-1].status = check if window.list[index-1]
+                    window.list[index-1].operation.status = check if window.list[index-1] and window.list[index-1].operation.status != 2
 
 
 

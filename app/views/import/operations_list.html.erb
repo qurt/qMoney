@@ -6,7 +6,7 @@
                 <th>Кошелек</th>
                 <th>Сумма</th>
                 <th>Категория</th>
-                <th>Тег</th>
+                <th>Описание</th>
                 <th></th>
             </tr>
         </thead>
@@ -16,15 +16,20 @@
         <tbody>
             <% @list.each_with_index do |item, index| %>
                 <tr class="import-row <%= importRowClass(item[:operation][:status]) %>">
-                    <td><%= item[:date] %></td>
+                    <td><%= item[:opeartion_date] %></td>
                     <td><%= item[:account] %></td>
                     <td><%= item[:value] %></td>
                     <td><%= item[:category] %></td>
-                    <td><%= item[:tag] %></td>
+                    <td><%= item[:description] %></td>
                     <td><%= link_to 'Добавить правило', '#modal-window', :data => {:toggle => 'modal', :id => index, :target => '#modal-window'}, :class => 'open-modal' %></td>
                 </tr>
             <% end %>
         </tbody>
     </table>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <button class="btn btn-primary" id="import_list">Сохранить</button>
+    </div>
 </div>
 <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="modalLabel" aria-hidden="true"><%= render(:partial => 'import/new_rule') %></div>

@@ -20,7 +20,13 @@ class OperationsController < ApplicationController
             item = flash[:item]
             @operation.description = item.description
             @operation.value = item.value
-            @operation.operation_date = Time.at(item.created_at/1000)
+            if item.created_at.is_a? Integer
+                @operation.operation_date = Time.at(item.created_at/1000)
+            elsif item.operation_date?
+                @operation.operation_date = item.operation_date
+            else
+                @operation.operation_date = nil
+            end
         end
         @tags = []
     end
