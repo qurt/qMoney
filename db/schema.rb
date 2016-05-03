@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502093846) do
+ActiveRecord::Schema.define(version: 20160503184434) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.decimal  "value",                  precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "archive"
   end
 
   create_table "categories", force: :cascade do |t|

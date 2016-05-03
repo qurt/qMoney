@@ -16,7 +16,7 @@ module OperationsHelper
         moneyboxes_options_array = []
         moneyboxes_array = []
 
-        accounts = Account.all
+        accounts = Account.where('archive = ?', false)
 
         accounts_array << 'Кошельки'
         moneyboxes_array << 'Накопления'

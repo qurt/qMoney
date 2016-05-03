@@ -21,7 +21,7 @@
                 <%= f.label :account_id, 'Кошелек', :class => 'col-sm-2 control-label' %>
                 <div class="col-sm-10">
                     <div id="operation_account_id_container">
-                        <%= select2_collection('operation', 'account_id', Account.includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', @operation.account_id, {:class => 'form-control'}) %>
+                        <%= select2_collection('operation', 'account_id', Account.where('archive = ?', false).includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', @operation.account_id, {:class => 'form-control'}) %>
                     </div>
                     <div id="operation_account_id_from_container">
                         <%= select2_grouped('operation', 'account_id_from', select_options, @operation.account_id, {:class => 'form-control'}) %>

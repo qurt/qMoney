@@ -7,7 +7,7 @@ class HomeController < ApplicationController
         account = params[:a].to_i if params.key?(:a)
         category = params[:c].to_i if params.key?(:c)
         # Get accounts list
-        @accounts = Account.order(:name)
+        @accounts = Account.where('archive = ?', false).order(:name)
         # Get operations list
         operations = get_operations(account, category)
         # Generate categories list from operations

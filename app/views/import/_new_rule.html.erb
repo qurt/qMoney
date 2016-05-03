@@ -15,7 +15,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <%= label_tag 'account' %>
-                        <%= select2_collection('rule', 'account_id', Account.includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', nil, {:class => 'form-control'}) %>
+                        <%= select2_collection('rule', 'account_id', Account.where('archive = ?', false).includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', nil, {:class => 'form-control'}) %>
                     </div>
                 </div>
             </div>
