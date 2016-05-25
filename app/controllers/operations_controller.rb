@@ -20,7 +20,13 @@ class OperationsController < ApplicationController
             item = flash[:item]
             @operation.description = item.description
             @operation.value = item.value
-            @operation.operation_date = Time.at(item.created_at/1000)
+            if item.created_at.is_a? Integer
+                @operation.operation_date = Time.at(item.created_at/1000)
+            elsif item.operation_date?
+                @operation.operation_date = item.operation_date
+            else
+                @operation.operation_date = nil
+            end
         end
         @tags = []
     end
@@ -38,7 +44,6 @@ class OperationsController < ApplicationController
     def create
         @operation = Operation.new(operation_params)
         @operation.value = calculate(params[:operation][:value])
-        @operation.repeat = false
         if params[:operation][:type].to_i == 2
             account = Account.find(params[:operation][:account_id_from])
             account_to = Account.find(params[:operation][:transfer])
@@ -78,24 +83,10 @@ class OperationsController < ApplicationController
             end
         end
 
-        #repeat operation
-        logger.debug params[:repeat]
-        if params[:repeat] and @operation.type != '2'
-            rp = RepeatOperation.new
-            rp.value = @operation.value
-            rp.duration = 30
-            rp.account_id = @operation.account_id
-            rp.category_id = @operation.category_id
-            rp.description = @operation.description
-            rp.type = @operation.type
-            @operation.repeat = true
-        end
-
         respond_to do |format|
             if @operation.save
                 account.save
                 account_to.save if account_to
-                rp.save if rp
                 format.html { redirect_to home_index_url, notice: 'Operation was successfully created.' }
                 format.json { render action: 'show', status: :created, location: @operation }
             else

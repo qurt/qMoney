@@ -5,7 +5,7 @@ module Select2Helper
         id = "#{model}_#{field}"
         name = "#{model}[#{field}]"
 
-        select_tag = "<select id=\"#{id}\" name=\"#{name}\""
+        select_tag = "<select id=\"#{id}\" name=\"#{name}\" style=\"width: 100%\""
         unless attributes.nil?
             attributes.each do |key, v|
                 select_tag += ' ' + key.to_s + '="' + v + '"'
