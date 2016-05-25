@@ -21,7 +21,7 @@
                 <%= f.label :account_id, 'Кошелек', :class => 'col-sm-2 control-label' %>
                 <div class="col-sm-10">
                     <div id="operation_account_id_container">
-                        <%= select2_collection('operation', 'account_id', Account.includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', @operation.account_id, {:class => 'form-control'}) %>
+                        <%= select2_collection('operation', 'account_id', Account.where('archive = ?', false).includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', @operation.account_id, {:class => 'form-control'}) %>
                     </div>
                     <div id="operation_account_id_from_container">
                         <%= select2_grouped('operation', 'account_id_from', select_options, @operation.account_id, {:class => 'form-control'}) %>
@@ -75,17 +75,6 @@
                     <%= select2_tag('operation', 'tags', Tag.all.order(:title), @tags, {:class => 'form-control', :multiple => 'true'}) %>
                 </div>
             </div>
-            <% if @operation.id.nil? %>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label>
-                                <%= check_box_tag :repeat %> Переодичная операция
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            <% end %>
         </div>
     </div>
 

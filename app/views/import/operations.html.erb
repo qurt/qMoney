@@ -1,0 +1,7 @@
+<div class="col-md-12">
+    <h1>Импорт операций</h1>
+    <%= form_tag import_operations_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= submit_tag 'Импорт' %>
+    <% end %>
+</div>

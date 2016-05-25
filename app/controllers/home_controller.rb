@@ -7,26 +7,15 @@ class HomeController < ApplicationController
         account = params[:a].to_i if params.key?(:a)
         category = params[:c].to_i if params.key?(:c)
         # Get accounts list
-        @accounts = Account.order(:name)
+        @accounts = Account.where('archive = ?', false).order(:name)
         # Get operations list
         operations = get_operations(account, category)
         # Generate categories list from operations
         @accounts_pay = 0
         @categories = {}
 
-        # Day sum
-        total_debit = RepeatOperation.where('type = 1').sum('value')
-        total_credit = RepeatOperation.where('type = 0').sum('value')
-        @day_sum = {
-            :total => (total_debit - total_credit) / 30,
-            :today_spent => 0
-        }
-
         operations.each do |item|
             if item.category_id != 0 && item.type == 0
-
-                # TODO Костыль из-за временной зоны
-                @day_sum[:today_spent] += item.value if item.operation_date.to_date == (Time.now - 3.hours).to_date and !item.repeat
                 if @categories[item.category_id].nil?
                     @categories[item.category_id] = {
                         title: !item.category.nil? ? item.category.title : 'Unknown category',
@@ -43,8 +32,6 @@ class HomeController < ApplicationController
         # Set charts objects
         @categories = @categories.sort_by { |k,v| v[:value] }
         @operations_history = Operation.order('created_at DESC').limit(5)
-
-        @day_sum[:left] = @day_sum[:total] - @day_sum[:today_spent]
     end
 
     private

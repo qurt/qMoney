@@ -1,0 +1,42 @@
+ <div class="modal-dialog">
+     <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Новое правило</h3>
+        </div>
+        <form class="modal-body form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Кошелек</label>
+                        <div id="account_placeholder"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <%= label_tag 'account' %>
+                        <%= select2_collection('rule', 'account_id', Account.where('archive = ?', false).includes(:moneybox).where(:moneyboxes => {:account_id => nil}), 'id', 'name', nil, {:class => 'form-control'}) %>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <div id="category_placeholder"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <%= label_tag 'category' %>
+                        <%= select2_collection('rule', 'category_id', Category.all, 'id', 'title', nil, {:class => 'form-control'}) %>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" id="save_rule_button">Save changes</button>
+        </div>
+    </div>
+</div>

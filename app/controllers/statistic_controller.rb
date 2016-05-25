@@ -18,7 +18,7 @@ class StatisticController < ApplicationController
             active_a = params[:a]
         end
         # Создаем данные для фильтра
-        account_list = Account.all
+        account_list = Account.where('archive = ?', false)
         categories_list = Category.all
         @filter = {
             date_s: date_s,

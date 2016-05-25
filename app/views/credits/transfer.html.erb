@@ -11,7 +11,7 @@
         <div class="form-group">
             <%= label_tag :account, 'Кошелек', :class => 'col-md-3 control-label' %>
             <div class="col-md-9">
-                <%= select2_collection('data', 'account_id', Account.all, :id, :name, nil, {:class => 'form-control'}) %>
+                <%= select2_collection('data', 'account_id', Account.where('archive = ?', false), :id, :name, nil, {:class => 'form-control'}) %>
             </div>
         </div>
     </div>
