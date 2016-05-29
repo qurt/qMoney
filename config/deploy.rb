@@ -135,7 +135,7 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:cleanup'
-  after :finishing, 'deploy:compile_assets'
+  # after :finishing, 'deploy:compile_assets'
   after :finishing, 'deploy:restart'
 
   after :updating, 'deploy:symlink'
