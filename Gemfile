@@ -67,6 +67,3 @@ gem 'whenever', :require => false
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'roo'
-
-gem 'execjs'
-gem 'therubyracer'
