@@ -1,4 +1,15 @@
 QMoney::Application.routes.draw do
+    # Planning
+    controller :plans do
+        get 'plans/index' => :index, as: :plans
+        get 'plans/show/:year/:month', as: :plans_show
+        post 'plans/new'
+        get 'plans/edit/:year/:month', as: :plans_edit
+        post 'plans/create'
+        put 'plans/update'
+        delete 'plans/destroy'
+    end
+
     # Import
     controller :import do
         get 'import/operations' => :operations, as: :import_operations

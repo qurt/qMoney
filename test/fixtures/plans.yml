@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  month: 1
+  year: 1
+  category_id: 1
+  value: 9.99
+  operation_type: 1
+  total: 9.99
+
+two:
+  month: 1
+  year: 1
+  category_id: 1
+  value: 9.99
+  operation_type: 1
+  total: 9.99

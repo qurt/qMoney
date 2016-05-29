@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503184434) do
+ActiveRecord::Schema.define(version: 20160526174749) do
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.decimal  "value",                  precision: 10, scale: 2
+    t.string   "name",         limit: 255
+    t.decimal  "value",                    precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "archive"
+    t.integer  "account_type",                                      default: 0
+    t.decimal  "limit",                                             default: 0.0
   end
 
   create_table "categories", force: :cascade do |t|
@@ -34,13 +36,6 @@ ActiveRecord::Schema.define(version: 20160503184434) do
     t.decimal  "value",                  precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "goods", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "category_id",             default: 0
   end
 
   create_table "import_rules", force: :cascade do |t|
@@ -88,19 +83,23 @@ ActiveRecord::Schema.define(version: 20160503184434) do
   add_index "operations_tags", ["operation_id"], name: "index_operations_tags_on_operation_id"
   add_index "operations_tags", ["tag_id"], name: "index_operations_tags_on_tag_id"
 
+  create_table "plans", force: :cascade do |t|
+    t.integer  "month"
+    t.integer  "year"
+    t.integer  "category_id"
+    t.decimal  "value"
+    t.integer  "operation_type"
+    t.decimal  "total"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "token"
     t.decimal  "expired_in"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "shop_lists", force: :cascade do |t|
-    t.integer  "goods_id"
-    t.boolean  "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "tags", force: :cascade do |t|
